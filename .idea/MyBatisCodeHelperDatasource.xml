@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="MyBatisCodeHelperDatasource">
+    <option name="projectProfile">
+      <ProjectProfile>
+        <option name="addSerializeUid" value="true" />
+        <option name="javaMapperPackage" value="com.yuan.demomybatis2.mapper" />
+        <option name="javaMapperPath" value="$PROJECT_DIR$/demo-mybatis2/src/main/java" />
+        <option name="javaModelPackage" value="com.yuan.demomybatis2.pojo" />
+        <option name="javaModelPath" value="$PROJECT_DIR$/demo-mybatis2/src/main/java" />
+        <option name="lastDatabaseCrudChooseModuleName" value="demo-mybatis2" />
+        <option name="mapperAnnotaion" value="true" />
+        <option name="mapperFilesFolder" value="D:\IdeaProjects\springboot\demo4\demo-mybatis\src\main\resources\mapper" />
+        <option name="mapperFilesFolderList">
+          <list>
+            <option value="D:\IdeaProjects\springboot\demo4\demo-mybatis2\src\main\resources\mapper" />
+            <option value="D:\IdeaProjects\springboot\demo4\demo-mybatis\src\main\resources\mapper" />
+          </list>
+        </option>
+        <option name="moduleNameToPackageAndPathMap">
+          <map>
+            <entry key="demo-mybatis">
+              <value>
+                <UserPackageAndPathInfoByModule>
+                  <option name="javaMapperPackage" value="com..yuan.demomybatis.mapper" />
+                  <option name="javaMapperPath" value="$PROJECT_DIR$/demo-mybatis/src/main/java" />
+                  <option name="javaModelPacakge" value="com.yuan.demomybatis.pojo" />
+                  <option name="javaModelPath" value="$PROJECT_DIR$/demo-mybatis/src/main/java" />
+                  <option name="xmlPackage" value="com.yuan.demomybatis" />
+                  <option name="xmlPath" value="$PROJECT_DIR$/demo-mybatis/src/main/resources" />
+                </UserPackageAndPathInfoByModule>
+              </value>
+            </entry>
+            <entry key="demo-mybatis2">
+              <value>
+                <UserPackageAndPathInfoByModule>
+                  <option name="javaMapperPackage" value="com.yuan.demomybatis2.mapper" />
+                  <option name="javaMapperPath" value="$PROJECT_DIR$/demo-mybatis2/src/main/java" />
+                  <option name="javaModelPacakge" value="com.yuan.demomybatis2.pojo" />
+                  <option name="javaModelPath" value="$PROJECT_DIR$/demo-mybatis2/src/main/java" />
+                  <option name="xmlPackage" value="com.yuan.demomybatis2.mapper" />
+                  <option name="xmlPath" value="$PROJECT_DIR$/demo-mybatis2/src/main/resources" />
+                </UserPackageAndPathInfoByModule>
+              </value>
+            </entry>
+          </map>
+        </option>
+        <option name="tableGenerateConfigs">
+          <map>
+            <entry key="@localhost:user">
+              <value>
+                <TableGenerateConfig>
+                  <option name="generatedKey" value="id" />
+                  <option name="javaModelName" value="User" />
+                  <option name="moduleName" value="demo-mybatis2" />
+                  <option name="useActualColumnName" value="false" />
+                </TableGenerateConfig>
+              </value>
+            </entry>
+          </map>
+        </option>
+        <option name="useLomBokOnModel" value="true" />
+        <option name="xmlMapperPackage" value="com.yuan.demomybatis2.mapper" />
+        <option name="xmlMapperPath" value="$PROJECT_DIR$/demo-mybatis2/src/main/resources" />
+      </ProjectProfile>
+    </option>
+  </component>
+</project>

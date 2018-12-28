@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yuan.demomybatis2.mapper.UserMapper">
+    <select id="selectAll" resultType="com.yuan.demomybatis2.pojo.User">
+        select * from demo4.user
+    </select>
+    <select id="selectPage" resultType="com.yuan.demomybatis2.pojo.User">
+      select id, name from demo4.user
+    </select>
+</mapper>
