@@ -16,7 +16,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Role extends BasePojo {
-    @Column(name = "role")
+    @Column(name = "name")
     private String name;//角色名
     @Column(name = "enabled")
     private Integer enabled;//是否启用

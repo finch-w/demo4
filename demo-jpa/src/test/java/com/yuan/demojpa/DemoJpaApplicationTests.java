@@ -1,6 +1,5 @@
 package com.yuan.demojpa;
 
-import com.yuan.demojpa.system.dao.UserDao;
 import com.yuan.demojpa.system.pojo.User;
 import org.eclipse.persistence.config.QueryHints;
 import org.eclipse.persistence.config.ResultType;
@@ -9,6 +8,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -22,14 +22,16 @@ public class DemoJpaApplicationTests {
     private EntityManager entityManager;
 
     @Test
+    @Transactional
     public void contextLoads() {
+        entityManager.persist(new User());
+        entityManager.flush();
     }
 
-    @Autowired
-    private UserDao userDao;
+
     @Test
     public void test() {
-        userDao.save(new User());
+//        userDao.save(new User());
 //        TypedQuery<User> select_u_from_user_u = entityManager.createQuery("select u.id,u.name from User u ", User.class);
 //        TypedQuery<Integer> query = entityManager.createQuery("select count(u) from User u", Integer.class);
 //        System.out.println(query.getSingleResult());
