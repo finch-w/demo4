@@ -19,14 +19,15 @@ import java.util.Date;
 public abstract class BasePojo implements Serializable {
     @Id
     @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid",strategy = "uuid2")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    @Column(name = "id")
     private String id;
-    @Column(insertable = true, updatable = false)
-    private Long createUser ;
-    @Column(insertable = false, updatable = true)
-    private Long updateUser ;
-    @Column(insertable = true, updatable = false)
+    @Column(name = "createUser", updatable = false)
+    private String createUser;
+    @Column(name = "updateUser", insertable = false)
+    private String updateUser;
+    @Column(name = "createDate", updatable = false)
     private Date createDate = new Date();
-    @Column(updatable = true, insertable = false)
+    @Column(name = "updateDate", insertable = false)
     private Date updateDate = new Date();
 }

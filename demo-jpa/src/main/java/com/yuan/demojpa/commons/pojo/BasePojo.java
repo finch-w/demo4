@@ -12,6 +12,9 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import java.util.Date;
 
+/**
+ * 基础持久类
+ */
 @Data
 @MappedSuperclass
 @AllArgsConstructor
@@ -20,13 +23,16 @@ public abstract class BasePojo {
     @Id
     @GeneratedValue(generator = "EMP_ID_GEN")
     @UuidGenerator(name = "EMP_ID_GEN")
-    private String id;
-    @Column(updatable = false)
-    private String createUser;
-    @Column(updatable = false)
-    private Date createDate = new Date();
-    @Column(insertable = false)
-    private String updateUser;
-    @Column(insertable = false)
-    private Date updateDate = new Date();
+    @Column(name = "id")
+    private String id;//主键
+    @Column(updatable = false, name = "createUser")
+    private String createUser;//创建人主键
+    @Column(updatable = false, name = "createDate")
+    private Date createDate = new Date();//创建日期
+    @Column(insertable = false, name = "updateUser")
+    private String updateUser;//修改人主键
+    @Column(insertable = false, name = "updateDate")
+    private Date updateDate = new Date();//修改日期
+
+
 }

@@ -1,6 +1,6 @@
 package com.yuan.demojpa.dao.impl;
 
-import com.yuan.demojpa.commons.dao.BaseDao;
+import com.yuan.demojpa.commons.repository.BaseRespository;
 import com.yuan.demojpa.commons.utils.BeanUtils;
 import org.eclipse.persistence.config.ResultType;
 import org.springframework.beans.BeanWrapperImpl;
@@ -26,12 +26,12 @@ import java.util.Map;
 import static org.eclipse.persistence.config.QueryHints.RESULT_TYPE;
 
 @NoRepositoryBean
-public class BaseDaoImpl<T, ID> extends SimpleJpaRepository<T, ID> implements BaseDao<T, ID> {
+public class BaseRepositoryImpl<T, ID> extends SimpleJpaRepository<T, ID> implements BaseRespository<T, ID> {
     private final EntityManager entityManager;
     private final Class<T> domainClass;
 
 
-    public BaseDaoImpl(JpaEntityInformation<T, ?> entityInformation, EntityManager entityManager) {
+    public BaseRepositoryImpl(JpaEntityInformation<T, ?> entityInformation, EntityManager entityManager) {
         super(entityInformation, entityManager);
         this.entityManager = entityManager;
         this.domainClass = entityInformation.getJavaType();

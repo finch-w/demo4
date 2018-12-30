@@ -1,4 +1,4 @@
-package com.yuan.demojpa.commons.dao;
+package com.yuan.demojpa.commons.repository;
 
 import com.yuan.demojpa.commons.utils.BeanUtils;
 import org.springframework.data.domain.Example;
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 @NoRepositoryBean
-public interface BaseDao<T, ID> extends JpaRepository<T, ID>, JpaSpecificationExecutor<T> {
+public interface BaseRespository<T, ID> extends JpaRepository<T, ID>, JpaSpecificationExecutor<T> {
     void insert(T t);
 
     void insertAndFlush(T t);

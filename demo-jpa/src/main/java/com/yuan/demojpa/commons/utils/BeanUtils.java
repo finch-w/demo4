@@ -8,6 +8,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class BeanUtils extends org.springframework.beans.BeanUtils {
+
+
     public enum IgnoreMode {
         /**
          * 排除空值
@@ -63,15 +65,15 @@ public class BeanUtils extends org.springframework.beans.BeanUtils {
     }
 
     public static Boolean isNotEmpty(Object object) {
-        return (Arrays.stream(new BeanWrapperImpl(object).getPropertyDescriptors()).filter(propertyDescriptor -> {
-            return !StringUtils.isEmpty(propertyDescriptor.getValue(propertyDescriptor.getName()));
-        }).toArray().length > 0);
-
+        BeanWrapperImpl beanWrapper = new BeanWrapperImpl(object);
+        PropertyDescriptor[] descriptors = beanWrapper.getPropertyDescriptors();
+        Integer integer = Arrays.stream(descriptors).map(BeanUtils::valueIsNotEmpty).reduce(Integer::sum).orElse(0);
+        return integer > 0;
     }
 
-    public static class StringUtils extends org.springframework.util.StringUtils{
-        public static boolean isNotEmpty(Object object){
-            return !isEmpty(object);
-        }
+    private static int valueIsNotEmpty(PropertyDescriptor descriptor) {
+        return StringUtils.isNotEmpty(descriptor.getValue(descriptor.getName())) ? 1 : 0;
     }
+
+
 }
