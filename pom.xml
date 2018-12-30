@@ -19,6 +19,7 @@
         <module>demo-jpa2</module>
         <module>demo-mybatis</module>
         <module>demo-mybatis2</module>
+        <module>demo-jooq-jpa</module>
     </modules>
     <properties>
         <java.version>1.8</java.version>

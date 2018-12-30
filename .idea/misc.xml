@@ -9,6 +9,7 @@
         <option value="$PROJECT_DIR$/demo-jpa2/pom.xml" />
         <option value="$PROJECT_DIR$/demo-mybatis/pom.xml" />
         <option value="$PROJECT_DIR$/demo-mybatis2/pom.xml" />
+        <option value="$PROJECT_DIR$/demo-jooq-jpa/pom.xml" />
       </list>
     </option>
   </component>
