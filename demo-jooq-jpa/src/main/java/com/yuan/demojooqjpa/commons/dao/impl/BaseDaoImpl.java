@@ -266,7 +266,7 @@ public class BaseDaoImpl<T, ID> extends SimpleJpaRepository<T, ID> implements Ba
             nativeQuery.setParameter(entry.getKey(), entry.getValue());
         }
         Long countQuerySingleResult = (Long) countQuery.getSingleResult();
-        List<Map<String, Object>> resultList = (List<Map<String, Object>>) nativeQuery.unwrap(NativeQueryImpl.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).setFirstResult(Math.toIntExact(pageable.getOffset())).setMaxResults(pageable.getPageSize()).getResultList();
+        List<Map<String, Object>> resultList = (List<Map<String, Object>>) nativeQuery.unwrap(NativeQueryImpl.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).setFirstResult(pageable.getPageSize() * (pageable.getPageNumber() - 1)).setMaxResults(pageable.getPageSize()).getResultList();
         return new PageImpl<>(resultList, pageable, countQuerySingleResult);
     }
 
@@ -283,7 +283,7 @@ public class BaseDaoImpl<T, ID> extends SimpleJpaRepository<T, ID> implements Ba
         }
         Long total = (Long) countQuery.getSingleResult();
         nativeQuery.unwrap(NativeQueryImpl.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
-        nativeQuery.setFirstResult((int) pageable.getOffset());
+        nativeQuery.setFirstResult(pageable.getPageSize() * (pageable.getPageNumber() - 1));
         nativeQuery.setMaxResults(pageable.getPageSize());
         List<Map<String, Object>> resultList = (List<Map<String, Object>>) nativeQuery.getResultList();
         return new PageImpl<>(resultList, pageable, total);
