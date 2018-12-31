@@ -1,7 +1,7 @@
 package com.yuan.demojpa;
 
 import cn.afterturn.easypoi.configuration.EasyPoiAutoConfiguration;
-import com.yuan.demojpa.commons.repository.impl.BaseRepositoryImpl;
+import com.yuan.demojpa.commons.dao.impl.BaseRepositoryImpl;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
