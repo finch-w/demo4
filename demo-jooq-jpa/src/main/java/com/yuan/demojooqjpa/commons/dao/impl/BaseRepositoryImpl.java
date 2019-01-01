@@ -57,6 +57,7 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
     @Override
     public void deleteAllById(ID... ids) {
         Arrays.stream(ids).forEach(this::deleteById);
+        entityManager.flush();
     }
 
     @Override
