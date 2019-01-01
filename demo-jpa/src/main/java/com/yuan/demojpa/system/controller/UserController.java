@@ -14,15 +14,20 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.Collections;
 
 @Controller
-@RequestMapping("user")
+@RequestMapping("system/user")
 @Slf4j
 public class UserController extends BaseController {
+    private final UserService userService;
+    private final String baseUrl = "system/user";
+
     @Autowired
-    private UserService userService;
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @RequestMapping
     public Object index() {
-        return "user/index";
+        return baseUrl + "/index";
     }
 
     @RequestMapping(params = "data")
@@ -68,12 +73,12 @@ public class UserController extends BaseController {
 
     @RequestMapping(params = "add")
     public Object add() {
-        return "user/index";
+        return baseUrl + "/add";
     }
 
     @RequestMapping(params = "edit")
     public Object edit(String id) {
-        return new ModelAndView("user/edit", Collections.singletonMap("user", userService.getById(id)));
+        return new ModelAndView(baseUrl + "/edit", Collections.singletonMap("user", userService.getById(id)));
     }
 
     @RequestMapping(params = "save")
