@@ -1,6 +1,5 @@
 package com.yuan.demojpa;
 
-import com.yuan.demojpa.system.dto.UserDto;
 import com.yuan.demojpa.system.pojo.User;
 import com.yuan.demojpa.system.service.UserService;
 import org.eclipse.persistence.config.QueryHints;
@@ -10,13 +9,12 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
-import org.springframework.data.domain.Page;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import java.util.Map;
+import javax.persistence.TypedQuery;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -58,17 +56,14 @@ public class DemoJpaApplicationTests {
     @Autowired
     private UserService userService;
 
+
     @Test
-    public void testUser() {
-//        userService.insert(User.builder().username("admin").name("admin").password("admin").salt(UUID.randomUUID().toString()).build());
-//        System.out.println();
-//        List<Map> list = userService.list(UserDto.builder().build());
-//        System.out.println(list);
-        Page<Map> data = userService.data(UserDto.builder().build());
-        System.out.println(data.getContent());
-//        List resultList = entityManager.createNativeQuery("select * from user").setHint(QueryHints.RESULT_TYPE, ResultType.Map).setFirstResult(1).setMaxResults(10).getResultList();
-//        System.out.println(resultList);
+    public void test4() {
+        EntityManager entityManager = context.getBean(EntityManager.class);
+        TypedQuery<Long> query = entityManager.createQuery("select count(1) from User user", Long.class);
+        System.out.println(query.getSingleResult());
     }
+
 
 //    @Test
 //    public void testUser2(){

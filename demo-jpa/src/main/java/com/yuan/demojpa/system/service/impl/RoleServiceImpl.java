@@ -15,8 +15,12 @@ import java.util.List;
 
 @Service
 public class RoleServiceImpl extends BaseServiceImpl<Role, String, RoleRepository> implements RoleService {
+    private final RoleRepository roleRepository;
+
     @Autowired
-    private RoleRepository roleRepository;
+    public RoleServiceImpl(RoleRepository roleRepository) {
+        this.roleRepository = roleRepository;
+    }
 
     @Override
     public RoleRepository getBaseRepository() {
@@ -31,13 +35,13 @@ public class RoleServiceImpl extends BaseServiceImpl<Role, String, RoleRepositor
     @Override
     public Page<Role> data2(RoleDto dto) {
         String jpql = "select r from Role r order by r.createDate";
-        return getBaseRepository().pageByJPQL(jpql, PageRequest.of(dto.getPage(), dto.getSize()));
+        return getBaseRepository().findAllByJPQL(jpql, PageRequest.of(dto.getPage(), dto.getSize()));
     }
 
     @Override
     public Page<Role> data3(RoleDto dto) {
         String sql = "select * from role order by createDate";
-        return getBaseRepository().pageBySQL(sql, PageRequest.of(dto.getPage(), dto.getSize()));
+        return getBaseRepository().findAllBySQL(sql, PageRequest.of(dto.getPage(), dto.getSize()));
     }
 
     @Override
@@ -48,13 +52,13 @@ public class RoleServiceImpl extends BaseServiceImpl<Role, String, RoleRepositor
     @Override
     public List<Role> list2(RoleDto dto) {
         String jpql = "select r from Role r order by r.createDate";
-        return getBaseRepository().listByJPQL(jpql);
+        return getBaseRepository().findAllByJPQL(jpql);
     }
 
     @Override
     public List<Role> list3(RoleDto dto) {
         String sql = "select * from role";
-        return getBaseRepository().listBySQL(sql);
+        return getBaseRepository().findAllBySQL(sql);
     }
 
 

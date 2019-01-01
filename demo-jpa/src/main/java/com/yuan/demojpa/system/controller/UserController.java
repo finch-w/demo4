@@ -71,6 +71,13 @@ public class UserController extends BaseController {
         return userService.list3(dto);
     }
 
+
+    @RequestMapping(params = "get")
+    @ResponseBody
+    public Object get(User user) {
+        return userService.getByExample(user);
+    }
+
     @RequestMapping(params = "add")
     public Object add() {
         return baseUrl + "/add";
@@ -79,6 +86,12 @@ public class UserController extends BaseController {
     @RequestMapping(params = "edit")
     public Object edit(String id) {
         return new ModelAndView(baseUrl + "/edit", Collections.singletonMap("user", userService.getById(id)));
+    }
+
+    @RequestMapping(params = "check")
+    @ResponseBody
+    public Object check(User user) {
+        return userService.exist(user);
     }
 
     @RequestMapping(params = "save")

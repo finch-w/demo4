@@ -36,7 +36,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
     @Override
     public Page<User> data2(UserDto userDto) {
         String jpq = "select u from User u";
-        return getBaseRepository().pageByJPQL(jpq, PageRequest.of(userDto.getPage(), userDto.getSize()));
+        return getBaseRepository().findAllByJPQL(jpq, PageRequest.of(userDto.getPage(), userDto.getSize()));
     }
 
     @Override
@@ -44,7 +44,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
         String jpql = "select u.* from user u";
         List<String> conditons = new ArrayList<>();
         Map<String, Object> map = new HashMap<>();
-        return getBaseRepository().pageBySQL(jpql, PageRequest.of(dto.getPage(), dto.getSize()));
+        return getBaseRepository().findAllBySQL(jpql, PageRequest.of(dto.getPage(), dto.getSize()));
     }
 
     @Override
@@ -55,12 +55,12 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
     @Override
     public List<User> list2(UserDto dto) {
         String jpql = "select u from User u";
-        return getBaseRepository().listBySQL(jpql);
+        return getBaseRepository().findAllByJPQL(jpql);
     }
 
     @Override
     public List<User> list3(UserDto dto) {
         String sql = "select * from user";
-        return getBaseRepository().listBySQL(sql);
+        return getBaseRepository().findAllBySQL(sql);
     }
 }
