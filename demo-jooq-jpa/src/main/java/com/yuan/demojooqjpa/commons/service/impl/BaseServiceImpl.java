@@ -1,37 +1,27 @@
-package com.yuan.demojpa.commons.service.impl;
+package com.yuan.demojooqjpa.commons.service.impl;
 
-import com.yuan.demojpa.commons.dao.BaseRepository;
-import com.yuan.demojpa.commons.pojo.BasePojo;
-import com.yuan.demojpa.commons.service.BaseService;
+import com.yuan.demojooqjpa.commons.dao.BaseRepository;
+import com.yuan.demojooqjpa.commons.service.BaseService;
 import org.springframework.data.domain.Example;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.Optional;
 
-public abstract class BaseServiceImpl<T extends BasePojo, ID extends Serializable, DAO extends BaseRepository<T, ID>> implements BaseService<T, ID> {
+public abstract class BaseServiceImpl<T, ID extends Serializable, DAO extends BaseRepository<T, ID>> implements BaseService<T, ID> {
     public abstract DAO getBaseRepository();
 
     @Override
-    @Transactional
     public T save(T t) {
-        t.setCreateDate(new Date());
-        t.setUpdateDate(new Date());
         return getBaseRepository().saveAndFlush(t);
     }
 
     @Override
-    @Transactional
     public void insert(T t) {
-        t.setCreateDate(new Date());
         getBaseRepository().insert(t);
     }
 
     @Override
-    @Transactional
     public void update(T t) {
-        t.setUpdateDate(new Date());
         getBaseRepository().update(t);
     }
 

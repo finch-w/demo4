@@ -1,5 +1,6 @@
-package com.yuan.demojpa.commons.dao;
+package com.yuan.demojooqjpa.commons.dao;
 
+import org.jooq.Query;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -35,6 +36,8 @@ public interface BaseRepository<T, ID extends Serializable> extends JpaRepositor
 
     T getByJPQL(String jpql, Map<String, Object> map);
 
+    T getByQuery(Query query);
+
     List<T> listBySQL(String sql, Object... objects);
 
     List<T> listBySQL(String sql, Collection collection);
@@ -46,6 +49,8 @@ public interface BaseRepository<T, ID extends Serializable> extends JpaRepositor
     List<T> listByJPQL(String jpql, Collection collection);
 
     List<T> listByJPQL(String jpql, Map<String, Object> map);
+
+    List<T> listByQuery(Query query);
 
     Page<T> pageBySQL(String sql, Pageable pageable, Object... objects);
 
@@ -59,6 +64,8 @@ public interface BaseRepository<T, ID extends Serializable> extends JpaRepositor
 
     Page<T> pageByJPQL(String jpql, Pageable pageable, Map<String, Object> map);
 
+    Page<T> pageByQuery(Query query, Pageable pageable);
+
     Map getBySQLInMap(String sql, Object... objects);
 
     Map getBySQLInMap(String sql, Collection collection);
@@ -70,6 +77,8 @@ public interface BaseRepository<T, ID extends Serializable> extends JpaRepositor
     Map getByJPQLInMap(String jpql, Collection collection);
 
     Map getByJPQLInMap(String jpql, Map<String, Object> map);
+
+    Map getByQueryInMap(Query query);
 
     List<Map> listBySQLInMap(String sql, Object... objects);
 
@@ -83,6 +92,8 @@ public interface BaseRepository<T, ID extends Serializable> extends JpaRepositor
 
     List<Map> listByJPQLInMap(String jpql, Map<String, Object> map);
 
+    List<Map> listByQueryInMap(Query query);
+
     Page<Map> pageBySQLInMap(String sql, Pageable pageable, Object... objects);
 
     Page<Map> pageBySQLInMap(String sql, Pageable pageable, Collection collection);
@@ -95,4 +106,5 @@ public interface BaseRepository<T, ID extends Serializable> extends JpaRepositor
 
     Page<Map> pageByJPQLInMap(String jpql, Pageable pageable, Map<String, Object> map);
 
+    Page<Map> pageByQueryInMap(Query query, Pageable pageable);
 }

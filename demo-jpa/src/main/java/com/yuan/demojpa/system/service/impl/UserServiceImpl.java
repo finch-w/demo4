@@ -26,15 +26,41 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
     }
 
     @Override
-    public Page<Map> data(UserDto dto) {
+    public Page<User> data(UserDto dto) {
         String sql = "select * from user";
         List<String> conditions = new ArrayList<>();
         Map<String, Object> map = new HashMap<>();
-        return getBaseRepository().pageBySQLInMap(sql, PageRequest.of(dto.getPage(), dto.getSize()));
+        return getBaseRepository().findAll(dto, PageRequest.of(dto.getPage(), dto.getSize()));
     }
 
     @Override
     public Page<User> data2(UserDto userDto) {
-        return getBaseRepository().findAll(userDto, PageRequest.of(userDto.getPage(), userDto.getSize()));
+        String jpq = "select u from User u";
+        return getBaseRepository().pageByJPQL(jpq, PageRequest.of(userDto.getPage(), userDto.getSize()));
+    }
+
+    @Override
+    public Page<User> data3(UserDto dto) {
+        String jpql = "select u.* from user u";
+        List<String> conditons = new ArrayList<>();
+        Map<String, Object> map = new HashMap<>();
+        return getBaseRepository().pageBySQL(jpql, PageRequest.of(dto.getPage(), dto.getSize()));
+    }
+
+    @Override
+    public List<User> list(UserDto dto) {
+        return getBaseRepository().findAll(dto);
+    }
+
+    @Override
+    public List<User> list2(UserDto dto) {
+        String jpql = "select u from User u";
+        return getBaseRepository().listBySQL(jpql);
+    }
+
+    @Override
+    public List<User> list3(UserDto dto) {
+        String sql = "select * from user";
+        return getBaseRepository().listBySQL(sql);
     }
 }

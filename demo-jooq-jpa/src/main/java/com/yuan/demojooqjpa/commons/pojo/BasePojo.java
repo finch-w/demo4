@@ -3,7 +3,7 @@ package com.yuan.demojooqjpa.commons.pojo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.GenericGenerator;
+import org.eclipse.persistence.annotations.UuidGenerator;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
@@ -12,15 +12,15 @@ import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
 import java.util.Date;
 
+@MappedSuperclass
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@MappedSuperclass
 public abstract class BasePojo implements Serializable {
     @Id
-    @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid2")
     @Column(name = "id")
+    @GeneratedValue(generator = "uuid")
+    @UuidGenerator(name = "uuid")
     private String id;
     @Column(name = "createUser", updatable = false)
     private String createUser;

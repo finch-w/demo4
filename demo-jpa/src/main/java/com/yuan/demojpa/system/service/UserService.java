@@ -5,10 +5,18 @@ import com.yuan.demojpa.system.dto.UserDto;
 import com.yuan.demojpa.system.pojo.User;
 import org.springframework.data.domain.Page;
 
-import java.util.Map;
+import java.util.List;
 
 public interface UserService extends BaseService<User, String> {
-    Page<Map> data(UserDto dto);
+    Page<User> data(UserDto dto);
 
     Page<User> data2(UserDto userDto);
+
+    Page<User> data3(UserDto dto);
+
+    List<User> list(UserDto dto);
+
+    List<User> list2(UserDto dto);
+
+    List<User> list3(UserDto dto);
 }

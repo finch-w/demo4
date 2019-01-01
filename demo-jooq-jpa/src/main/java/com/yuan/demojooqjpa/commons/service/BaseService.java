@@ -1,11 +1,9 @@
-package com.yuan.demojpa.commons.service;
-
-import com.yuan.demojpa.commons.pojo.BasePojo;
+package com.yuan.demojooqjpa.commons.service;
 
 import java.io.Serializable;
 import java.util.Optional;
 
-public interface BaseService<T extends BasePojo, ID extends Serializable> {
+public interface BaseService<T, ID extends Serializable> {
     T save(T t);
 
     void insert(T t);

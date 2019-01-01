@@ -1,6 +1,6 @@
-package com.yuan.demojpa.commons.dao.impl;
+package com.yuan.demojooqjpa.commons.dao.impl;
 
-import com.yuan.demojpa.commons.dao.BaseRepository;
+import com.yuan.demojooqjpa.commons.dao.BaseRepository;
 import org.eclipse.persistence.config.QueryHints;
 import org.eclipse.persistence.config.ResultType;
 import org.springframework.beans.BeanUtils;
@@ -68,7 +68,9 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
     @Override
     public Optional<T> getOne(Example<T> example) {
         Specification<T> specification = (Specification<T>) (root, query, criteriaBuilder) -> QueryByExamplePredicateBuilder.getPredicate(root, criteriaBuilder, example);
-        return Optional.of(getQuery(specification, Sort.unsorted()).getSingleResult());
+        Optional<T> optional = new Optional<>(getQuery(specification, Sort.unsorted()).getSingleResult());
+        optional.orElse(null);
+        return optional;
     }
 
     @Override
@@ -110,6 +112,11 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
     }
 
     @Override
+    public T getByQuery(org.jooq.Query query) {
+        return getBySQL(query.getSQL(), query.getBindValues());
+    }
+
+    @Override
     public List<T> listBySQL(String sql, Object... objects) {
         Query nativeQuery = entityManager.createNativeQuery(sql, entityInformation.getJavaType());
         IntStream.range(0, objects.length).forEach(i -> nativeQuery.setParameter(i + 1, objects[i]));
@@ -148,6 +155,11 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
     }
 
     @Override
+    public List<T> listByQuery(org.jooq.Query query) {
+        return listBySQL(query.getSQL(), query.getBindValues());
+    }
+
+    @Override
     public Page<T> pageBySQL(String sql, Pageable pageable, Object... objects) {
         Query nativeQuery = entityManager.createNativeQuery(sql, entityInformation.getJavaType());
         IntStream.range(0, objects.length).forEach(value -> nativeQuery.setParameter(value + 1, objects[value]));
@@ -183,6 +195,11 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
         TypedQuery<T> query = entityManager.createQuery(jpql, entityInformation.getJavaType());
         map.forEach(query::setParameter);
         return createJpqlDomainPage(pageable, query);
+    }
+
+    @Override
+    public Page<T> pageByQuery(org.jooq.Query query, Pageable pageable) {
+        return pageBySQL(query.getSQL(), pageable, query.getBindValues());
     }
 
 
@@ -225,6 +242,11 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
     }
 
     @Override
+    public Map getByQueryInMap(org.jooq.Query query) {
+        return getBySQLInMap(query.getSQL(), query.getBindValues());
+    }
+
+    @Override
     public List<Map> listBySQLInMap(String sql, Object... objects) {
         Query nativeQuery = getSQLMapQuery(sql, objects);
         return (List<Map>) nativeQuery.getResultList();
@@ -260,6 +282,11 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
         TypedQuery<Map> query = entityManager.createQuery(jpql, Map.class);
         map.forEach(query::setParameter);
         return query.getResultList();
+    }
+
+    @Override
+    public List<Map> listByQueryInMap(org.jooq.Query query) {
+        return listBySQLInMap(query.getSQL(), query.getBindValues());
     }
 
     @Override
@@ -299,6 +326,11 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
         TypedQuery<Map> query = entityManager.createQuery(jpql, Map.class);
         map.forEach(query::setParameter);
         return createJpqlMapPage(pageable, query);
+    }
+
+    @Override
+    public Page<Map> pageByQueryInMap(org.jooq.Query query, Pageable pageable) {
+        return pageBySQLInMap(query.getSQL(), pageable, query.getBindValues());
     }
 
 
