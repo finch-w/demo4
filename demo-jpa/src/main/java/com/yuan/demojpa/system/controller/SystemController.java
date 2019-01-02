@@ -19,7 +19,7 @@ public class SystemController extends BaseController {
 
     @RequestMapping("doLogin")
     public Object doLogin() {
-        return "system/main";
+        return "redirect:system/main";
     }
 
     @RequestMapping("main")
