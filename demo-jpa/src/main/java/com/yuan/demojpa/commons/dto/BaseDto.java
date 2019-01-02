@@ -22,7 +22,7 @@ import java.util.List;
 public abstract class BaseDto<T> implements Serializable, Specification<T> {
     private Integer page = 1;
     private Integer size = 100;
-    private String order;
+    private String order = "createDate";
     private String id;
     private String createUser;
     private String updateUser;

@@ -1,9 +1,9 @@
 package com.yuan.demojpa.system.controller;
 
 import com.yuan.demojpa.commons.controller.BaseController;
-import com.yuan.demojpa.system.dto.PermissionDto;
-import com.yuan.demojpa.system.pojo.Permission;
-import com.yuan.demojpa.system.service.PermissionService;
+import com.yuan.demojpa.system.dto.ResourceDto;
+import com.yuan.demojpa.system.pojo.Resource;
+import com.yuan.demojpa.system.service.ResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,74 +12,83 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Collections;
+import java.util.Map;
+import java.util.Optional;
 
 @Controller
-@RequestMapping("system/permission")
-public class PermissionController extends BaseController {
+@RequestMapping("system/resource")
+public class ResourceController extends BaseController {
+    private final ResourceService resourceService;
+
     @Autowired
-    private PermissionService permissionService;
+    public ResourceController(ResourceService resourceService) {
+        this.resourceService = resourceService;
+    }
 
     @RequestMapping
     public Object index() {
-        return "system/permission/index";
+        return "system/resource/index";
     }
 
     @RequestMapping(params = "data")
     @ResponseBody
-    public Object data(PermissionDto dto) {
-        return permissionService.data(dto);
+    public Object data(ResourceDto dto) {
+        return resourceService.data(dto);
     }
 
     @RequestMapping(params = "data2")
     @ResponseBody
-    public Object data2(PermissionDto dto) {
-        return permissionService.data2(dto);
+    public Object date2(ResourceDto dto) {
+        return resourceService.data2(dto);
     }
 
     @RequestMapping(params = "data3")
     @ResponseBody
-    public Object data3(PermissionDto dto) {
-        return permissionService.data3(dto);
+    public Object data3(ResourceDto dto) {
+        return resourceService.data3(dto);
     }
 
     @RequestMapping(params = "list")
     @ResponseBody
-    public Object list(PermissionDto dto) {
-        return permissionService.list(dto);
+    public Object list(ResourceDto dto) {
+        return resourceService.list(dto);
     }
 
     @RequestMapping(params = "list2")
     @ResponseBody
-    public Object list2(PermissionDto dto) {
-        return permissionService.list2(dto);
+    public Object list2(ResourceDto dto) {
+        return resourceService.list2(dto);
     }
 
     @RequestMapping(params = "list3")
     @ResponseBody
-    public Object list3(PermissionDto dto) {
-        return permissionService.list3(dto);
+    public Object list3(ResourceDto dto) {
+        return resourceService.list3(dto);
     }
 
     @RequestMapping(params = "add")
     public Object add() {
-        return "system/permission/add";
+        return "system/resource/add";
     }
 
     @RequestMapping(params = "edit")
     public Object edit(String id) {
-        return new ModelAndView("system/permission/edit", Collections.singletonMap("permission", permissionService.getById(id)));
+        Map<String, Optional<Resource>> resource = Collections.singletonMap("resource", resourceService.getById(id));
+        return new ModelAndView("system/resource/edit", resource);
     }
+
 
     @RequestMapping(params = "check")
     @ResponseBody
-    public Object check(Permission permission) {
-        return permissionService.exist(permission);
+    public Object check(Resource resource) {
+        return resourceService.exist(resource);
     }
 
     @RequestMapping(params = "save")
-    public Object save(@RequestBody Permission permission) {
+    @ResponseBody
+    public Object save(@RequestBody Resource resource) {
         try {
-            permissionService.save(permission);
+            resourceService.save(resource);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -88,9 +97,10 @@ public class PermissionController extends BaseController {
     }
 
     @RequestMapping(params = "delete")
+    @ResponseBody
     public Object delete(String id) {
         try {
-            permissionService.delete(id.split(","));
+            resourceService.delete(id.split(","));
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -98,11 +108,11 @@ public class PermissionController extends BaseController {
         }
     }
 
-
     @RequestMapping(params = "update")
-    public Object update(Permission permission) {
+    @ResponseBody
+    public Object update(Resource resource) {
         try {
-            permissionService.update(permission);
+            resourceService.update(resource);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
