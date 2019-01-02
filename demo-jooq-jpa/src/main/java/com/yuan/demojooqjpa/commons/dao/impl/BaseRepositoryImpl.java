@@ -406,6 +406,6 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
 
     @Override
     public Page<Map> findAllByQueryInMap(Query query, Pageable pageable) {
-        return findAllByJPQLInMap(query.getSQL(), pageable, query.getBindValues());
+        return findAllBySQLInMap(query.getSQL(), pageable, query.getBindValues());
     }
 }
