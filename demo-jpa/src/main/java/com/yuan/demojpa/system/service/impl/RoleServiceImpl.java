@@ -64,9 +64,9 @@ public class RoleServiceImpl extends BaseServiceImpl<Role, String, RoleRepositor
             conditions.add("r.updateDate <= :updateDateEnd");
             map.put("updateDateEnd", DateUtils.setDayFinalTime(dto.getUpdateDateEnd()));
         }
-        String sql = SQLUtils.createSQL(jpql, conditions);
-        sql += " order by r.createDate";
-        return getBaseRepository().findAllByJPQL(sql, PageRequest.of(dto.getPage(), dto.getSize()));
+        jpql = SQLUtils.createSQL(jpql, conditions);
+        jpql += " order by r.createDate";
+        return getBaseRepository().findAllByJPQL(jpql, PageRequest.of(dto.getPage(), dto.getSize()));
     }
 
     @Override

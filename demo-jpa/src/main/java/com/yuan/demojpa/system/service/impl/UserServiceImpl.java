@@ -72,9 +72,9 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
             conditions.add("u.enabled = ;enabled");
             map.put("enabled", dto.getEnabled());
         }
-        String sql = SQLUtils.createSQL(jpql, conditions);
-        sql += " order by u.createDate desc";
-        return getBaseRepository().findAllByJPQL(sql, PageRequest.of(dto.getPage(), dto.getSize()));
+        jpql = SQLUtils.createSQL(jpql, conditions);
+        jpql += " order by u.createDate desc";
+        return getBaseRepository().findAllByJPQL(jpql, PageRequest.of(dto.getPage(), dto.getSize()));
     }
 
     @Override
