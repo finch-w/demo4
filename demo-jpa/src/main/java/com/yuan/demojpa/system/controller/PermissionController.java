@@ -60,6 +60,12 @@ public class PermissionController extends BaseController {
         return permissionService.list3(dto);
     }
 
+    @RequestMapping(params = "get")
+    @ResponseBody
+    public Object get(Permission permission) {
+        return permissionService.getByExample(permission);
+    }
+
     @RequestMapping(params = "add")
     public Object add() {
         return "system/permission/add";

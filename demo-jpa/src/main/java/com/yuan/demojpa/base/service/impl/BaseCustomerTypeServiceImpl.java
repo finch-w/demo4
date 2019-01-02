@@ -1,12 +1,12 @@
-package com.yuan.demojpa.system.service.impl;
+package com.yuan.demojpa.base.service.impl;
 
+import com.yuan.demojpa.base.dto.BaseCustomerTypeDto;
+import com.yuan.demojpa.base.pojo.BaseCustomerType;
+import com.yuan.demojpa.base.repository.BaseCustomerTypeRepository;
+import com.yuan.demojpa.base.service.BaseCustomerTypeService;
 import com.yuan.demojpa.commons.service.impl.BaseServiceImpl;
 import com.yuan.demojpa.commons.utils.DateUtils;
 import com.yuan.demojpa.commons.utils.SQLUtils;
-import com.yuan.demojpa.system.dto.ResourceDto;
-import com.yuan.demojpa.system.pojo.Resource;
-import com.yuan.demojpa.system.repository.ResourceRepository;
-import com.yuan.demojpa.system.service.ResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,61 +21,65 @@ import java.util.Map;
 
 @SuppressWarnings("ALL")
 @Service
-public class ResourceServiceImpl extends BaseServiceImpl<Resource, String, ResourceRepository> implements ResourceService {
-    private final ResourceRepository resourceRepository;
+public class BaseCustomerTypeServiceImpl extends BaseServiceImpl<BaseCustomerType, String, BaseCustomerTypeRepository> implements BaseCustomerTypeService {
+    private final BaseCustomerTypeRepository baseCustomerTypeRepository;
 
     @Autowired
-    public ResourceServiceImpl(ResourceRepository resourceRepository) {
-        this.resourceRepository = resourceRepository;
+    public BaseCustomerTypeServiceImpl(BaseCustomerTypeRepository baseCustomerTypeRepository) {
+        this.baseCustomerTypeRepository = baseCustomerTypeRepository;
     }
 
     @Override
-    public ResourceRepository getBaseRepository() {
-        return resourceRepository;
+    public BaseCustomerTypeRepository getBaseRepository() {
+        return baseCustomerTypeRepository;
     }
 
     @Override
-    public Page<Resource> data(ResourceDto dto) {
+    public Page<BaseCustomerType> data(BaseCustomerTypeDto dto) {
         return getBaseRepository().findAll(dto, PageRequest.of(dto.getPage(), dto.getSize(), Sort.by(Sort.Order.desc("createDate"))));
     }
 
     @Override
-    public Page<Resource> data2(ResourceDto dto) {
-        String jpql = "select r from Resource r ";
+    public Page<BaseCustomerType> data2(BaseCustomerTypeDto dto) {
+        String jpql = "select bct from BaseCustomerType bcd";
         List<String> conditions = new ArrayList<>();
         Map<String, Object> map = new HashMap<>();
         if (!StringUtils.isEmpty(dto.getId())) {
-            conditions.add("r.id in (:id)");
+            conditions.add("bcd.id in (:id)");
             map.put("id", dto.getId().split(","));
         }
         if (!StringUtils.isEmpty(dto.getCreateDateStart())) {
-            conditions.add("r.createDate >= :createDateStart");
+            conditions.add("bcd.createDate >= :createDateStart");
             map.put("createDateStart", DateUtils.removeTime(dto.getCreateDateStart()));
         }
         if (!StringUtils.isEmpty(dto.getCreateDateEnd())) {
-            conditions.add("r.createDate <= :createDateEnd");
+            conditions.add("bcd.createDate <= :createDateEnd");
             map.put("createDateEnd", DateUtils.setDayFinalTime(dto.getCreateDateEnd()));
         }
         if (!StringUtils.isEmpty(dto.getUpdateDateStart())) {
-            conditions.add("r.updateDate >= :updateDateStart");
+            conditions.add("bcd.updateDate >= :updateDateStart");
             map.put("updateDateStart", DateUtils.removeTime(dto.getUpdateDateStart()));
         }
         if (!StringUtils.isEmpty(dto.getUpdateDateEnd())) {
-            conditions.add("r.updateDate <= :updateDateEnd");
+            conditions.add("bcd.updateDate <= :updateDateEnd");
             map.put("updateDateEnd", DateUtils.setDayFinalTime(dto.getUpdateDateEnd()));
         }
         if (!StringUtils.isEmpty(dto.getName())) {
-            conditions.add("r.name like :name");
+            conditions.add("bcd.name like :name");
             map.put("name", dto.getName() + "%");
         }
+        if (!StringUtils.isEmpty(dto.getEnabled())) {
+            conditions.add("bcd.enabled = ;enabled");
+            map.put("enabled", dto.getEnabled());
+        }
         jpql = SQLUtils.createSQL(jpql, conditions);
-        jpql += " order by r.createDate desc";
+        jpql += " order by bcd.createDate desc";
         return getBaseRepository().findAllByJPQL(jpql, PageRequest.of(dto.getPage(), dto.getSize()), map);
     }
 
     @Override
-    public Page<Resource> data3(ResourceDto dto) {
-        String sql = "select * from resource ";
+    public Page<BaseCustomerType> data3(BaseCustomerTypeDto dto) {
+        String sql = "select * from user";
         List<String> conditions = new ArrayList<>();
         Map<String, Object> map = new HashMap<>();
         if (!StringUtils.isEmpty(dto.getId())) {
@@ -103,6 +107,10 @@ public class ResourceServiceImpl extends BaseServiceImpl<Resource, String, Resou
         if (!StringUtils.isEmpty(dto.getName())) {
             conditions.add("name like :name");
             map.put("name", dto.getName() + "%");
+        }
+        if (!StringUtils.isEmpty(dto.getEnabled())) {
+            conditions.add("enabled = :enabled");
+            map.put("enabled", dto.getEnabled());
         }
         sql = SQLUtils.createSQL(sql, conditions);
         sql += " order by createDate desc";
@@ -110,47 +118,51 @@ public class ResourceServiceImpl extends BaseServiceImpl<Resource, String, Resou
     }
 
     @Override
-    public List<Resource> list(ResourceDto dto) {
+    public List<BaseCustomerType> list(BaseCustomerTypeDto dto) {
         return getBaseRepository().findAll(dto, Sort.by(Sort.Order.desc("createDate")));
     }
 
     @Override
-    public List<Resource> list2(ResourceDto dto) {
-        String jpql = "select r from Resource r ";
+    public List<BaseCustomerType> list2(BaseCustomerTypeDto dto) {
+        String jpql = "select bct from BaseCustomerType bcd";
         List<String> conditions = new ArrayList<>();
         Map<String, Object> map = new HashMap<>();
         if (!StringUtils.isEmpty(dto.getId())) {
-            conditions.add("r.id in (:id)");
+            conditions.add("bcd.id in (:id)");
             map.put("id", dto.getId().split(","));
         }
         if (!StringUtils.isEmpty(dto.getCreateDateStart())) {
-            conditions.add("r.createDate >= :createDateStart");
+            conditions.add("bcd.createDate >= :createDateStart");
             map.put("createDateStart", DateUtils.removeTime(dto.getCreateDateStart()));
         }
         if (!StringUtils.isEmpty(dto.getCreateDateEnd())) {
-            conditions.add("r.createDate <= :createDateEnd");
+            conditions.add("bcd.createDate <= :createDateEnd");
             map.put("createDateEnd", DateUtils.setDayFinalTime(dto.getCreateDateEnd()));
         }
         if (!StringUtils.isEmpty(dto.getUpdateDateStart())) {
-            conditions.add("r.updateDate >= :updateDateStart");
+            conditions.add("bcd.updateDate >= :updateDateStart");
             map.put("updateDateStart", DateUtils.removeTime(dto.getUpdateDateStart()));
         }
         if (!StringUtils.isEmpty(dto.getUpdateDateEnd())) {
-            conditions.add("r.updateDate <= :updateDateEnd");
+            conditions.add("bcd.updateDate <= :updateDateEnd");
             map.put("updateDateEnd", DateUtils.setDayFinalTime(dto.getUpdateDateEnd()));
         }
         if (!StringUtils.isEmpty(dto.getName())) {
-            conditions.add("r.name like :name");
+            conditions.add("bcd.name like :name");
             map.put("name", dto.getName() + "%");
         }
+        if (!StringUtils.isEmpty(dto.getEnabled())) {
+            conditions.add("bcd.enabled = ;enabled");
+            map.put("enabled", dto.getEnabled());
+        }
         jpql = SQLUtils.createSQL(jpql, conditions);
-        jpql += " order by r.createDate desc";
+        jpql += " order by bcd.createDate desc";
         return getBaseRepository().findAllByJPQL(jpql, map);
     }
 
     @Override
-    public List<Resource> list3(ResourceDto dto) {
-        String sql = "select * from resource ";
+    public List<BaseCustomerType> list3(BaseCustomerTypeDto dto) {
+        String sql = "select * from user";
         List<String> conditions = new ArrayList<>();
         Map<String, Object> map = new HashMap<>();
         if (!StringUtils.isEmpty(dto.getId())) {
@@ -178,6 +190,10 @@ public class ResourceServiceImpl extends BaseServiceImpl<Resource, String, Resou
         if (!StringUtils.isEmpty(dto.getName())) {
             conditions.add("name like :name");
             map.put("name", dto.getName() + "%");
+        }
+        if (!StringUtils.isEmpty(dto.getEnabled())) {
+            conditions.add("enabled = :enabled");
+            map.put("enabled", dto.getEnabled());
         }
         sql = SQLUtils.createSQL(sql, conditions);
         sql += " order by createDate desc";

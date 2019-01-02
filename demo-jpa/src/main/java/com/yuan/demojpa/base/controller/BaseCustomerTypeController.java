@@ -1,9 +1,9 @@
-package com.yuan.demojpa.system.controller;
+package com.yuan.demojpa.base.controller;
 
+import com.yuan.demojpa.base.dto.BaseCustomerTypeDto;
+import com.yuan.demojpa.base.pojo.BaseCustomerType;
+import com.yuan.demojpa.base.service.BaseCustomerTypeService;
 import com.yuan.demojpa.commons.controller.BaseController;
-import com.yuan.demojpa.system.dto.ResourceDto;
-import com.yuan.demojpa.system.pojo.Resource;
-import com.yuan.demojpa.system.service.ResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,85 +16,80 @@ import java.util.Map;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("system/resource")
-public class ResourceController extends BaseController {
-    private final ResourceService resourceService;
-
+@RequestMapping("base/customer/type")
+public class BaseCustomerTypeController extends BaseController {
     @Autowired
-    public ResourceController(ResourceService resourceService) {
-        this.resourceService = resourceService;
-    }
+    private BaseCustomerTypeService baseCustomerTypeService;
 
     @RequestMapping
     public Object index() {
-        return "system/resource/index";
+        return "base/customer/type/index";
     }
 
     @RequestMapping(params = "data")
     @ResponseBody
-    public Object data(ResourceDto dto) {
-        return resourceService.data(dto);
+    public Object data(BaseCustomerTypeDto dto) {
+        return baseCustomerTypeService.data(dto);
     }
 
     @RequestMapping(params = "data2")
     @ResponseBody
-    public Object date2(ResourceDto dto) {
-        return resourceService.data2(dto);
+    public Object data2(BaseCustomerTypeDto dto) {
+        return baseCustomerTypeService.data2(dto);
     }
 
     @RequestMapping(params = "data3")
     @ResponseBody
-    public Object data3(ResourceDto dto) {
-        return resourceService.data3(dto);
+    public Object data3(BaseCustomerTypeDto dto) {
+        return baseCustomerTypeService.data3(dto);
     }
 
     @RequestMapping(params = "list")
     @ResponseBody
-    public Object list(ResourceDto dto) {
-        return resourceService.list(dto);
+    public Object list(BaseCustomerTypeDto dto) {
+        return baseCustomerTypeService.list(dto);
     }
 
     @RequestMapping(params = "list2")
     @ResponseBody
-    public Object list2(ResourceDto dto) {
-        return resourceService.list2(dto);
+    public Object list2(BaseCustomerTypeDto dto) {
+        return baseCustomerTypeService.list2(dto);
     }
 
     @RequestMapping(params = "list3")
     @ResponseBody
-    public Object list3(ResourceDto dto) {
-        return resourceService.list3(dto);
+    public Object list3(BaseCustomerTypeDto dto) {
+        return baseCustomerTypeService.list3(dto);
     }
 
     @RequestMapping(params = "get")
     @ResponseBody
-    public Object get(Resource resource) {
-        return resourceService.getByExample(resource);
+    public Object get(BaseCustomerType baseCustomerType) {
+        return baseCustomerTypeService.getByExample(baseCustomerType);
     }
 
     @RequestMapping(params = "add")
     public Object add() {
-        return "system/resource/add";
+        return "base/customer/type/add";
     }
 
     @RequestMapping(params = "edit")
     public Object edit(String id) {
-        Map<String, Optional<Resource>> resource = Collections.singletonMap("resource", resourceService.getById(id));
-        return new ModelAndView("system/resource/edit", resource);
+        Map<String, Optional<BaseCustomerType>> type = Collections.singletonMap("type", baseCustomerTypeService.getById(id));
+        return new ModelAndView("base/customer/type/edit", type);
     }
-
 
     @RequestMapping(params = "check")
     @ResponseBody
-    public Object check(Resource resource) {
-        return resourceService.exist(resource);
+    public Object check(BaseCustomerType baseCustomerType) {
+        return baseCustomerTypeService.exist(baseCustomerType);
     }
 
     @RequestMapping(params = "save")
     @ResponseBody
-    public Object save(@RequestBody Resource resource) {
+    public Object save(@RequestBody BaseCustomerType baseCustomerType) {
         try {
-            resourceService.save(resource);
+            baseCustomerTypeService.save(baseCustomerType);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -106,7 +101,7 @@ public class ResourceController extends BaseController {
     @ResponseBody
     public Object delete(String id) {
         try {
-            resourceService.delete(id.split(","));
+            baseCustomerTypeService.delete(id.split(","));
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -116,14 +111,13 @@ public class ResourceController extends BaseController {
 
     @RequestMapping(params = "update")
     @ResponseBody
-    public Object update(Resource resource) {
+    public Object update(BaseCustomerType baseCustomerType) {
         try {
-            resourceService.update(resource);
+            baseCustomerTypeService.update(baseCustomerType);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
     }
-
 }

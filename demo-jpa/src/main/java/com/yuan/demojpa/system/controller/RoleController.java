@@ -65,6 +65,12 @@ public class RoleController extends BaseController {
         return roleService.list3(dto);
     }
 
+    @RequestMapping(params = "get")
+    @ResponseBody
+    public Object get(Role role) {
+        return roleService.getByExample(role);
+    }
+
     @RequestMapping(params = "add")
     public Object add() {
         return "system/role/add";
