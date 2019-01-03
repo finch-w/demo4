@@ -7,9 +7,9 @@ import com.yuan.demojpa.commons.utils.BeanUtils;
 import org.eclipse.persistence.config.QueryHints;
 import org.eclipse.persistence.config.ResultType;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
-import org.springframework.data.domain.*;
-import org.springframework.data.jpa.convert.QueryByExamplePredicateBuilder;
-import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.jpa.repository.support.Querydsl;
 import org.springframework.data.jpa.repository.support.QuerydslJpaRepository;
@@ -69,18 +69,6 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends QuerydslJpaR
     public void deleteAllById(ID... ids) {
         Arrays.stream(ids).forEach(this::deleteById);
         entityManager.flush();
-    }
-
-    @Override
-    public Optional<T> getOne(Example<T> example) {
-        Specification<T> specification = (root, query, criteriaBuilder) -> {
-            return QueryByExamplePredicateBuilder.getPredicate(root, criteriaBuilder, example);
-        };
-        try {
-            return Optional.ofNullable(getQuery(specification, Sort.unsorted()).getSingleResult());
-        } catch (NonUniqueResultException e) {
-            throw new IncorrectResultSizeDataAccessException(e.getMessage(), 1, e);
-        }
     }
 
     @Override

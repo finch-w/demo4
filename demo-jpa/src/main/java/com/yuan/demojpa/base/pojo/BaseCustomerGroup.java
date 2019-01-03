@@ -8,17 +8,17 @@ import javax.persistence.Table;
 import java.util.Date;
 
 @EqualsAndHashCode(callSuper = true)
-@Entity
-@Table(name = "baseCustomerType")
 @Data
+@Entity
+@Table(name = "baseCustomerGroup")
 @NoArgsConstructor
 @AllArgsConstructor
-public class BaseCustomerType extends BasePojo {
+public class BaseCustomerGroup extends BasePojo {
     private String name;
     private Integer enabled;
 
     @Builder
-    public BaseCustomerType(String id, String createUser, String updateUser, Date createDate, Date updateDate, String name, Integer enabled) {
+    public BaseCustomerGroup(String id, String createUser, String updateUser, Date createDate, Date updateDate, String name, Integer enabled) {
         super(id, createUser, updateUser, createDate, updateDate);
         this.name = name;
         this.enabled = enabled;

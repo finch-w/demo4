@@ -76,6 +76,7 @@ public abstract class BaseDto<T> implements Serializable, Specification<T> {
         if (!StringUtils.isEmpty(updateDateEnd)) {
             predicates.add(crieriaBuilder.lessThanOrEqualTo(root.get("updateDate"), updateDateEnd));
         }
+
         return query.where(predicates.toArray(new Predicate[predicates.size()])).getRestriction();
     }
 }

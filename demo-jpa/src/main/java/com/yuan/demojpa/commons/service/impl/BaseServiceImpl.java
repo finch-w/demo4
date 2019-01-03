@@ -47,7 +47,7 @@ public abstract class BaseServiceImpl<T extends BasePojo, ID extends Serializabl
 
     @Override
     public Optional<T> getByExample(T t) {
-        return getBaseRepository().getOne(Example.of(t));
+        return getBaseRepository().findOne(Example.of(t));
     }
 
     @Override

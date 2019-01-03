@@ -41,7 +41,7 @@ public class BaseCustomerTypeServiceImpl extends BaseServiceImpl<BaseCustomerTyp
 
     @Override
     public Page<BaseCustomerType> data2(BaseCustomerTypeDto dto) {
-        String jpql = "select bct from BaseCustomerType bcd";
+        String jpql = "select bcd from BaseCustomerType bcd";
         List<String> conditions = new ArrayList<>();
         Map<String, Object> map = new HashMap<>();
         if (!StringUtils.isEmpty(dto.getId())) {
@@ -124,45 +124,45 @@ public class BaseCustomerTypeServiceImpl extends BaseServiceImpl<BaseCustomerTyp
 
     @Override
     public List<BaseCustomerType> list2(BaseCustomerTypeDto dto) {
-        String jpql = "select bct from BaseCustomerType bcd";
+        String jpql = "select bct from BaseCustomerType bct";
         List<String> conditions = new ArrayList<>();
         Map<String, Object> map = new HashMap<>();
         if (!StringUtils.isEmpty(dto.getId())) {
-            conditions.add("bcd.id in (:id)");
+            conditions.add("bct.id in (:id)");
             map.put("id", dto.getId().split(","));
         }
         if (!StringUtils.isEmpty(dto.getCreateDateStart())) {
-            conditions.add("bcd.createDate >= :createDateStart");
+            conditions.add("bct.createDate >= :createDateStart");
             map.put("createDateStart", DateUtils.removeTime(dto.getCreateDateStart()));
         }
         if (!StringUtils.isEmpty(dto.getCreateDateEnd())) {
-            conditions.add("bcd.createDate <= :createDateEnd");
+            conditions.add("bct.createDate <= :createDateEnd");
             map.put("createDateEnd", DateUtils.setDayFinalTime(dto.getCreateDateEnd()));
         }
         if (!StringUtils.isEmpty(dto.getUpdateDateStart())) {
-            conditions.add("bcd.updateDate >= :updateDateStart");
+            conditions.add("bct.updateDate >= :updateDateStart");
             map.put("updateDateStart", DateUtils.removeTime(dto.getUpdateDateStart()));
         }
         if (!StringUtils.isEmpty(dto.getUpdateDateEnd())) {
-            conditions.add("bcd.updateDate <= :updateDateEnd");
+            conditions.add("bct.updateDate <= :updateDateEnd");
             map.put("updateDateEnd", DateUtils.setDayFinalTime(dto.getUpdateDateEnd()));
         }
         if (!StringUtils.isEmpty(dto.getName())) {
-            conditions.add("bcd.name like :name");
+            conditions.add("bct.name like :name");
             map.put("name", dto.getName() + "%");
         }
         if (!StringUtils.isEmpty(dto.getEnabled())) {
-            conditions.add("bcd.enabled = ;enabled");
+            conditions.add("bct.enabled = ;enabled");
             map.put("enabled", dto.getEnabled());
         }
         jpql = SQLUtils.createSQL(jpql, conditions);
-        jpql += " order by bcd.createDate desc";
+        jpql += " order by bct.createDate desc";
         return getBaseRepository().findAllByJPQL(jpql, map);
     }
 
     @Override
     public List<BaseCustomerType> list3(BaseCustomerTypeDto dto) {
-        String sql = "select * from user";
+        String sql = "select * from baseCustomerType";
         List<String> conditions = new ArrayList<>();
         Map<String, Object> map = new HashMap<>();
         if (!StringUtils.isEmpty(dto.getId())) {
