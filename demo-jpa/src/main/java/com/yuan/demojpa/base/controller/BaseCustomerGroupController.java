@@ -26,16 +26,12 @@ public class BaseCustomerGroupController extends BaseController {
         switch (mode) {
             case 1:
                 return baseCustomerGroupService.data(dto);
-            break;
             case 2:
                 return baseCustomerGroupService.data2(dto);
-            break;
             case 3:
                 return baseCustomerGroupService.data3(dto);
-            break;
             default:
                 return baseCustomerGroupService.data(dto);
-            break;
         }
     }
 
@@ -45,16 +41,12 @@ public class BaseCustomerGroupController extends BaseController {
         switch (mode) {
             case 1:
                 return baseCustomerGroupService.list(dto);
-            break;
             case 2:
                 return baseCustomerGroupService.list2(dto);
-            break;
             case 3:
                 return baseCustomerGroupService.list3(dto);
-            break;
             default:
                 return baseCustomerGroupService.list(dto);
-            break;
         }
     }
 
