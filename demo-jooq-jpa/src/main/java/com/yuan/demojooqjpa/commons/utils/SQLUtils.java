@@ -8,10 +8,15 @@ public class SQLUtils {
         if (collections != null && collections.size() > 0) {
             stringBuilder.append(" where ");
             for (T collection : collections) {
-                stringBuilder.append(" " + collection + " and ");
+                stringBuilder.append(" ").append(collection).append(" and ");
             }
             stringBuilder = new StringBuilder(stringBuilder.substring(stringBuilder.lastIndexOf("and")).trim());
         }
         return stringBuilder.toString();
     }
+
+    public static <T extends CharSequence> String createSQL(T sql, Collection<T> collection, T otherSQL) {
+        return String.format("%s %s", createSQL(sql, collection), otherSQL);
+    }
+
 }
