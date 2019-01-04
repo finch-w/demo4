@@ -6,7 +6,10 @@ import com.yuan.demojooqjpa.system.dto.UserDto;
 import com.yuan.demojooqjpa.system.pojo.User;
 import com.yuan.demojooqjpa.system.repository.UserRepository;
 import com.yuan.demojooqjpa.system.service.UserService;
+import org.jooq.Field;
 import org.jooq.Query;
+import org.jooq.Record;
+import org.jooq.Table;
 import org.jooq.impl.DSL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -56,7 +59,9 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
 
     @Override
     public Page<User> data4(UserDto dto) {
-        Query query = DSL.selectFrom("user").where(Collections.emptyList()).orderBy(DSL.field("createDate").desc());
+        Table<Record> u = DSL.table("user").as("u");
+        Field<?> createDate = u.field("createDate");
+        Query query = DSL.select(u.fields()).from(u).where(Collections.EMPTY_SET).orderBy(createDate);
         return getBaseRepository().findAllByQuery(query, PageRequest.of(dto.getPage() - 1, dto.getSize()));
     }
 
@@ -85,7 +90,10 @@ public class UserServiceImpl extends BaseServiceImpl<User, String, UserRepositor
 
     @Override
     public List<User> list4(UserDto dto) {
-        Query query = DSL.selectFrom("user").where(Collections.emptyList()).orderBy(DSL.field("createDate").desc());
+        Table<Record> user = DSL.table("user");
+        Table<Record> u = user.as("u");
+        Field<?> createDate = u.field("createDate");
+        Query query = DSL.select(u.fields()).from(u).where(Collections.emptyList()).orderBy(createDate.desc());
         return getBaseRepository().findAllByQuery(query);
     }
 
