@@ -37,7 +37,7 @@ public abstract class BaseServiceImpl<T, ID extends Serializable, DAO extends Ba
 
     @Override
     public Optional<T> getByExample(T t) {
-        return getBaseRepository().getOne(Example.of(t));
+        return getBaseRepository().findOne(Example.of(t));
     }
 
     @Override

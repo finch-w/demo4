@@ -14,4 +14,5 @@ import javax.persistence.Entity;
 @NoArgsConstructor
 @AllArgsConstructor
 public class User extends BasePojo {
+    private String name;
 }
