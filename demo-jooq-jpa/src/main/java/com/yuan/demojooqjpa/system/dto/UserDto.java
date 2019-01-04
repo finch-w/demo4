@@ -17,6 +17,7 @@ import javax.persistence.criteria.Root;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDto extends BaseDto<User> {
+    private String name;
 
     @Override
     public Predicate toPredicate(Root<User> root, CriteriaQuery<?> query, CriteriaBuilder crieriaBuilder) {

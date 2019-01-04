@@ -1,6 +1,8 @@
 package com.yuan.demojpa.commons.dao.impl;
 
 import com.querydsl.core.types.EntityPath;
+import com.querydsl.core.types.Predicate;
+import com.querydsl.core.types.QMap;
 import com.querydsl.core.types.dsl.PathBuilder;
 import com.yuan.demojpa.commons.dao.BaseRepository;
 import com.yuan.demojpa.commons.utils.BeanUtils;
@@ -49,6 +51,8 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends QuerydslJpaR
         String lowerCaseSql = sql.toLowerCase();
         int fromIndex = lowerCaseSql.indexOf("from");
         return sql.substring(fromIndex);
+
+
     }
 
     @Override
