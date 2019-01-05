@@ -13,8 +13,8 @@ import java.util.Date;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "baseFlightLimtType")
-public class BaseFlightLimtType extends BasePojo {
+@Table(name = "baseFlightLimitType")
+public class BaseFlightLimitType extends BasePojo {
     private String flightNo;
     private String type;
     @Column(name = "startDate")
@@ -23,7 +23,7 @@ public class BaseFlightLimtType extends BasePojo {
     private Date endDate;
 
     @Builder
-    public BaseFlightLimtType(String id, String createUser, String updateUser, Date createDate, Date updateDate, String flightNo, String type, Date startDate, Date endDate) {
+    public BaseFlightLimitType(String id, String createUser, String updateUser, Date createDate, Date updateDate, String flightNo, String type, Date startDate, Date endDate) {
         super(id, createUser, updateUser, createDate, updateDate);
         this.flightNo = flightNo;
         this.type = type;
