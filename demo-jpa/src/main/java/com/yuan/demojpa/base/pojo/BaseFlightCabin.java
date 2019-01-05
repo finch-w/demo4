@@ -3,7 +3,9 @@ package com.yuan.demojpa.base.pojo;
 import com.yuan.demojpa.commons.pojo.BasePojo;
 import lombok.*;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.Date;
 
 @EqualsAndHashCode(callSuper = true)
@@ -11,7 +13,9 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "baseFlightCabin")
 public class BaseFlightCabin extends BasePojo {
+    @Column(name = "flightNo")
     private String flightNo;
     private Date startDate;
     private Date endDate;

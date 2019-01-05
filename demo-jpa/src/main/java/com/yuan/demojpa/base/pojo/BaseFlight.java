@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.sql.Time;
 import java.util.Date;
 
@@ -13,6 +14,7 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "baseFlight")
 public class BaseFlight extends BasePojo {
     @Column(name = "flightNo")
     private String flightNo;

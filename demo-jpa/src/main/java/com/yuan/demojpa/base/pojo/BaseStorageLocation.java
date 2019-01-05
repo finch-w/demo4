@@ -1,30 +1,30 @@
 package com.yuan.demojpa.base.pojo;
 
 import com.yuan.demojpa.commons.pojo.BasePojo;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.util.Date;
 
-@EqualsAndHashCode(callSuper = true)
 @Entity
-@Table(name = "baseAttention")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class BaseAttention extends BasePojo {
+@Table(name = "baseStorageLocation")
+public class BaseStorageLocation extends BasePojo {
     private String code;
-    private String cname;
-    private String ename;
+    private String name;
     private Integer enabled;
 
     @Builder
-    public BaseAttention(String id, String createUser, String updateUser, Date createDate, Date updateDate, String code, String cname, String ename, Integer enabled) {
+    public BaseStorageLocation(String id, String createUser, String updateUser, Date createDate, Date updateDate, String code, String name, Integer enabled) {
         super(id, createUser, updateUser, createDate, updateDate);
         this.code = code;
-        this.cname = cname;
-        this.ename = ename;
+        this.name = name;
         this.enabled = enabled;
     }
 }

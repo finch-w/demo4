@@ -11,7 +11,7 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
-@Table(name = "BaseCustomerPicker")
+@Table(name = "baseCustomerPicker")
 @NoArgsConstructor
 @AllArgsConstructor
 public class BaseCustomerPicker extends BasePojo {

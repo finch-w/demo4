@@ -4,6 +4,7 @@ import com.yuan.demojpa.commons.pojo.BasePojo;
 import lombok.*;
 
 import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.Date;
 
 @EqualsAndHashCode(callSuper = true)
@@ -11,6 +12,7 @@ import java.util.Date;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "basePackageType")
 public class BasePackageType extends BasePojo {
     private String code;
     private String cname;

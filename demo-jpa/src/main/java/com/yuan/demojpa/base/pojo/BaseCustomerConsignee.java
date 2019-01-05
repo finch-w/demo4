@@ -11,7 +11,7 @@ import java.util.Date;
 
 @Entity
 @Data
-@Table(name = "BaseCustomerConsignee")
+@Table(name = "baseCustomerConsignee")
 public class BaseCustomerConsignee extends BasePojo {
     private String name;
     @Column(name = "idNum")

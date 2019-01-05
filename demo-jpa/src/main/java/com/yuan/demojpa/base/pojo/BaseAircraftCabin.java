@@ -9,7 +9,7 @@ import java.util.Date;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
-@Table(name = "BaseAircraftCabin")
+@Table(name = "baseAircraftCabin")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
