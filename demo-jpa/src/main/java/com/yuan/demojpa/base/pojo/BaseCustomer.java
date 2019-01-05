@@ -3,6 +3,7 @@ package com.yuan.demojpa.base.pojo;
 import com.yuan.demojpa.commons.pojo.BasePojo;
 import lombok.*;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.util.Date;
@@ -15,10 +16,13 @@ import java.util.Date;
 @AllArgsConstructor
 public class BaseCustomer extends BasePojo {
     private String cname;//中文名
+    @Column(name = "cnameShort")
     private String cnameShort;//中文名简称
     private String ename;//英文名
+    @Column(name = "enameShort")
     private String enameShort;//英文名简称
     private String linkman;//联系人
+    @Column(name = "1linkNumber")
     private String linkNumber;//联系电话
     private String type;//客户类型
     private String group;//客户分组

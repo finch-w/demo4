@@ -3,6 +3,7 @@ package com.yuan.demojpa.base.pojo;
 import com.yuan.demojpa.commons.pojo.BasePojo;
 import lombok.*;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.util.Date;
@@ -15,6 +16,7 @@ import java.util.Date;
 @AllArgsConstructor
 public class BaseAircraft extends BasePojo {
     private String code;
+    @Column(name = "codeTwo")
     private String codeTwo;
     private String cname;
     private String ename;

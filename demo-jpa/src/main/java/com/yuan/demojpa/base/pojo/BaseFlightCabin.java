@@ -11,13 +11,13 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class BaseFlghtCabin extends BasePojo {
+public class BaseFlightCabin extends BasePojo {
     private String flightNo;
     private Date startDate;
     private Date endDate;
 
     @Builder
-    public BaseFlghtCabin(String id, String createUser, String updateUser, Date createDate, Date updateDate, String flightNo, Date startDate, Date endDate) {
+    public BaseFlightCabin(String id, String createUser, String updateUser, Date createDate, Date updateDate, String flightNo, Date startDate, Date endDate) {
         super(id, createUser, updateUser, createDate, updateDate);
         this.flightNo = flightNo;
         this.startDate = startDate;

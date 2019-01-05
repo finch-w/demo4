@@ -3,6 +3,7 @@ package com.yuan.demojpa.base.pojo;
 import com.yuan.demojpa.commons.pojo.BasePojo;
 import lombok.*;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import java.util.Date;
 
@@ -14,6 +15,7 @@ import java.util.Date;
 public class BaseDangerType extends BasePojo {
     private String code;
     private String cname;
+    @Column(name = "cnameShort")
     private String cnameShort;
     private String parent;
     private Integer enabled;

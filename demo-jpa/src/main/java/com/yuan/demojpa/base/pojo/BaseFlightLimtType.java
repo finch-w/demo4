@@ -3,6 +3,7 @@ package com.yuan.demojpa.base.pojo;
 import com.yuan.demojpa.commons.pojo.BasePojo;
 import lombok.*;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import java.util.Date;
 
@@ -14,7 +15,9 @@ import java.util.Date;
 public class BaseFlightLimtType extends BasePojo {
     private String flightNo;
     private String type;
+    @Column(name = "startDate")
     private Date startDate;
+    @Column(name = "endDate")
     private Date endDate;
 
     @Builder
