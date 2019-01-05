@@ -11,6 +11,7 @@
         <module name="demo-jpa2" />
         <module name="demo-mybatis" />
         <module name="demo-mybatis2" />
+        <module name="demo-test" />
       </profile>
     </annotationProcessing>
   </component>
@@ -21,6 +22,7 @@
       <module name="demo-jpa2" options="-parameters" />
       <module name="demo-mybatis" options="-parameters" />
       <module name="demo-mybatis2" options="-parameters" />
+      <module name="demo-test" options="-parameters" />
       <module name="demo4" options="-parameters" />
     </option>
   </component>

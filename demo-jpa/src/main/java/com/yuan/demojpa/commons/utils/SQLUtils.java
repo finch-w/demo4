@@ -14,4 +14,8 @@ public class SQLUtils {
         }
         return stringBuilder.toString();
     }
+
+    public static <T extends CharSequence> String createSQL(T sql, Collection<T> collection, T other) {
+        return String.format("%s %s", createSQL(sql, collection), other);
+    }
 }

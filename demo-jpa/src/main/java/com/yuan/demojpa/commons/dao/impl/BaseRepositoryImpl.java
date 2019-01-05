@@ -1,21 +1,17 @@
 package com.yuan.demojpa.commons.dao.impl;
 
-import com.querydsl.core.types.EntityPath;
-import com.querydsl.core.types.Predicate;
-import com.querydsl.core.types.QMap;
-import com.querydsl.core.types.dsl.PathBuilder;
 import com.yuan.demojpa.commons.dao.BaseRepository;
 import com.yuan.demojpa.commons.utils.BeanUtils;
+import com.yuan.demojpa.config.QueryDSLContext;
 import org.eclipse.persistence.config.QueryHints;
 import org.eclipse.persistence.config.ResultType;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
-import org.springframework.data.jpa.repository.support.Querydsl;
-import org.springframework.data.jpa.repository.support.QuerydslJpaRepository;
-import org.springframework.data.querydsl.EntityPathResolver;
+import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.data.repository.core.EntityInformation;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,28 +27,28 @@ import java.util.stream.IntStream;
 @SuppressWarnings("ALL")
 @NoRepositoryBean
 @Transactional
-public class BaseRepositoryImpl<T, ID extends Serializable> extends QuerydslJpaRepository<T, ID> implements BaseRepository<T, ID> {
-    private final EntityPath<T> path;
-    private final PathBuilder<T> builder;
-    private final Querydsl querydsl;
+public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRepository<T, ID> implements BaseRepository<T, ID> {
+
     private final EntityManager entityManager;
     private final EntityInformation<T, ?> entityInformation;
+    @Autowired
+    private QueryDSLContext queryDSLContext;
 
-    public BaseRepositoryImpl(JpaEntityInformation<T, ID> entityInformation, EntityManager entityManager, EntityPathResolver resolver) {
-        super(entityInformation, entityManager, resolver);
+    public BaseRepositoryImpl(JpaEntityInformation<T, ?> entityInformation, EntityManager entityManager) {
+        super(entityInformation, entityManager);
         this.entityManager = entityManager;
         this.entityInformation = entityInformation;
-        this.path = resolver.createPath(entityInformation.getJavaType());
-        this.builder = new PathBuilder<T>(path.getType(), path.getMetadata());
-        this.querydsl = new Querydsl(entityManager, builder);
+    }
+
+    @Override
+    public QueryDSLContext queryDSLContext() {
+        return queryDSLContext;
     }
 
     private String getFromAndWhereSQL(String sql) {
         String lowerCaseSql = sql.toLowerCase();
         int fromIndex = lowerCaseSql.indexOf("from");
         return sql.substring(fromIndex);
-
-
     }
 
     @Override

@@ -27,7 +27,7 @@ public class UserController extends BaseController {
 
     @RequestMapping
     public Object index() {
-        return baseUrl + "/index";
+        return "system/user/index";
     }
 
     @RequestMapping(params = "data")
@@ -80,12 +80,12 @@ public class UserController extends BaseController {
 
     @RequestMapping(params = "add")
     public Object add() {
-        return baseUrl + "/add";
+        return "system/user/add";
     }
 
     @RequestMapping(params = "edit")
     public Object edit(String id) {
-        return new ModelAndView(baseUrl + "/edit", Collections.singletonMap("user", userService.getById(id)));
+        return new ModelAndView("system/user/edit", Collections.singletonMap("user", userService.getById(id)));
     }
 
     @RequestMapping(params = "check")
