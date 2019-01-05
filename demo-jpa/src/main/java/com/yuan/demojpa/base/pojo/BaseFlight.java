@@ -30,7 +30,7 @@ public class BaseFlight extends BasePojo {
     private Time transArriveTime;
     @Column(name = "transStartTime")
     private Time transStartTime;
-
+    private String aircraft;
     private Integer d0;
     private Integer d2;
     private Integer d3;
@@ -41,7 +41,7 @@ public class BaseFlight extends BasePojo {
     private Integer enabled;
 
     @Builder
-    public BaseFlight(String id, String createUser, String updateUser, Date createDate, Date updateDate, String flightNo, String startAirport, String endAirport, String transAirport, Time startTime, Time endTime, Time transArriveTime, Time transStartTime, Integer d0, Integer d2, Integer d3, Integer d4, Integer d5, Integer d6, String airways, Integer enabled) {
+    public BaseFlight(String id, String createUser, String updateUser, Date createDate, Date updateDate, String flightNo, String startAirport, String endAirport, String transAirport, Time startTime, Time endTime, Time transArriveTime, Time transStartTime, String aircraft, Integer d0, Integer d2, Integer d3, Integer d4, Integer d5, Integer d6, String airways, Integer enabled) {
         super(id, createUser, updateUser, createDate, updateDate);
         this.flightNo = flightNo;
         this.startAirport = startAirport;
@@ -59,5 +59,6 @@ public class BaseFlight extends BasePojo {
         this.d6 = d6;
         this.airways = airways;
         this.enabled = enabled;
+        this.aircraft = aircraft;
     }
 }
