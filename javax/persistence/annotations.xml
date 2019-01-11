@@ -1,7 +1,0 @@
-<root>
-    <item name='javax.persistence.Query java.lang.Object getSingleResult()'>
-        <annotation name='org.jetbrains.annotations.Contract'>
-            <val name="pure" val="true"/>
-        </annotation>
-    </item>
-</root>

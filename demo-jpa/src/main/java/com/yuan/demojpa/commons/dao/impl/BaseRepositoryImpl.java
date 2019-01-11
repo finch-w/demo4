@@ -40,6 +40,7 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
         this.entityInformation = entityInformation;
     }
 
+
     @Override
     public QueryDSLContext queryDSLContext() {
         return queryDSLContext;

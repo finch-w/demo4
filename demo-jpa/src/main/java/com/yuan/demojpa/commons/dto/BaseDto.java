@@ -78,4 +78,6 @@ public abstract class BaseDto<T> implements Serializable, Specification<T> {
         }
         return query.where(predicates.toArray(new Predicate[predicates.size()])).getRestriction();
     }
+
+
 }

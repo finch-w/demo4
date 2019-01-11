@@ -11,7 +11,7 @@ import javax.persistence.Table;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
-@Table(name = "userRole")
+@Table(name = "user_role")
 public class UserRole extends BasePojo {
     @Column(name = "roleId")
     private String roleId;

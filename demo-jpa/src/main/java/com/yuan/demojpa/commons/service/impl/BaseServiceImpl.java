@@ -36,6 +36,7 @@ public abstract class BaseServiceImpl<T extends BasePojo, ID extends Serializabl
     }
 
     @Override
+    @Transactional
     public void delete(ID... ids) {
         getBaseRepository().deleteAllById(ids);
     }
@@ -58,6 +59,15 @@ public abstract class BaseServiceImpl<T extends BasePojo, ID extends Serializabl
     @Override
     public long count(T t) {
         return getBaseRepository().count(Example.of(t));
+    }
+
+    /**
+     * 获取当前用户
+     *
+     * @return
+     */
+    public Object getUser() {
+        return null;
     }
 
 }

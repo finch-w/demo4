@@ -1,20 +1,17 @@
 package com.yuan.demojpa;
 
 import com.yuan.demojpa.system.pojo.User;
-import com.yuan.demojpa.system.service.UserService;
 import org.eclipse.persistence.config.QueryHints;
 import org.eclipse.persistence.config.ResultType;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import javax.persistence.TypedQuery;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -47,20 +44,6 @@ public class DemoJpaApplicationTests {
     @Test
     public void test2(){
         Query query = entityManager.createQuery("select count(user) from User user");
-        System.out.println(query.getSingleResult());
-    }
-
-
-    @Autowired
-    private ApplicationContext context;
-    @Autowired
-    private UserService userService;
-
-
-    @Test
-    public void test4() {
-        EntityManager entityManager = context.getBean(EntityManager.class);
-        TypedQuery<Long> query = entityManager.createQuery("select count(1) from User user", Long.class);
         System.out.println(query.getSingleResult());
     }
 

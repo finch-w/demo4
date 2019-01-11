@@ -36,6 +36,7 @@ public interface BaseRepository<T, ID extends Serializable> extends JpaRepositor
 
     Optional<T> getOneByJPQL(String jpql, Map<String, Object> map);
 
+
     List<T> findAllBySQL(String sql, Object... objects);
 
     List<T> findAllBySQL(String sql, Collection collection);

@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="demo-jooq-jpa" />
+        <module name="demo-jooq-jpa2" />
         <module name="demo-jpa" />
         <module name="demo-jpa2" />
         <module name="demo-mybatis" />
@@ -18,6 +19,7 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="demo-jooq-jpa" options="-parameters" />
+      <module name="demo-jooq-jpa2" options="-parameters" />
       <module name="demo-jpa" options="-parameters" />
       <module name="demo-jpa2" options="-parameters" />
       <module name="demo-mybatis" options="-parameters" />
