@@ -13,6 +13,7 @@ import java.util.Optional;
 public abstract class BaseServiceImpl<T extends BasePojo, ID extends Serializable, DAO extends BaseRepository<T, ID>> implements BaseService<T, ID> {
     public abstract DAO getBaseRepository();
 
+
     @Override
     @Transactional
     public T save(T t) {

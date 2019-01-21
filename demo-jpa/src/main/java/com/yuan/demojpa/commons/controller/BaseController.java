@@ -9,37 +9,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @ControllerAdvice
 //@RestControllerAdvice
 public class BaseController {
-//    private DeferredResult<Object> deferredResult = new DeferredResult<>();
-//    private ModelAndView modelAndView = new ModelAndView();
-//
-//    public DeferredResult deferredResult(String view) {
-//        deferredResult.setResult(view);
-//        return deferredResult;
-//    }
-//
-//    public DeferredResult deferredResult(Object object) {
-//        deferredResult.setResult(object);
-//        deferredResult.onCompletion(() -> {
-//            Object result = deferredResult.getResult();
-//            log.info(result.toString());
-//        });
-//        return deferredResult;
-//    }
-//
-//    public DeferredResult deferredResult(String view, Map<String, Object> map) {
-//        modelAndView.setViewName(view);
-//        modelAndView.addAllObjects(map);
-//        deferredResult.setResult(modelAndView);
-//        return deferredResult;
-//    }
-
-//    @ExceptionHandler(Exception.class)
-//    @ResponseBody
-//    public DeferredResult handler(Exception e){
-//        e.printStackTrace();
-//        return deferredResult(e.getMessage());
-//    }
-
 
     @ExceptionHandler(Exception.class)
     @ResponseBody

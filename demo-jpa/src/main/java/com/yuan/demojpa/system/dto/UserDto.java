@@ -3,7 +3,6 @@ package com.yuan.demojpa.system.dto;
 import com.yuan.demojpa.commons.dto.BaseDto;
 import com.yuan.demojpa.system.pojo.User;
 import lombok.*;
-import org.springframework.util.StringUtils;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -12,6 +11,8 @@ import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import static org.springframework.util.StringUtils.isEmpty;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -30,19 +31,23 @@ public class UserDto extends BaseDto<User> {
         this.enabled = enabled;
     }
 
+
+    @SuppressWarnings("ToArrayCallWithZeroLengthArrayArgument")
     @Override
     public Predicate toPredicate(Root<User> root, CriteriaQuery<?> query, CriteriaBuilder crieriaBuilder) {
         List<Predicate> predicates = new ArrayList<>();
         predicates.add(super.toPredicate(root, query, crieriaBuilder));
-        if (!StringUtils.isEmpty(name)) {
+        if (!isEmpty(name)) {
             predicates.add(crieriaBuilder.like(root.get("name"), name + "%"));
         }
-        if (!StringUtils.isEmpty(username)) {
+        if (!isEmpty(username)) {
             predicates.add(crieriaBuilder.like(root.get("username"), username + "%"));
         }
-        if (!StringUtils.isEmpty(enabled)) {
+        if (!isEmpty(enabled)) {
             predicates.add(crieriaBuilder.equal(root.get("enabled"), enabled));
         }
         return query.where(predicates.toArray(new Predicate[predicates.size()])).getRestriction();
     }
+
+
 }

@@ -35,18 +35,22 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
     }
 
     private String getCountSql(String sql) {
-        String lowerCaseSql = sql.toLowerCase();
-        int fromIndex = lowerCaseSql.indexOf("from");
-        return String.format("select count(1) %s", sql.substring(fromIndex));
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("select count(1) from (");
+        stringBuilder.append(sql);
+        stringBuilder.append(") COUNTSUM");
+        return stringBuilder.toString();
     }
 
     @Override
+    @Transactional
     public void insert(T t) {
         entityManager.persist(t);
         entityManager.flush();
     }
 
     @Override
+    @Transactional
     public void update(T t) {
         T tDb = entityManager.find(entityInformation.getJavaType(), entityInformation.getId(t));
         BeanUtils.copyPojo(t, tDb);
@@ -55,6 +59,7 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
     }
 
     @Override
+    @Transactional
     public void deleteAllById(ID... ids) {
         Arrays.stream(ids).forEach(this::deleteById);
         entityManager.flush();

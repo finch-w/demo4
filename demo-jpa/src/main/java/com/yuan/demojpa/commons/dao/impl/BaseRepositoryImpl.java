@@ -14,6 +14,7 @@ import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.data.repository.core.EntityInformation;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -26,7 +27,7 @@ import java.util.stream.IntStream;
 
 @SuppressWarnings("ALL")
 @NoRepositoryBean
-@Transactional
+@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
 public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRepository<T, ID> implements BaseRepository<T, ID> {
 
     private final EntityManager entityManager;
@@ -46,19 +47,23 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
         return queryDSLContext;
     }
 
-    private String getFromAndWhereSQL(String sql) {
-        String lowerCaseSql = sql.toLowerCase();
-        int fromIndex = lowerCaseSql.indexOf("from");
-        return sql.substring(fromIndex);
+    private String generatorCountSQL(String sql) {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("select count(1) from (");
+        stringBuilder.append(sql);
+        stringBuilder.append(") COUNTSUM");
+        return stringBuilder.toString();
     }
 
     @Override
+    @Transactional
     public void insert(T t) {
         entityManager.persist(t);
         entityManager.flush();
     }
 
     @Override
+    @Transactional
     public void update(T t) {
         T tDb = entityManager.find(entityInformation.getJavaType(), entityInformation.getId(t));
         BeanUtils.copyPojo(t, tDb);
@@ -67,6 +72,7 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
     }
 
     @Override
+    @Transactional
     public void deleteAllById(ID... ids) {
         Arrays.stream(ids).forEach(this::deleteById);
         entityManager.flush();
@@ -166,7 +172,7 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
 
     @Override
     public Page<T> findAllBySQL(String sql, Pageable pageable, Object... objects) {
-        String countSql = "select count(1) " + getFromAndWhereSQL(sql);
+        String countSql = generatorCountSQL(sql);
         Query countQuery = entityManager.createNativeQuery(countSql);
         Query selectQuery = entityManager.createNativeQuery(sql, entityInformation.getJavaType());
         IntStream.range(0, objects.length).forEachOrdered(i -> {
@@ -187,7 +193,7 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
 
     @Override
     public Page<T> findAllBySQL(String sql, Pageable pageable, Map<String, Object> map) {
-        String countSql = String.format("select count(1) %s", getFromAndWhereSQL(sql));
+        String countSql = generatorCountSQL(sql);
         Query countQuery = entityManager.createNativeQuery(countSql);
         Query selectQuery = entityManager.createNativeQuery(sql, entityInformation.getJavaType());
         map.forEach((key, value) -> {
@@ -203,7 +209,7 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
 
     @Override
     public Page<T> findAllByJPQL(String jpql, Pageable pageable, Object... objects) {
-        String countJpql = String.format("select count(1) %s", getFromAndWhereSQL(jpql));
+        String countJpql = generatorCountSQL(jpql);
         TypedQuery<Long> countQuery = entityManager.createQuery(countJpql, Long.class);
         TypedQuery<T> selectQuery = entityManager.createQuery(jpql, entityInformation.getJavaType());
         IntStream.range(0, objects.length).forEachOrdered(i -> {
@@ -224,7 +230,7 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
 
     @Override
     public Page<T> findAllByJPQL(String jpql, Pageable pageable, Map<String, Object> map) {
-        String countJpql = String.format("select count(1) %s", getFromAndWhereSQL(jpql));
+        String countJpql = generatorCountSQL(jpql);
         TypedQuery<Long> countQuery = entityManager.createQuery(countJpql, Long.class);
         TypedQuery<T> selectQuery = entityManager.createQuery(jpql, entityInformation.getJavaType());
         map.forEach((key, value) -> {
@@ -316,7 +322,7 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
 
     @Override
     public Page<Map> findAllBySQLInMap(String sql, Pageable pageable, Object... objects) {
-        String countSql = String.format("select count(1) %s", getFromAndWhereSQL(sql));
+        String countSql = generatorCountSQL(sql);
         Query countQuery = entityManager.createNativeQuery(countSql);
         Query nativeQuery = entityManager.createNativeQuery(sql).setHint(QueryHints.RESULT_TYPE, ResultType.Map);
         IntStream.range(0, objects.length).forEachOrdered(i -> {
@@ -337,7 +343,7 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
 
     @Override
     public Page<Map> findAllBySQLInMap(String sql, Pageable pageable, Map<String, Object> map) {
-        String countSql = String.format("select count(1) %s", getFromAndWhereSQL(sql));
+        String countSql = generatorCountSQL(sql);
         Query countQuery = entityManager.createNativeQuery(countSql);
         Query nativeQuery = entityManager.createNativeQuery(sql).setHint(QueryHints.RESULT_TYPE, ResultType.Map);
         map.forEach(countQuery::setParameter);
@@ -351,7 +357,7 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
 
     @Override
     public Page<Map> findAllByJPQLInMap(String jpql, Pageable pageable, Object... objects) {
-        String countSql = String.format("select count(1) %s", getFromAndWhereSQL(jpql));
+        String countSql = generatorCountSQL(jpql);
         TypedQuery<Long> countQuery = entityManager.createQuery(countSql, Long.class);
         TypedQuery<Map> nativeQuery = entityManager.createQuery(jpql, Map.class);
         IntStream.range(0, objects.length).forEachOrdered(i -> {
@@ -372,7 +378,7 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
 
     @Override
     public Page<Map> findAllByJPQLInMap(String jpql, Pageable pageable, Map<String, Object> map) {
-        String countSql = String.format("select count(1) %s", getFromAndWhereSQL(jpql));
+        String countSql = generatorCountSQL(jpql);
         TypedQuery<Long> countQuery = entityManager.createQuery(countSql, Long.class);
         TypedQuery<Map> nativeQuery = entityManager.createQuery(jpql, Map.class);
         map.forEach(countQuery::setParameter);
