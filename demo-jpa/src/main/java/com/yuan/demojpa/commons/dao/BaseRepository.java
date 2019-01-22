@@ -1,6 +1,5 @@
 package com.yuan.demojpa.commons.dao;
 
-import com.yuan.demojpa.config.QueryDSLContext;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,7 +14,6 @@ import java.util.Optional;
 
 @NoRepositoryBean
 public interface BaseRepository<T, ID extends Serializable> extends JpaRepository<T, ID>, JpaSpecificationExecutor<T> {
-    QueryDSLContext queryDSLContext();
 
     void insert(T t);
 

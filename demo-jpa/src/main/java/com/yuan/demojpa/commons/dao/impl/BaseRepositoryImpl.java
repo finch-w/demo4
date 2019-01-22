@@ -2,10 +2,8 @@ package com.yuan.demojpa.commons.dao.impl;
 
 import com.yuan.demojpa.commons.dao.BaseRepository;
 import com.yuan.demojpa.commons.utils.BeanUtils;
-import com.yuan.demojpa.config.QueryDSLContext;
 import org.eclipse.persistence.config.QueryHints;
 import org.eclipse.persistence.config.ResultType;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -32,8 +30,6 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
 
     private final EntityManager entityManager;
     private final EntityInformation<T, ?> entityInformation;
-    @Autowired
-    private QueryDSLContext queryDSLContext;
 
     public BaseRepositoryImpl(JpaEntityInformation<T, ?> entityInformation, EntityManager entityManager) {
         super(entityInformation, entityManager);
@@ -41,11 +37,6 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
         this.entityInformation = entityInformation;
     }
 
-
-    @Override
-    public QueryDSLContext queryDSLContext() {
-        return queryDSLContext;
-    }
 
     private String generatorCountSQL(String sql) {
         StringBuilder stringBuilder = new StringBuilder();
@@ -180,7 +171,7 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
             selectQuery.setParameter(i + 1, objects[i]);
         });
         Long count = (Long) countQuery.getSingleResult();
-        selectQuery.setFirstResult(pageable.getPageSize() * (pageable.getPageNumber() - 1));
+        selectQuery.setFirstResult(pageable.getPageSize() * pageable.getPageNumber());
         selectQuery.setMaxResults(pageable.getPageSize());
         List resultList = selectQuery.getResultList();
         return new PageImpl<>(resultList, pageable, count);
@@ -201,7 +192,7 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
             selectQuery.setParameter(key, value);
         });
         Long count = (Long) countQuery.getSingleResult();
-        selectQuery.setFirstResult(pageable.getPageSize() * (pageable.getPageNumber() - 1));
+        selectQuery.setFirstResult(pageable.getPageSize() * pageable.getPageNumber());
         selectQuery.setMaxResults(pageable.getPageSize());
         List resultList = selectQuery.getResultList();
         return new PageImpl<>(resultList, pageable, count);
@@ -217,7 +208,7 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
             selectQuery.setParameter(i + 1, objects[i]);
         });
         Long count = (Long) countQuery.getSingleResult();
-        selectQuery.setFirstResult(pageable.getPageSize() * (pageable.getPageNumber() - 1));
+        selectQuery.setFirstResult(pageable.getPageSize() * pageable.getPageNumber());
         selectQuery.setMaxResults(pageable.getPageSize());
         List resultList = selectQuery.getResultList();
         return new PageImpl<>(resultList, pageable, count);
@@ -330,7 +321,7 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
             nativeQuery.setParameter(i + 1, objects[i]);
         });
         Long count = (Long) countQuery.getSingleResult();
-        nativeQuery.setFirstResult(pageable.getPageSize() * (pageable.getPageNumber() - 1));
+        nativeQuery.setFirstResult(pageable.getPageSize() * pageable.getPageNumber());
         nativeQuery.setMaxResults(pageable.getPageSize());
         List resultList = nativeQuery.getResultList();
         return new PageImpl<>(resultList, pageable, count);
@@ -349,7 +340,7 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
         map.forEach(countQuery::setParameter);
         map.forEach(nativeQuery::setParameter);
         Long count = (Long) countQuery.getSingleResult();
-        nativeQuery.setFirstResult(pageable.getPageSize() * (pageable.getPageNumber() - 1));
+        nativeQuery.setFirstResult(pageable.getPageSize() * pageable.getPageNumber());
         nativeQuery.setMaxResults(pageable.getPageSize());
         List resultList = nativeQuery.getResultList();
         return new PageImpl<>(resultList, pageable, count);
@@ -365,7 +356,7 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
             nativeQuery.setParameter(i + 1, objects[i]);
         });
         Long count = (Long) countQuery.getSingleResult();
-        nativeQuery.setFirstResult(pageable.getPageSize() * (pageable.getPageNumber() - 1));
+        nativeQuery.setFirstResult(pageable.getPageSize() * pageable.getPageNumber());
         nativeQuery.setMaxResults(pageable.getPageSize());
         List resultList = nativeQuery.getResultList();
         return new PageImpl<>(resultList, pageable, count);
@@ -384,7 +375,7 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
         map.forEach(countQuery::setParameter);
         map.forEach(nativeQuery::setParameter);
         Long count = (Long) countQuery.getSingleResult();
-        nativeQuery.setFirstResult(pageable.getPageSize() * (pageable.getPageNumber() - 1));
+        nativeQuery.setFirstResult(pageable.getPageSize() * pageable.getPageNumber());
         nativeQuery.setMaxResults(pageable.getPageSize());
         List resultList = nativeQuery.getResultList();
         return new PageImpl<>(resultList, pageable, count);
