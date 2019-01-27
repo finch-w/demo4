@@ -3,6 +3,9 @@ package com.yuan.demojooqjpa.commons.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.jooq.Query;
+import org.jooq.SQL;
+import org.jooq.impl.DSL;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.StringUtils;
 
@@ -78,5 +81,14 @@ public abstract class BaseDto<T> implements Serializable, Specification<T> {
         }
 
         return query.where(predicates.toArray(new Predicate[predicates.size()])).getRestriction();
+    }
+
+    public Query queryUsernameById(String id) {
+        SQL sql = DSL.sql("");
+        return DSL.resultQuery("select username from user u where u.id = ?", sql);
+    }
+
+    public Query queryUserByID2(String id) {
+        return DSL.select(DSL.field("username")).from(DSL.table("user")).where(DSL.field("id").equals(id));
     }
 }

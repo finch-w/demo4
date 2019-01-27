@@ -1,6 +1,9 @@
 package com.yuan.demojooqjpa;
 
 import org.jooq.DSLContext;
+import org.jooq.Record;
+import org.jooq.ResultQuery;
+import org.jooq.impl.DSL;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +23,9 @@ public class DemoJooqJpaApplicationTests {
 
     @Test
     public void contextLoads() {
+        ResultQuery<Record> records = dslContext.resultQuery("select * from user u where u.id in (?)", DSL.sql("select * from user u"));
+        System.out.println(records.getSQL());
+        System.out.println(records.getResult());
     }
 
     public void test() {

@@ -38,7 +38,8 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("select count(1) from (");
         stringBuilder.append(sql);
-        stringBuilder.append(") COUNTSUM");
+        stringBuilder.append(") ");
+        stringBuilder.append(UUID.randomUUID().toString().replaceAll("-", ""));
         return stringBuilder.toString();
     }
 
