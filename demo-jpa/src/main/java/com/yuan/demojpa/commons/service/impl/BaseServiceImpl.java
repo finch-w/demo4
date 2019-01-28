@@ -39,7 +39,7 @@ public abstract class BaseServiceImpl<T extends BasePojo, ID extends Serializabl
     @Override
     @Transactional
     public void delete(ID... ids) {
-        getBaseRepository().deleteAllById(ids);
+        getBaseRepository().delete(ids);
     }
 
     @Override

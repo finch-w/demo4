@@ -17,10 +17,16 @@ import java.util.Optional;
 public interface BaseRepository<T, ID extends Serializable> extends JpaRepository<T, ID>, JpaSpecificationExecutor<T> {
     void insert(T t);
 
+    void insert(Query query);
+
     void update(T t);
 
-    void deleteAllById(ID... ids);
+    void update(Query query);
 
+    @SuppressWarnings("unchecked")
+    void delete(ID... ids);
+
+    void delete(Query query);
 
     Optional<T> getOneBySQL(String sql, Object... objects);
 
@@ -103,4 +109,46 @@ public interface BaseRepository<T, ID extends Serializable> extends JpaRepositor
     Page<Map> findAllByJPQLInMap(String jpql, Pageable pageable, Map<String, Object> map);
 
     Page<Map> findAllByQueryInMap(Query query, Pageable pageable);
+
+    <R> Optional<R> getOneBySQL(String sql, Class<R> requiureType, Object... objects);
+
+    <R> Optional<R> getOneBySQL(String sql, Class<R> requiureType, Collection collection);
+
+    <R> Optional<R> getOneBySQL(String sql, Class<R> requiureType, Map<String, Object> map);
+
+    <R> Optional<R> getOneByJPQL(String jpql, Class<R> requiureType, Object... objects);
+
+    <R> Optional<R> getOneByJPQL(String jpql, Class<R> requiureType, Collection collection);
+
+    <R> Optional<R> getOneByJPQL(String jpql, Class<R> requiureType, Map<String, Object> map);
+
+    <R> Optional<R> getOneByQuery(Query query, Class<R> requiureType);
+
+    <R> List<R> findAllBySQL(String sql, Class<R> requireType, Object... objects);
+
+    <R> List<R> findAllBySQL(String sql, Class<R> requireType, Collection collection);
+
+    <R> List<R> findAllBySQL(String sql, Class<R> requireType, Map<String, Object> map);
+
+    <R> List<R> findAllByJPQL(String jpql, Class<R> requireType, Object... objects);
+
+    <R> List<R> findAllByJPQL(String jpql, Class<R> requireType, Collection collection);
+
+    <R> List<R> findAllByJPQL(String jpql, Class<R> requireType, Map<String, Object> map);
+
+    <R> List<R> findAllByQuery(Query query, Class<R> requireType);
+
+    <R> Page<R> findAllBySQL(String sql, Pageable pageable, Class<R> requireType, Object... objects);
+
+    <R> Page<R> findAllBySQL(String sql, Pageable pageable, Class<R> requireType, Collection collection);
+
+    <R> Page<R> findAllBySQL(String sql, Pageable pageable, Class<R> requireType, Map<String, Object> map);
+
+    <R> Page<R> findAllByJPQL(String jpql, Pageable pageable, Class<R> requireType, Object... objects);
+
+    <R> Page<R> findAllByJPQL(String jpql, Pageable pageable, Class<R> requireType, Collection collection);
+
+    <R> Page<R> findAllByJPQL(String jpql, Pageable pageable, Class<R> requireType, Map<String, Object> map);
+
+    <R> Page<R> findAllByQuery(Query query, Pageable pageable, Class<R> requireType);
 }

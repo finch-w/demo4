@@ -65,7 +65,7 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
 
     @Override
     @Transactional
-    public void deleteAllById(ID... ids) {
+    public void delete(ID... ids) {
         Arrays.stream(ids).forEach(this::deleteById);
         entityManager.flush();
     }
@@ -98,33 +98,6 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
     }
 
     @Override
-    public Optional<T> getOneByJPQL(String jpql, Object... objects) {
-        TypedQuery<T> nativeQuery = entityManager.createQuery(jpql, entityInformation.getJavaType());
-        IntStream.range(0, objects.length).forEachOrdered(i -> nativeQuery.setParameter(i + 1, objects[i]));
-        try {
-            return Optional.ofNullable(((T) nativeQuery.getSingleResult()));
-        } catch (NonUniqueResultException e) {
-            throw new IncorrectResultSizeDataAccessException(e.getMessage(), 1, e);
-        }
-    }
-
-    @Override
-    public Optional<T> getOneByJPQL(String jpql, Collection collection) {
-        return getOneByJPQL(jpql, collection.toArray());
-    }
-
-    @Override
-    public Optional<T> getOneByJPQL(String jpql, Map<String, Object> map) {
-        TypedQuery<T> nativeQuery = entityManager.createQuery(jpql, entityInformation.getJavaType());
-        map.forEach(nativeQuery::setParameter);
-        try {
-            return Optional.ofNullable((T) nativeQuery.getSingleResult());
-        } catch (NonUniqueResultException e) {
-            throw new IncorrectResultSizeDataAccessException(e.getMessage(), 1, e);
-        }
-    }
-
-    @Override
     public List<T> findAllBySQL(String sql, Object... objects) {
         Query nativeQuery = entityManager.createNativeQuery(sql, entityInformation.getJavaType());
         IntStream.range(0, objects.length).forEachOrdered(i -> nativeQuery.setParameter(i + 1, objects[i]));
@@ -141,25 +114,6 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
         Query nativeQuery = entityManager.createNativeQuery(sql, entityInformation.getJavaType());
         map.forEach(nativeQuery::setParameter);
         return nativeQuery.getResultList();
-    }
-
-    @Override
-    public List<T> findAllByJPQL(String jpql, Object... objects) {
-        TypedQuery<T> query = entityManager.createQuery(jpql, entityInformation.getJavaType());
-        IntStream.range(0, objects.length).forEachOrdered(i -> query.setParameter(i + 1, objects[i]));
-        return query.getResultList();
-    }
-
-    @Override
-    public List<T> findAllByJPQL(String jpql, Collection collection) {
-        return findAllByJPQL(jpql, collection.toArray());
-    }
-
-    @Override
-    public List<T> findAllByJPQL(String jpql, Map<String, Object> map) {
-        TypedQuery<T> query = entityManager.createQuery(jpql, entityInformation.getJavaType());
-        map.forEach(query::setParameter);
-        return query.getResultList();
     }
 
     @Override
@@ -198,6 +152,54 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
         List resultList = selectQuery.getResultList();
         return new PageImpl<>(resultList, pageable, count);
     }
+
+    @Override
+    public Optional<T> getOneByJPQL(String jpql, Object... objects) {
+        TypedQuery<T> nativeQuery = entityManager.createQuery(jpql, entityInformation.getJavaType());
+        IntStream.range(0, objects.length).forEachOrdered(i -> nativeQuery.setParameter(i + 1, objects[i]));
+        try {
+            return Optional.ofNullable(((T) nativeQuery.getSingleResult()));
+        } catch (NonUniqueResultException e) {
+            throw new IncorrectResultSizeDataAccessException(e.getMessage(), 1, e);
+        }
+    }
+
+    @Override
+    public Optional<T> getOneByJPQL(String jpql, Collection collection) {
+        return getOneByJPQL(jpql, collection.toArray());
+    }
+
+    @Override
+    public Optional<T> getOneByJPQL(String jpql, Map<String, Object> map) {
+        TypedQuery<T> nativeQuery = entityManager.createQuery(jpql, entityInformation.getJavaType());
+        map.forEach(nativeQuery::setParameter);
+        try {
+            return Optional.ofNullable((T) nativeQuery.getSingleResult());
+        } catch (NonUniqueResultException e) {
+            throw new IncorrectResultSizeDataAccessException(e.getMessage(), 1, e);
+        }
+    }
+
+
+    @Override
+    public List<T> findAllByJPQL(String jpql, Object... objects) {
+        TypedQuery<T> query = entityManager.createQuery(jpql, entityInformation.getJavaType());
+        IntStream.range(0, objects.length).forEachOrdered(i -> query.setParameter(i + 1, objects[i]));
+        return query.getResultList();
+    }
+
+    @Override
+    public List<T> findAllByJPQL(String jpql, Collection collection) {
+        return findAllByJPQL(jpql, collection.toArray());
+    }
+
+    @Override
+    public List<T> findAllByJPQL(String jpql, Map<String, Object> map) {
+        TypedQuery<T> query = entityManager.createQuery(jpql, entityInformation.getJavaType());
+        map.forEach(query::setParameter);
+        return query.getResultList();
+    }
+
 
     @Override
     public Page<T> findAllByJPQL(String jpql, Pageable pageable, Object... objects) {
@@ -256,25 +258,6 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
     }
 
     @Override
-    public Map getOneByJPQLInMap(String jpql, Object... objects) {
-        TypedQuery<Map> query = entityManager.createQuery(jpql, Map.class);
-        IntStream.range(0, objects.length).forEachOrdered(i -> query.setParameter(i + 1, objects[i]));
-        return query.getSingleResult();
-    }
-
-    @Override
-    public Map getOneByJPQLInMap(String jpql, Collection collection) {
-        return getOneByJPQLInMap(jpql, collection.toArray());
-    }
-
-    @Override
-    public Map getOneByJPQLInMap(String jpql, Map<String, Object> map) {
-        TypedQuery<Map> query = entityManager.createQuery(jpql, Map.class);
-        map.forEach(query::setParameter);
-        return null;
-    }
-
-    @Override
     public List<Map> findAllBySQLInMap(String sql, Object... objects) {
         Query query = entityManager.createNativeQuery(sql).setHint(QueryHints.RESULT_TYPE, ResultType.Map);
         IntStream.range(0, objects.length).forEachOrdered(i -> query.setParameter(i + 1, objects[i]));
@@ -289,25 +272,6 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
     @Override
     public List<Map> findAllBySQLInMap(String sql, Map<String, Object> map) {
         Query query = entityManager.createNativeQuery(sql).setHint(QueryHints.RESULT_TYPE, ResultType.Map);
-        map.forEach(query::setParameter);
-        return query.getResultList();
-    }
-
-    @Override
-    public List<Map> findAllByJPQLInMap(String jpql, Object... objects) {
-        TypedQuery<Map> query = entityManager.createQuery(jpql, Map.class);
-        IntStream.range(0, objects.length).forEachOrdered(i -> query.setParameter(i + 1, objects[i]));
-        return query.getResultList();
-    }
-
-    @Override
-    public List<Map> findAllByJPQLInMap(String jpql, Collection collection) {
-        return findAllByJPQLInMap(jpql, collection.toArray());
-    }
-
-    @Override
-    public List<Map> findAllByJPQLInMap(String jpql, Map<String, Object> map) {
-        TypedQuery<Map> query = entityManager.createQuery(jpql, Map.class);
         map.forEach(query::setParameter);
         return query.getResultList();
     }
@@ -348,6 +312,46 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
     }
 
     @Override
+    public Map getOneByJPQLInMap(String jpql, Object... objects) {
+        TypedQuery<Map> query = entityManager.createQuery(jpql, Map.class);
+        IntStream.range(0, objects.length).forEachOrdered(i -> query.setParameter(i + 1, objects[i]));
+        return query.getSingleResult();
+    }
+
+    @Override
+    public Map getOneByJPQLInMap(String jpql, Collection collection) {
+        return getOneByJPQLInMap(jpql, collection.toArray());
+    }
+
+    @Override
+    public Map getOneByJPQLInMap(String jpql, Map<String, Object> map) {
+        TypedQuery<Map> query = entityManager.createQuery(jpql, Map.class);
+        map.forEach(query::setParameter);
+        return null;
+    }
+
+
+    @Override
+    public List<Map> findAllByJPQLInMap(String jpql, Object... objects) {
+        TypedQuery<Map> query = entityManager.createQuery(jpql, Map.class);
+        IntStream.range(0, objects.length).forEachOrdered(i -> query.setParameter(i + 1, objects[i]));
+        return query.getResultList();
+    }
+
+    @Override
+    public List<Map> findAllByJPQLInMap(String jpql, Collection collection) {
+        return findAllByJPQLInMap(jpql, collection.toArray());
+    }
+
+    @Override
+    public List<Map> findAllByJPQLInMap(String jpql, Map<String, Object> map) {
+        TypedQuery<Map> query = entityManager.createQuery(jpql, Map.class);
+        map.forEach(query::setParameter);
+        return query.getResultList();
+    }
+
+
+    @Override
     public Page<Map> findAllByJPQLInMap(String jpql, Pageable pageable, Object... objects) {
         String countSql = generatorCountSQL(jpql);
         TypedQuery<Long> countQuery = entityManager.createQuery(countSql, Long.class);
@@ -379,6 +383,81 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
         nativeQuery.setFirstResult(pageable.getPageSize() * pageable.getPageNumber());
         nativeQuery.setMaxResults(pageable.getPageSize());
         List resultList = nativeQuery.getResultList();
+        return new PageImpl<>(resultList, pageable, count);
+    }
+
+    @Override
+    public <R> Optional<R> getOneBySQL(String sql, Class<R> requireType, Object... objects) {
+        Query nativeQuery = entityManager.createNativeQuery(sql, requireType);
+        for (int i = 0; i < objects.length; i++) {
+            nativeQuery.setParameter(i + 1, objects[i]);
+        }
+        return Optional.ofNullable((R) nativeQuery.getSingleResult());
+    }
+
+    @Override
+    public <R> Optional<R> getOneBySQL(String sql, Class<R> requireType, Collection collection) {
+        return getOneBySQL(sql, requireType, collection.toArray());
+    }
+
+    @Override
+    public <R> Optional<R> getOneBySQL(String sql, Class<R> requireType, Map<String, Object> map) {
+        Query nativeQuery = entityManager.createNativeQuery(sql, requireType);
+        map.forEach(nativeQuery::setParameter);
+        return Optional.ofNullable((R) nativeQuery.getSingleResult());
+    }
+
+    @Override
+    public <R> List<R> findAllBySQL(String sql, Class<R> requireType, Object... objects) {
+        Query nativeQuery = entityManager.createNativeQuery(sql, requireType);
+        for (int i = 0; i < objects.length; i++) {
+            nativeQuery.setParameter(i + 1, objects[i]);
+        }
+        return (List<R>) nativeQuery.getSingleResult();
+    }
+
+    @Override
+    public <R> List<R> findAllBySQL(String sql, Class<R> requireType, Collection collection) {
+        return findAllBySQL(sql, requireType, collection.toArray());
+    }
+
+    @Override
+    public <R> List<R> findAllBySQL(String sql, Class<R> requireType, Map<String, Object> map) {
+        Query nativeQuery = entityManager.createNativeQuery(sql, requireType);
+        map.forEach(nativeQuery::setParameter);
+        return (List<R>) nativeQuery.getSingleResult();
+    }
+
+    @Override
+    public <R> Page<R> findAllBySQL(String sql, Pageable pageable, Class<R> requireType, Object... objects) {
+        Query nativeQuery = entityManager.createNativeQuery(sql, requireType);
+        Query countQuery = entityManager.createNativeQuery(generatorCountSQL(sql), Long.class);
+        for (int i = 0; i < objects.length; i++) {
+            nativeQuery.setParameter(i + 1, objects[i]);
+            countQuery.setParameter(i + 1, objects[i]);
+        }
+        nativeQuery.setFirstResult(pageable.getPageSize() * pageable.getPageNumber());
+        nativeQuery.setMaxResults(pageable.getPageSize());
+        List<R> resultList = (List<R>) nativeQuery.getResultList();
+        Long count = (Long) countQuery.getSingleResult();
+        return new PageImpl<>(resultList, pageable, count);
+    }
+
+    @Override
+    public <R> Page<R> findAllBySQL(String sql, Pageable pageable, Class<R> requireType, Collection collection) {
+        return findAllBySQL(sql, pageable, requireType, collection.toArray());
+    }
+
+    @Override
+    public <R> Page<R> findAllBySQL(String sql, Pageable pageable, Class<R> requireType, Map<String, Object> map) {
+        Query nativeQuery = entityManager.createNativeQuery(sql, requireType);
+        Query countQuery = entityManager.createNativeQuery(generatorCountSQL(sql), Long.class);
+        map.forEach(nativeQuery::setParameter);
+        map.forEach(countQuery::setParameter);
+        nativeQuery.setFirstResult(pageable.getPageSize() * pageable.getPageNumber());
+        nativeQuery.setMaxResults(pageable.getPageSize());
+        List<R> resultList = (List<R>) nativeQuery.getResultList();
+        Long count = (Long) countQuery.getSingleResult();
         return new PageImpl<>(resultList, pageable, count);
     }
 

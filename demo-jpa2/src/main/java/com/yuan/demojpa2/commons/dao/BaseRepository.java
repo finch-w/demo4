@@ -5,7 +5,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.NoRepositoryBean;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.List;
@@ -14,14 +13,12 @@ import java.util.Optional;
 
 @NoRepositoryBean
 public interface BaseRepository<T, ID> extends JpaRepository<T, ID>, JpaSpecificationExecutor<T> {
-    @Transactional
     void insert(T t);
 
-    @Transactional
-    void deleteByIds(ID... ids);
-
-    @Transactional
     void update(T t);
+
+    @SuppressWarnings("unused")
+    void delete(ID... ids);
 
     Optional<T> getOneByJPQL(String jpql, Object... objects);
 
@@ -40,7 +37,6 @@ public interface BaseRepository<T, ID> extends JpaRepository<T, ID>, JpaSpecific
 
     Page<T> findAllByJPQL(String jpql, Pageable pageable, Collection collection);
 
-    @SuppressWarnings("Duplicates")
     Page<T> findAllByJPQL(String jpql, Pageable pageable, Map<String, Object> map);
 
     Optional<T> getOneBySQL(String sql, Object... objects);
@@ -50,7 +46,6 @@ public interface BaseRepository<T, ID> extends JpaRepository<T, ID>, JpaSpecific
     Optional<T> getOneBySQL(String sql, Map<String, Object> map);
 
 
-    @SuppressWarnings("Duplicates")
     List<T> findAllBySQL(String sql, Object... objects);
 
     List<T> findAllBySQL(String sql, Collection collection);
@@ -58,12 +53,10 @@ public interface BaseRepository<T, ID> extends JpaRepository<T, ID>, JpaSpecific
     List<T> findAllBySQL(String sql, Map<String, Object> map);
 
 
-    @SuppressWarnings({"Duplicates"})
     Page<T> findAllBySQL(String sql, Pageable pageable, Object... objects);
 
     Page<T> findAllBySQL(String sql, Pageable pageable, Collection collection);
 
-    @SuppressWarnings({"Duplicates"})
     Page<T> findAllBySQL(String sql, Pageable pageable, Map<String, Object> map);
 
 
@@ -85,7 +78,6 @@ public interface BaseRepository<T, ID> extends JpaRepository<T, ID>, JpaSpecific
 
     <R> Page<R> findAllBySQL(String sql, Pageable pageable, Class<R> requireType, Map<String, Object> map);
 
-
     <R> Optional<R> getOneByJPQL(String jpql, Class<R> requireType, Object... objects);
 
     <R> Optional<R> getOneByJPQL(String jpql, Class<R> requireType, Collection collection);
@@ -104,43 +96,39 @@ public interface BaseRepository<T, ID> extends JpaRepository<T, ID>, JpaSpecific
 
     <R> Page<R> findAllByJPQL(String jpql, Pageable pageable, Class<R> requireType, Map<String, Object> map);
 
+    Optional<Map> getOneBySQLInMap(String sql, Object... objects);
 
-    Optional<Map<String, Object>> getOneBySQLInMap(String sql, Object... objects);
+    Optional<Map> getOneBySQLInMap(String sql, Collection collection);
 
-    Optional<Map<String, Object>> getOneBySQLInMap(String sql, Collection collection);
+    Optional<Map> getOneBySQLInMap(String sql, Map<String, Object> map);
 
-    Optional<Map<String, Object>> getOneBySQLInMap(String sql, Map<String, Object> map);
+    List<Map> findAllBySQLInMap(String sql, Object... objects);
 
-    List<Map<String, Object>> findAllBySQLInMap(String sql, Object... objects);
+    List<Map> findAllBySQLInMap(String sql, Collection collection);
 
-    List<Map<String, Object>> findAllBySQLInMap(String sql, Collection collection);
+    List<Map> findAllBySQLInMap(String sql, Map<String, Object> map);
 
-    List<Map<String, Object>> findAllBySQLInMap(String sql, Map<String, Object> map);
+    Page<Map> findAllBySQLInMap(String sql, Pageable pageable, Object... objects);
 
-    Page<Map<String, Object>> findAllBySQLInMap(String sql, Pageable pageable, Object... objects);
+    Page<Map> findAllBySQLInMap(String sql, Pageable pageable, Collection collection);
 
-    Page<Map<String, Object>> findAllBySQLInMap(String sql, Pageable pageable, Collection collection);
+    Page<Map> findAllBySQLInMap(String sql, Pageable pageable, Map<String, Object> map);
 
-    Page<Map<String, Object>> findAllBySQLInMap(String sql, Pageable pageable, Map<String, Object> map);
+    Optional<Map> getOneByJPQLInMap(String jpql, Object... objects);
 
+    Optional<Map> getOneByJPQLInMap(String jpql, Collection collection);
 
-    Optional<Map<String, Object>> getOneByJPQLInMap(String jpql, Object... objects);
+    Optional<Map> getOneByJPQLInMap(String jpql, Map<String, Object> map);
 
-    Optional<Map<String, Object>> getOneByJPQLInMap(String jpql, Collection collection);
+    List<Map> findAllByJPQLInMap(String jpql, Object... objects);
 
-    Optional<Map<String, Object>> getOneByJPQLInMap(String jpql, Map<String, Object> map);
+    List<Map> findAllByJPQLInMap(String jpql, Collection collection);
 
-    List<Map<String, Object>> findAllByJPQLInMap(String jpql, Object... objects);
+    List<Map> findAllByJPQLInMap(String jpql, Map<String, Object> map);
 
-    List<Map<String, Object>> findAllByJPQLInMap(String jpql, Collection collection);
+    Page<Map> findAllByJPQLInMap(String jpql, Pageable pageable, Object... objects);
 
-    List<Map<String, Object>> findAllByJPQLInMap(String jpql, Map<String, Object> map);
+    Page<Map> findAllByJPQLInMap(String jpql, Pageable pageable, Collection collection);
 
-    Page<Map<String, Object>> findAllByJPQLInMap(String jpql, Pageable pageable, Object... objects);
-
-    Page<Map<String, Object>> findAllByJPQLInMap(String jpql, Pageable pageable, Collection collection);
-
-    Page<Map<String, Object>> findAllByJPQLInMap(String jpql, Pageable pageable, Map<String, Object> map);
-
-
+    Page<Map> findAllByJPQLInMap(String jpql, Pageable pageable, Map<String, Object> map);
 }

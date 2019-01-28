@@ -51,6 +51,16 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
     }
 
     @Override
+    public void insert(Query query) {
+        javax.persistence.Query nativeQuery = entityManager.createNativeQuery(query.getSQL());
+        List<Object> bindValues = query.getBindValues();
+        for (int i = 0; i < bindValues.size(); i++) {
+            nativeQuery.setParameter(i + 1, bindValues.get(i));
+        }
+        nativeQuery.executeUpdate();
+    }
+
+    @Override
     @Transactional
     public void update(T t) {
         T tDb = entityManager.find(entityInformation.getJavaType(), entityInformation.getId(t));
@@ -60,10 +70,30 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
     }
 
     @Override
+    public void update(Query query) {
+        javax.persistence.Query nativeQuery = entityManager.createNativeQuery(query.getSQL());
+        List<Object> bindValues = query.getBindValues();
+        for (int i = 0; i < bindValues.size(); i++) {
+            nativeQuery.setParameter(i + 1, bindValues.get(i));
+        }
+        nativeQuery.executeUpdate();
+    }
+
+    @Override
     @Transactional
-    public void deleteAllById(ID... ids) {
+    public void delete(ID... ids) {
         Arrays.stream(ids).forEach(this::deleteById);
         entityManager.flush();
+    }
+
+    @Override
+    public void delete(Query query) {
+        javax.persistence.Query nativeQuery = entityManager.createNativeQuery(query.getSQL());
+        List<Object> bindValues = query.getBindValues();
+        for (int i = 0; i < bindValues.size(); i++) {
+            nativeQuery.setParameter(i + 1, bindValues.get(i));
+        }
+        nativeQuery.executeUpdate();
     }
 
     @Override
@@ -413,5 +443,151 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
     @Override
     public Page<Map> findAllByQueryInMap(Query query, Pageable pageable) {
         return findAllBySQLInMap(query.getSQL(), pageable, query.getBindValues());
+    }
+
+    @Override
+    public <R> Optional<R> getOneBySQL(String sql, Class<R> requireType, Object... objects) {
+        javax.persistence.Query nativeQuery = entityManager.createNativeQuery(sql, requireType);
+        for (int i = 0; i < objects.length; i++) {
+            nativeQuery.setParameter(i + 1, objects[i]);
+        }
+        try {
+            return Optional.ofNullable((R) nativeQuery.getSingleResult());
+        } catch (NonUniqueResultException e) {
+            throw new IncorrectResultSizeDataAccessException(e.getMessage(), 1, e);
+        }
+    }
+
+    @Override
+    public <R> Optional<R> getOneBySQL(String sql, Class<R> requireType, Collection collection) {
+        return getOneBySQL(sql, requireType, collection.toArray());
+    }
+
+    @Override
+    public <R> Optional<R> getOneBySQL(String sql, Class<R> requireType, Map<String, Object> map) {
+        javax.persistence.Query nativeQuery = entityManager.createNativeQuery(sql, requireType);
+        map.forEach(nativeQuery::setParameter);
+        try {
+            return Optional.ofNullable((R) nativeQuery.getSingleResult());
+        } catch (NonUniqueResultException e) {
+            throw new IncorrectResultSizeDataAccessException(e.getMessage(), 1, e);
+        }
+    }
+
+    @Override
+    public <R> Optional<R> getOneByJPQL(String jpql, Class<R> requireType, Object... objects) {
+        TypedQuery<R> query = entityManager.createQuery(jpql, requireType);
+        for (int i = 0; i < objects.length; i++) {
+            query.setParameter(i + 1, objects[i]);
+        }
+        try {
+            return Optional.ofNullable(query.getSingleResult());
+        } catch (NonUniqueResultException e) {
+            throw new IncorrectResultSizeDataAccessException(e.getMessage(), 1, e);
+        }
+    }
+
+    @Override
+    public <R> Optional<R> getOneByJPQL(String jpql, Class<R> requiureType, Collection collection) {
+        return getOneByJPQL(jpql, requiureType, collection.toArray());
+    }
+
+    @Override
+    public <R> Optional<R> getOneByJPQL(String jpql, Class<R> requireType, Map<String, Object> map) {
+        TypedQuery<R> query = entityManager.createQuery(jpql, requireType);
+        map.forEach(query::setParameter);
+        try {
+            return Optional.ofNullable(query.getSingleResult());
+        } catch (NonUniqueResultException e) {
+            throw new IncorrectResultSizeDataAccessException(e.getMessage(), 1, e);
+        }
+    }
+
+    @Override
+    public <R> Optional<R> getOneByQuery(Query query, Class<R> requiureType) {
+        return getOneBySQL(query.getSQL(), requiureType, query.getBindValues());
+    }
+
+    @Override
+    public <R> List<R> findAllBySQL(String sql, Class<R> requireType, Object... objects) {
+        javax.persistence.Query nativeQuery = entityManager.createNativeQuery(sql, requireType);
+        for (int i = 0; i < objects.length; i++) {
+            nativeQuery.setParameter(i + 1, objects[i]);
+        }
+        return (List<R>) nativeQuery.getResultList();
+    }
+
+    @Override
+    public <R> List<R> findAllBySQL(String sql, Class<R> requireType, Collection collection) {
+        return findAllBySQL(sql, requireType, collection.toArray());
+    }
+
+    @Override
+    public <R> List<R> findAllBySQL(String sql, Class<R> requireType, Map<String, Object> map) {
+        javax.persistence.Query nativeQuery = entityManager.createNativeQuery(sql, requireType);
+        map.forEach(nativeQuery::setParameter);
+        return (List<R>) nativeQuery.getResultList();
+    }
+
+    @Override
+    public <R> List<R> findAllByJPQL(String jpql, Class<R> requireType, Object... objects) {
+        TypedQuery<R> query = entityManager.createQuery(jpql, requireType);
+        for (int i = 0; i < objects.length; i++) {
+            query.setParameter(i + 1, objects[i]);
+        }
+        return query.getResultList();
+    }
+
+    @Override
+    public <R> List<R> findAllByJPQL(String jpql, Class<R> requireType, Collection collection) {
+        return findAllByJPQL(jpql, requireType, collection.toArray());
+    }
+
+    @Override
+    public <R> List<R> findAllByJPQL(String jpql, Class<R> requireType, Map<String, Object> map) {
+        TypedQuery<R> query = entityManager.createQuery(jpql, requireType);
+        map.forEach(query::setParameter);
+        return query.getResultList();
+    }
+
+    @Override
+    public <R> List<R> findAllByQuery(Query query, Class<R> requireType) {
+        return findAllBySQL(query.getSQL(), requireType, query.getBindValues());
+    }
+
+    @Override
+    public <R> Page<R> findAllBySQL(String sql, Pageable pageable, Class<R> requireType, Object... objects) {
+
+        return null;
+    }
+
+    @Override
+    public <R> Page<R> findAllBySQL(String sql, Pageable pageable, Class<R> requireType, Collection collection) {
+        return null;
+    }
+
+    @Override
+    public <R> Page<R> findAllBySQL(String sql, Pageable pageable, Class<R> requireType, Map<String, Object> map) {
+        return null;
+    }
+
+    @Override
+    public <R> Page<R> findAllByJPQL(String jpql, Pageable pageable, Class<R> requireType, Object... objects) {
+        return null;
+    }
+
+    @Override
+    public <R> Page<R> findAllByJPQL(String jpql, Pageable pageable, Class<R> requireType, Collection collection) {
+        return null;
+    }
+
+    @Override
+    public <R> Page<R> findAllByJPQL(String jpql, Pageable pageable, Class<R> requireType, Map<String, Object> map) {
+        return null;
+    }
+
+    @Override
+    public <R> Page<R> findAllByQuery(Query query, Pageable pageable, Class<R> requireType) {
+        return null;
     }
 }

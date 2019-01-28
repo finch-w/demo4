@@ -2,6 +2,11 @@ package com.yuan.demojpa2.commons.dao.impl;
 
 import com.yuan.demojpa2.commons.dao.BaseRepository;
 import com.yuan.demojpa2.commons.utils.BeanUtils;
+import org.hibernate.Session;
+import org.hibernate.query.NativeQuery;
+import org.hibernate.query.internal.NativeQueryImpl;
+import org.hibernate.query.internal.QueryImpl;
+import org.hibernate.transform.Transformers;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -28,7 +33,7 @@ public class BaseRepositoryImpl<T, ID> extends SimpleJpaRepository<T, ID> implem
         this.entityManager = entityManager;
     }
 
-    @SuppressWarnings("Duplicates")
+    @SuppressWarnings({"Duplicates", "StringBufferReplaceableByString"})
     private String generateCountSQL(String sql) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("select count(1) from (");
@@ -45,9 +50,10 @@ public class BaseRepositoryImpl<T, ID> extends SimpleJpaRepository<T, ID> implem
         entityManager.flush();
     }
 
+    @SuppressWarnings("unchecked")
     @Transactional
     @Override
-    public void deleteByIds(ID... ids) {
+    public void delete(ID... ids) {
         Arrays.stream(ids).forEach(this::deleteById);
         entityManager.flush();
     }
@@ -132,7 +138,7 @@ public class BaseRepositoryImpl<T, ID> extends SimpleJpaRepository<T, ID> implem
         query.setMaxResults(pageable.getPageSize());
         List<T> resultList = query.getResultList();
         Long singleResult = countQuery.getSingleResult();
-        return new PageImpl<T>(resultList, pageable, singleResult);
+        return new PageImpl<>(resultList, pageable, singleResult);
     }
 
     @Override
@@ -209,7 +215,7 @@ public class BaseRepositoryImpl<T, ID> extends SimpleJpaRepository<T, ID> implem
         query.setMaxResults(pageable.getPageSize());
         List<T> resultList = (List<T>) query.getResultList();
         Long singleResult = (Long) countQuery.getSingleResult();
-        return new PageImpl<T>(resultList, pageable, singleResult);
+        return new PageImpl<>(resultList, pageable, singleResult);
     }
 
     @Override
@@ -230,7 +236,7 @@ public class BaseRepositoryImpl<T, ID> extends SimpleJpaRepository<T, ID> implem
         query.setMaxResults(pageable.getPageSize());
         List<T> resultList = (List<T>) query.getResultList();
         Long singleResult = (Long) countQuery.getSingleResult();
-        return new PageImpl<T>(resultList, pageable, singleResult);
+        return new PageImpl<>(resultList, pageable, singleResult);
     }
 
     @SuppressWarnings("Duplicates")
@@ -246,7 +252,7 @@ public class BaseRepositoryImpl<T, ID> extends SimpleJpaRepository<T, ID> implem
         query.setMaxResults(pageable.getPageSize());
         List<T> resultList = query.getResultList();
         Long singleResult = countQuery.getSingleResult();
-        return new PageImpl<T>(resultList, pageable, singleResult);
+        return new PageImpl<>(resultList, pageable, singleResult);
     }
 
     @SuppressWarnings("unchecked")
@@ -270,172 +276,337 @@ public class BaseRepositoryImpl<T, ID> extends SimpleJpaRepository<T, ID> implem
     public <R> Optional<R> getOneBySQL(String sql, Class<R> requireType, Map<String, Object> map) {
         Query nativeQuery = entityManager.createNativeQuery(sql, requireType);
         map.forEach(nativeQuery::setParameter);
-        return Optional.ofNullable((R) nativeQuery.getSingleResult());
+        try {
+            return Optional.ofNullable((R) nativeQuery.getSingleResult());
+        } catch (Exception e) {
+            throw new IncorrectResultSizeDataAccessException(e.getMessage(), 1, e);
+        }
     }
 
+    @SuppressWarnings({"unchecked", "Duplicates"})
     @Override
     public <R> List<R> findAllBySQL(String sql, Class<R> requireType, Object... objects) {
-        return null;
+        Query nativeQuery = entityManager.createNativeQuery(sql, requireType);
+        for (int i = 0; i < objects.length; i++) {
+            nativeQuery.setParameter(i + 1, objects[i]);
+        }
+        return (List<R>) nativeQuery.getResultList();
     }
 
     @Override
     public <R> List<R> findAllBySQL(String sql, Class<R> requireType, Collection collection) {
-        return null;
+        return findAllBySQL(sql, requireType, collection.toArray());
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public <R> List<R> findAllBySQL(String sql, Class<R> requireType, Map<String, Object> map) {
-        return null;
+        Query nativeQuery = entityManager.createNativeQuery(sql, requireType);
+        map.forEach(nativeQuery::setParameter);
+        return (List<R>) nativeQuery.getResultList();
     }
 
+    @SuppressWarnings({"unchecked", "Duplicates"})
     @Override
     public <R> Page<R> findAllBySQL(String sql, Pageable pageable, Class<R> requireType, Object... objects) {
-        return null;
+        Query nativeQuery = entityManager.createNativeQuery(sql, requireType);
+        Query countQuery = entityManager.createNativeQuery(sql, Long.class);
+        for (int i = 0; i < objects.length; i++) {
+            nativeQuery.setParameter(i + 1, objects[i]);
+            countQuery.setParameter(i + 1, objects[i]);
+        }
+        nativeQuery.setFirstResult(pageable.getPageSize() * pageable.getPageSize());
+        nativeQuery.setMaxResults(pageable.getPageSize());
+        return new PageImpl<>((List<R>) nativeQuery.getResultList(), pageable, (Long) countQuery.getSingleResult());
     }
 
     @Override
     public <R> Page<R> findAllBySQL(String sql, Pageable pageable, Class<R> requireType, Collection collection) {
-        return null;
+        return findAllBySQL(sql, pageable, requireType, collection.toArray());
     }
 
+    @SuppressWarnings({"Duplicates", "unchecked"})
     @Override
     public <R> Page<R> findAllBySQL(String sql, Pageable pageable, Class<R> requireType, Map<String, Object> map) {
-        return null;
+        Query nativeQuery = entityManager.createNativeQuery(sql, requireType);
+        Query countQuery = entityManager.createNativeQuery(sql, Long.class);
+        map.forEach(nativeQuery::setParameter);
+        map.forEach(countQuery::setParameter);
+        nativeQuery.setFirstResult(pageable.getPageSize() * pageable.getPageSize());
+        nativeQuery.setMaxResults(pageable.getPageSize());
+        return new PageImpl<>((List<R>) nativeQuery.getResultList(), pageable, (Long) countQuery.getSingleResult());
     }
 
+    @SuppressWarnings("Duplicates")
     @Override
     public <R> Optional<R> getOneByJPQL(String jpql, Class<R> requireType, Object... objects) {
-        return Optional.empty();
+        TypedQuery<R> query = entityManager.createQuery(jpql, requireType);
+        for (int i = 0; i < objects.length; i++) {
+            query.setParameter(i + 1, objects[i]);
+        }
+        try {
+            return Optional.ofNullable(query.getSingleResult());
+        } catch (NonUniqueResultException e) {
+            throw new IncorrectResultSizeDataAccessException(e.getMessage(), 1, e);
+        }
     }
 
     @Override
     public <R> Optional<R> getOneByJPQL(String jpql, Class<R> requireType, Collection collection) {
-        return Optional.empty();
+        return getOneByJPQL(jpql, requireType, collection.toArray());
     }
 
     @Override
     public <R> Optional<R> getOneByJPQL(String jpql, Class<R> requireType, Map<String, Object> map) {
-        return Optional.empty();
+        TypedQuery<R> query = entityManager.createQuery(jpql, requireType);
+        map.forEach(query::setParameter);
+        try {
+            return Optional.ofNullable(query.getSingleResult());
+        } catch (NonUniqueResultException e) {
+            throw new IncorrectResultSizeDataAccessException(e.getMessage(), 1, e);
+        }
     }
 
+    @SuppressWarnings("Duplicates")
     @Override
     public <R> List<R> findAllByJPQL(String jpql, Class<R> requireType, Object... objects) {
-        return null;
+        TypedQuery<R> query = entityManager.createQuery(jpql, requireType);
+        for (int i = 0; i < objects.length; i++) {
+            query.setParameter(i + 1, objects[i]);
+        }
+        return query.getResultList();
     }
 
     @Override
     public <R> List<R> findAllByJPQL(String jpql, Class<R> requireType, Collection collection) {
-        return null;
+        return findAllByJPQL(jpql, requireType, collection.toArray());
     }
 
     @Override
     public <R> List<R> findAllByJPQL(String jpql, Class<R> requireType, Map<String, Object> map) {
-        return null;
+        TypedQuery<R> query = entityManager.createQuery(jpql, requireType);
+        map.forEach(query::setParameter);
+        return query.getResultList();
     }
 
+
+    @SuppressWarnings("Duplicates")
     @Override
     public <R> Page<R> findAllByJPQL(String jpql, Pageable pageable, Class<R> requireType, Object... objects) {
-        return null;
+        TypedQuery<R> query = entityManager.createQuery(jpql, requireType);
+        TypedQuery<Long> countQuery = entityManager.createQuery(generateCountSQL(jpql), Long.class);
+        for (int i = 0; i < objects.length; i++) {
+            query.setParameter(i + 1, objects[i]);
+            countQuery.setParameter(i + 1, objects[i]);
+        }
+        query.setFirstResult(pageable.getPageSize() * pageable.getPageNumber());
+        query.setMaxResults(pageable.getPageSize());
+        List<R> list = query.getResultList();
+        Long result = countQuery.getSingleResult();
+        return new PageImpl<>(list, pageable, result);
     }
 
     @Override
     public <R> Page<R> findAllByJPQL(String jpql, Pageable pageable, Class<R> requireType, Collection collection) {
-        return null;
+        return findAllByJPQL(jpql, pageable, requireType, collection.toArray());
     }
 
+    @SuppressWarnings("Duplicates")
     @Override
     public <R> Page<R> findAllByJPQL(String jpql, Pageable pageable, Class<R> requireType, Map<String, Object> map) {
-        return null;
+        TypedQuery<R> query = entityManager.createQuery(jpql, requireType);
+        TypedQuery<Long> countQuery = entityManager.createQuery(generateCountSQL(jpql), Long.class);
+        map.forEach(query::setParameter);
+        map.forEach(countQuery::setParameter);
+        query.setFirstResult(pageable.getPageSize() * pageable.getPageNumber());
+        query.setMaxResults(pageable.getPageSize());
+        List<R> list = query.getResultList();
+        Long result = countQuery.getSingleResult();
+        return new PageImpl<>(list, pageable, result);
+    }
+
+    @SuppressWarnings({"Duplicates"})
+    @Override
+    public Optional<Map> getOneBySQLInMap(String sql, Object... objects) {
+        Query nativeQuery = entityManager.createNativeQuery(sql);
+        for (int i = 0; i < objects.length; i++) {
+            nativeQuery.setParameter(i + 1, objects[i]);
+        }
+        nativeQuery.unwrap(NativeQueryImpl.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
+        try {
+            return Optional.ofNullable((Map) nativeQuery.getSingleResult());
+        } catch (NonUniqueResultException e) {
+            throw new IncorrectResultSizeDataAccessException(e.getMessage(), 1, e);
+        }
     }
 
     @Override
-    public Optional<Map<String, Object>> getOneBySQLInMap(String sql, Object... objects) {
-        return Optional.empty();
+    public Optional<Map> getOneBySQLInMap(String sql, Collection collection) {
+        return getOneBySQLInMap(sql, collection.toArray());
+    }
+
+    @SuppressWarnings({"Duplicates", "unchecked"})
+    @Override
+    public Optional<Map> getOneBySQLInMap(String sql, Map<String, Object> map) {
+
+        Query nativeQuery = entityManager.createNativeQuery(sql);
+        map.forEach(nativeQuery::setParameter);
+        nativeQuery.unwrap(NativeQueryImpl.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
+        try {
+            return Optional.ofNullable((Map<String, Object>) nativeQuery.getSingleResult());
+        } catch (NonUniqueResultException e) {
+            throw new IncorrectResultSizeDataAccessException(e.getMessage(), 1, e);
+        }
+    }
+
+    @SuppressWarnings({"unchecked", "Duplicates", "deprecation"})
+    @Override
+    public List<Map> findAllBySQLInMap(String sql, Object... objects) {
+        Session session = (Session) entityManager.getDelegate();
+        NativeQuery nativeQuery = session.createNativeQuery(sql);
+        for (int i = 0; i < objects.length; i++) {
+            nativeQuery.setParameter(i + 1, objects[i]);
+        }
+        nativeQuery.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
+        return (List<Map>) nativeQuery.getResultList();
     }
 
     @Override
-    public Optional<Map<String, Object>> getOneBySQLInMap(String sql, Collection collection) {
-        return Optional.empty();
+    public List<Map> findAllBySQLInMap(String sql, Collection collection) {
+        return findAllBySQLInMap(sql, collection.toArray());
+    }
+
+    @SuppressWarnings({"unchecked", "Duplicates"})
+    @Override
+    public List<Map> findAllBySQLInMap(String sql, Map<String, Object> map) {
+        Query nativeQuery = entityManager.createNativeQuery(sql);
+        map.forEach(nativeQuery::setParameter);
+        nativeQuery.unwrap(NativeQueryImpl.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
+        return (List<Map>) nativeQuery.getResultList();
+    }
+
+    @SuppressWarnings({"unchecked", "Duplicates"})
+    @Override
+    public Page<Map> findAllBySQLInMap(String sql, Pageable pageable, Object... objects) {
+        Query countQuery = entityManager.createNativeQuery(generateCountSQL(sql), Long.class);
+        Query nativeQuery = entityManager.createNativeQuery(sql);
+        for (int i = 0; i < objects.length; i++) {
+            countQuery.setParameter(i + 1, objects[i]);
+            nativeQuery.setParameter(i + 1, objects[i]);
+        }
+        Long count = (Long) countQuery.getSingleResult();
+        nativeQuery.setFirstResult(pageable.getPageSize() * pageable.getPageNumber());
+        nativeQuery.setMaxResults(pageable.getPageSize());
+        nativeQuery.unwrap(NativeQueryImpl.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
+        List<Map> resultList = (List<Map>) nativeQuery.getResultList();
+        return new PageImpl<>(resultList, pageable, count);
     }
 
     @Override
-    public Optional<Map<String, Object>> getOneBySQLInMap(String sql, Map<String, Object> map) {
-        return Optional.empty();
+    public Page<Map> findAllBySQLInMap(String sql, Pageable pageable, Collection collection) {
+        return findAllBySQLInMap(sql, pageable, collection.toArray());
+    }
+
+    @SuppressWarnings({"Duplicates", "unchecked"})
+    @Override
+    public Page<Map> findAllBySQLInMap(String sql, Pageable pageable, Map<String, Object> map) {
+        Query countQuery = entityManager.createNativeQuery(generateCountSQL(sql), Long.class);
+        Query nativeQuery = entityManager.createNativeQuery(sql);
+        map.forEach(countQuery::setParameter);
+        map.forEach(nativeQuery::setParameter);
+        Long count = (Long) countQuery.getSingleResult();
+        nativeQuery.setFirstResult(pageable.getPageSize() * pageable.getPageNumber());
+        nativeQuery.setMaxResults(pageable.getPageSize());
+        nativeQuery.unwrap(NativeQueryImpl.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
+        List<Map> resultList = (List<Map>) nativeQuery.getResultList();
+        return new PageImpl<>(resultList, pageable, count);
+    }
+
+    @SuppressWarnings({"Duplicates"})
+    @Override
+    public Optional<Map> getOneByJPQLInMap(String jpql, Object... objects) {
+        Query query = entityManager.createQuery(jpql);
+        for (int i = 0; i < objects.length; i++) {
+            query.setParameter(i + 1, objects[i]);
+        }
+        query.unwrap(QueryImpl.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
+        return Optional.ofNullable((Map) query.getSingleResult());
     }
 
     @Override
-    public List<Map<String, Object>> findAllBySQLInMap(String sql, Object... objects) {
-        return null;
+    public Optional<Map> getOneByJPQLInMap(String jpql, Collection collection) {
+        return getOneByJPQLInMap(jpql, collection.toArray());
     }
 
     @Override
-    public List<Map<String, Object>> findAllBySQLInMap(String sql, Collection collection) {
-        return null;
+    public Optional<Map> getOneByJPQLInMap(String jpql, Map<String, Object> map) {
+        Query query = entityManager.createQuery(jpql);
+        map.forEach(query::setParameter);
+        query.unwrap(QueryImpl.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
+        return Optional.ofNullable((Map) query.getSingleResult());
+    }
+
+    @SuppressWarnings({"Duplicates", "unchecked"})
+    @Override
+    public List<Map> findAllByJPQLInMap(String jpql, Object... objects) {
+        Query query = entityManager.createQuery(jpql);
+        for (int i = 0; i < objects.length; i++) {
+            query.setParameter(i + 1, objects[i]);
+        }
+        query.unwrap(QueryImpl.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
+        return (List<Map>) query.getResultList();
     }
 
     @Override
-    public List<Map<String, Object>> findAllBySQLInMap(String sql, Map<String, Object> map) {
-        return null;
+    public List<Map> findAllByJPQLInMap(String jpql, Collection collection) {
+        return findAllByJPQLInMap(jpql, collection.toArray());
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<Map> findAllByJPQLInMap(String jpql, Map<String, Object> map) {
+        Query query = entityManager.createQuery(jpql);
+        map.forEach(query::setParameter);
+        query.unwrap(QueryImpl.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
+        return (List<Map>) query.getResultList();
+    }
+
+    @SuppressWarnings({"Duplicates", "unchecked"})
+    @Override
+    public Page<Map> findAllByJPQLInMap(String jpql, Pageable pageable, Object... objects) {
+        Query query = entityManager.createQuery(jpql);
+        TypedQuery<Long> countQuery = entityManager.createQuery(generateCountSQL(jpql), Long.class);
+        for (int i = 0; i < objects.length; i++) {
+            query.setParameter(i + 1, objects[i]);
+            countQuery.setParameter(i + 1, objects[i]);
+        }
+        query.setFirstResult(pageable.getPageSize() * pageable.getPageNumber());
+        query.setMaxResults(pageable.getPageSize());
+        query.unwrap(QueryImpl.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
+        List<Map> resultList = (List<Map>) query.getResultList();
+        Long count = countQuery.getSingleResult();
+        return new PageImpl<>(resultList, pageable, count);
+
     }
 
     @Override
-    public Page<Map<String, Object>> findAllBySQLInMap(String sql, Pageable pageable, Object... objects) {
-        return null;
+    public Page<Map> findAllByJPQLInMap(String jpql, Pageable pageable, Collection collection) {
+        return findAllByJPQLInMap(jpql, pageable, collection.toArray());
     }
 
+    @SuppressWarnings({"Duplicates", "unchecked"})
     @Override
-    public Page<Map<String, Object>> findAllBySQLInMap(String sql, Pageable pageable, Collection collection) {
-        return null;
-    }
-
-    @Override
-    public Page<Map<String, Object>> findAllBySQLInMap(String sql, Pageable pageable, Map<String, Object> map) {
-        return null;
-    }
-
-    @Override
-    public Optional<Map<String, Object>> getOneByJPQLInMap(String jpql, Object... objects) {
-        return Optional.empty();
-    }
-
-    @Override
-    public Optional<Map<String, Object>> getOneByJPQLInMap(String jpql, Collection collection) {
-        return Optional.empty();
-    }
-
-    @Override
-    public Optional<Map<String, Object>> getOneByJPQLInMap(String jpql, Map<String, Object> map) {
-        return Optional.empty();
-    }
-
-    @Override
-    public List<Map<String, Object>> findAllByJPQLInMap(String jpql, Object... objects) {
-        return null;
-    }
-
-    @Override
-    public List<Map<String, Object>> findAllByJPQLInMap(String jpql, Collection collection) {
-        return null;
-    }
-
-    @Override
-    public List<Map<String, Object>> findAllByJPQLInMap(String jpql, Map<String, Object> map) {
-        return null;
-    }
-
-    @Override
-    public Page<Map<String, Object>> findAllByJPQLInMap(String jpql, Pageable pageable, Object... objects) {
-        return null;
-    }
-
-    @Override
-    public Page<Map<String, Object>> findAllByJPQLInMap(String jpql, Pageable pageable, Collection collection) {
-        return null;
-    }
-
-    @Override
-    public Page<Map<String, Object>> findAllByJPQLInMap(String jpql, Pageable pageable, Map<String, Object> map) {
-        return null;
+    public Page<Map> findAllByJPQLInMap(String jpql, Pageable pageable, Map<String, Object> map) {
+        Query query = entityManager.createQuery(jpql);
+        TypedQuery<Long> countQuery = entityManager.createQuery(generateCountSQL(jpql), Long.class);
+        map.forEach(query::setParameter);
+        map.forEach(countQuery::setParameter);
+        query.setFirstResult(pageable.getPageSize() * pageable.getPageNumber());
+        query.setMaxResults(pageable.getPageSize());
+        query.unwrap(QueryImpl.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
+        List<Map> resultList = (List<Map>) query.getResultList();
+        Long count = countQuery.getSingleResult();
+        return new PageImpl<>(resultList, pageable, count);
     }
 
 

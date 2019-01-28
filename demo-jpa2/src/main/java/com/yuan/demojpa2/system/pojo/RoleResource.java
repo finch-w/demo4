@@ -1,6 +1,6 @@
-package com.yuan.demojpa.system.pojo;
+package com.yuan.demojpa2.system.pojo;
 
-import com.yuan.demojpa.commons.pojo.BasePojo;
+import com.yuan.demojpa2.commons.pojo.BasePojo;
 import lombok.*;
 
 import javax.persistence.Column;
