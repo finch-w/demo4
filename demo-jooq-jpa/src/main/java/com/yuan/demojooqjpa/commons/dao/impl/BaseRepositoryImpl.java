@@ -4,7 +4,10 @@ import com.yuan.demojooqjpa.commons.dao.BaseRepository;
 import com.yuan.demojooqjpa.commons.utils.BeanUtils;
 import org.eclipse.persistence.config.QueryHints;
 import org.eclipse.persistence.config.ResultType;
+import org.jooq.DeleteQuery;
+import org.jooq.InsertQuery;
 import org.jooq.Query;
+import org.jooq.UpdateQuery;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -62,10 +65,34 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
 
     @Override
     @Transactional
+    public void insert(InsertQuery query) {
+        javax.persistence.Query nativeQuery = entityManager.createNativeQuery(query.getSQL());
+        List<Object> bindValues = query.getBindValues();
+        for (int i = 0; i < bindValues.size(); i++) {
+            nativeQuery.setParameter(i + 1, bindValues.get(i));
+        }
+        nativeQuery.executeUpdate();
+        entityManager.flush();
+    }
+
+    @Override
+    @Transactional
     public void update(T t) {
         T tDb = entityManager.find(entityInformation.getJavaType(), entityInformation.getId(t));
         BeanUtils.copyPojo(t, tDb);
         entityManager.refresh(tDb);
+        entityManager.flush();
+    }
+
+    @Transactional
+    @Override
+    public void update(UpdateQuery query) {
+        javax.persistence.Query nativeQuery = entityManager.createNativeQuery(query.getSQL());
+        List<Object> bindValues = query.getBindValues();
+        for (int i = 0; i < bindValues.size(); i++) {
+            nativeQuery.setParameter(i + 1, bindValues.get(i));
+        }
+        nativeQuery.executeUpdate();
         entityManager.flush();
     }
 
@@ -83,6 +110,18 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
     @Transactional
     public void delete(ID... ids) {
         Arrays.stream(ids).forEach(this::deleteById);
+        entityManager.flush();
+    }
+
+    @Transactional
+    @Override
+    public void delete(DeleteQuery query) {
+        javax.persistence.Query nativeQuery = entityManager.createNativeQuery(query.getSQL());
+        List<Object> bindValues = query.getBindValues();
+        for (int i = 0; i < bindValues.size(); i++) {
+            nativeQuery.setParameter(i + 1, bindValues.get(i));
+        }
+        nativeQuery.executeUpdate();
         entityManager.flush();
     }
 
