@@ -104,7 +104,7 @@ public class BaseRepositoryImpl<T, ID> extends SimpleJpaRepository<T, ID> implem
 
     @SuppressWarnings("Duplicates")
     @Override
-    public Optional<T> getOneByJPQL(String jpql, Object... objects) {
+    public Optional<T> findOneByJPQL(String jpql, Object... objects) {
         TypedQuery<T> query = entityManager.createQuery(jpql, entityInformation.getJavaType());
         for (int i = 0; i < objects.length; i++) {
             query.setParameter(i + 1, objects[i]);
@@ -117,13 +117,13 @@ public class BaseRepositoryImpl<T, ID> extends SimpleJpaRepository<T, ID> implem
     }
 
     @Override
-    public Optional<T> getOneByJPQL(String jpql, Collection collection) {
-        return getOneByJPQL(jpql, collection.toArray());
+    public Optional<T> findOneByJPQL(String jpql, Collection collection) {
+        return findOneByJPQL(jpql, collection.toArray());
     }
 
     @SuppressWarnings("Duplicates")
     @Override
-    public Optional<T> getOneByJPQL(String jpql, Map<String, Object> map) {
+    public Optional<T> findOneByJPQL(String jpql, Map<String, Object> map) {
         TypedQuery<T> query = entityManager.createQuery(jpql, entityInformation.getJavaType());
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             query.setParameter(entry.getKey(), entry.getValue());
@@ -182,7 +182,7 @@ public class BaseRepositoryImpl<T, ID> extends SimpleJpaRepository<T, ID> implem
 
     @SuppressWarnings({"unchecked", "Duplicates"})
     @Override
-    public Optional<T> getOneBySQL(String sql, Object... objects) {
+    public Optional<T> findOneBySQL(String sql, Object... objects) {
         Query nativeQuery = entityManager.createNativeQuery(sql, entityInformation.getJavaType());
         for (int i = 0; i < objects.length; i++) {
             nativeQuery.setParameter(i + 1, objects[i]);
@@ -195,13 +195,13 @@ public class BaseRepositoryImpl<T, ID> extends SimpleJpaRepository<T, ID> implem
     }
 
     @Override
-    public Optional<T> getOneBySQL(String sql, Collection collection) {
-        return getOneBySQL(sql, collection.toArray());
+    public Optional<T> findOneBySQL(String sql, Collection collection) {
+        return findOneBySQL(sql, collection.toArray());
     }
 
     @Override
     @SuppressWarnings({"unchecked", "Duplicates"})
-    public Optional<T> getOneBySQL(String sql, Map<String, Object> map) {
+    public Optional<T> findOneBySQL(String sql, Map<String, Object> map) {
         Query nativeQuery = entityManager.createNativeQuery(sql, entityInformation.getJavaType());
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             nativeQuery.setParameter(entry.getKey(), entry.getValue());
@@ -214,8 +214,8 @@ public class BaseRepositoryImpl<T, ID> extends SimpleJpaRepository<T, ID> implem
     }
 
     @Override
-    public Optional<T> getOneByQuery(org.jooq.Query query) {
-        return getOneBySQL(query.getSQL(), query.getBindValues());
+    public Optional<T> findOneByQuery(org.jooq.Query query) {
+        return findOneBySQL(query.getSQL(), query.getBindValues());
     }
 
     @Override
@@ -306,7 +306,7 @@ public class BaseRepositoryImpl<T, ID> extends SimpleJpaRepository<T, ID> implem
 
     @SuppressWarnings({"unchecked", "Duplicates"})
     @Override
-    public <R> Optional<R> getOneBySQL(String sql, Class<R> requireType, Object... objects) {
+    public <R> Optional<R> findOneBySQL(String sql, Class<R> requireType, Object... objects) {
         Query query = entityManager.createNativeQuery(sql, requireType);
         try {
             return Optional.ofNullable((R) query.getSingleResult());
@@ -316,13 +316,13 @@ public class BaseRepositoryImpl<T, ID> extends SimpleJpaRepository<T, ID> implem
     }
 
     @Override
-    public <R> Optional<R> getOneBySQL(String sql, Class<R> requireType, Collection collection) {
-        return getOneBySQL(sql, requireType, collection.toArray());
+    public <R> Optional<R> findOneBySQL(String sql, Class<R> requireType, Collection collection) {
+        return findOneBySQL(sql, requireType, collection.toArray());
     }
 
     @SuppressWarnings({"unchecked", "Duplicates"})
     @Override
-    public <R> Optional<R> getOneBySQL(String sql, Class<R> requireType, Map<String, Object> map) {
+    public <R> Optional<R> findOneBySQL(String sql, Class<R> requireType, Map<String, Object> map) {
         Query nativeQuery = entityManager.createNativeQuery(sql, requireType);
         map.forEach(nativeQuery::setParameter);
         try {
@@ -333,7 +333,7 @@ public class BaseRepositoryImpl<T, ID> extends SimpleJpaRepository<T, ID> implem
     }
 
     @Override
-    public <R> Optional<R> getOneByQuery(org.jooq.Query query, Class<R> requireType) {
+    public <R> Optional<R> findOneByQuery(org.jooq.Query query, Class<R> requireType) {
         return Optional.empty();
     }
 
@@ -403,7 +403,7 @@ public class BaseRepositoryImpl<T, ID> extends SimpleJpaRepository<T, ID> implem
 
     @SuppressWarnings("Duplicates")
     @Override
-    public <R> Optional<R> getOneByJPQL(String jpql, Class<R> requireType, Object... objects) {
+    public <R> Optional<R> findOneByJPQL(String jpql, Class<R> requireType, Object... objects) {
         TypedQuery<R> query = entityManager.createQuery(jpql, requireType);
         for (int i = 0; i < objects.length; i++) {
             query.setParameter(i + 1, objects[i]);
@@ -416,13 +416,13 @@ public class BaseRepositoryImpl<T, ID> extends SimpleJpaRepository<T, ID> implem
     }
 
     @Override
-    public <R> Optional<R> getOneByJPQL(String jpql, Class<R> requireType, Collection collection) {
-        return getOneByJPQL(jpql, requireType, collection.toArray());
+    public <R> Optional<R> findOneByJPQL(String jpql, Class<R> requireType, Collection collection) {
+        return findOneByJPQL(jpql, requireType, collection.toArray());
     }
 
     @SuppressWarnings("Duplicates")
     @Override
-    public <R> Optional<R> getOneByJPQL(String jpql, Class<R> requireType, Map<String, Object> map) {
+    public <R> Optional<R> findOneByJPQL(String jpql, Class<R> requireType, Map<String, Object> map) {
         TypedQuery<R> query = entityManager.createQuery(jpql, requireType);
         map.forEach(query::setParameter);
         try {
@@ -492,7 +492,7 @@ public class BaseRepositoryImpl<T, ID> extends SimpleJpaRepository<T, ID> implem
 
     @SuppressWarnings({"Duplicates"})
     @Override
-    public Optional<Map> getOneBySQLInMap(String sql, Object... objects) {
+    public Optional<Map> findOneBySQLInMap(String sql, Object... objects) {
         Query nativeQuery = entityManager.createNativeQuery(sql);
         for (int i = 0; i < objects.length; i++) {
             nativeQuery.setParameter(i + 1, objects[i]);
@@ -506,13 +506,13 @@ public class BaseRepositoryImpl<T, ID> extends SimpleJpaRepository<T, ID> implem
     }
 
     @Override
-    public Optional<Map> getOneBySQLInMap(String sql, Collection collection) {
-        return getOneBySQLInMap(sql, collection.toArray());
+    public Optional<Map> findOneBySQLInMap(String sql, Collection collection) {
+        return findOneBySQLInMap(sql, collection.toArray());
     }
 
     @SuppressWarnings({"Duplicates", "unchecked"})
     @Override
-    public Optional<Map> getOneBySQLInMap(String sql, Map<String, Object> map) {
+    public Optional<Map> findOneBySQLInMap(String sql, Map<String, Object> map) {
 
         Query nativeQuery = entityManager.createNativeQuery(sql);
         map.forEach(nativeQuery::setParameter);
@@ -525,8 +525,8 @@ public class BaseRepositoryImpl<T, ID> extends SimpleJpaRepository<T, ID> implem
     }
 
     @Override
-    public Optional<Map> getOneByQueryInMap(org.jooq.Query query) {
-        return getOneBySQLInMap(query.getSQL(), query.getBindValues());
+    public Optional<Map> findOneByQueryInMap(org.jooq.Query query) {
+        return findOneBySQLInMap(query.getSQL(), query.getBindValues());
     }
 
     @SuppressWarnings({"unchecked", "Duplicates", "deprecation"})
@@ -604,7 +604,7 @@ public class BaseRepositoryImpl<T, ID> extends SimpleJpaRepository<T, ID> implem
 
     @SuppressWarnings({"Duplicates"})
     @Override
-    public Optional<Map> getOneByJPQLInMap(String jpql, Object... objects) {
+    public Optional<Map> findOneByJPQLInMap(String jpql, Object... objects) {
         Query query = entityManager.createQuery(jpql);
         for (int i = 0; i < objects.length; i++) {
             query.setParameter(i + 1, objects[i]);
@@ -614,13 +614,13 @@ public class BaseRepositoryImpl<T, ID> extends SimpleJpaRepository<T, ID> implem
     }
 
     @Override
-    public Optional<Map> getOneByJPQLInMap(String jpql, Collection collection) {
-        return getOneByJPQLInMap(jpql, collection.toArray());
+    public Optional<Map> findOneByJPQLInMap(String jpql, Collection collection) {
+        return findOneByJPQLInMap(jpql, collection.toArray());
     }
 
     @SuppressWarnings("Duplicates")
     @Override
-    public Optional<Map> getOneByJPQLInMap(String jpql, Map<String, Object> map) {
+    public Optional<Map> findOneByJPQLInMap(String jpql, Map<String, Object> map) {
         Query query = entityManager.createQuery(jpql);
         map.forEach(query::setParameter);
         query.unwrap(QueryImpl.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);

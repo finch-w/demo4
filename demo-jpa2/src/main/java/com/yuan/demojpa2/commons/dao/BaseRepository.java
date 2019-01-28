@@ -20,11 +20,11 @@ public interface BaseRepository<T, ID> extends JpaRepository<T, ID>, JpaSpecific
     @SuppressWarnings("unused")
     void delete(ID... ids);
 
-    Optional<T> getOneByJPQL(String jpql, Object... objects);
+    Optional<T> findOneByJPQL(String jpql, Object... objects);
 
-    Optional<T> getOneByJPQL(String jpql, Collection collection);
+    Optional<T> findOneByJPQL(String jpql, Collection collection);
 
-    Optional<T> getOneByJPQL(String jpql, Map<String, Object> map);
+    Optional<T> findOneByJPQL(String jpql, Map<String, Object> map);
 
     List<T> findAllByJPQL(String jpql, Object... objects);
 
@@ -39,11 +39,11 @@ public interface BaseRepository<T, ID> extends JpaRepository<T, ID>, JpaSpecific
 
     Page<T> findAllByJPQL(String jpql, Pageable pageable, Map<String, Object> map);
 
-    Optional<T> getOneBySQL(String sql, Object... objects);
+    Optional<T> findOneBySQL(String sql, Object... objects);
 
-    Optional<T> getOneBySQL(String sql, Collection collection);
+    Optional<T> findOneBySQL(String sql, Collection collection);
 
-    Optional<T> getOneBySQL(String sql, Map<String, Object> map);
+    Optional<T> findOneBySQL(String sql, Map<String, Object> map);
 
 
     List<T> findAllBySQL(String sql, Object... objects);
@@ -60,11 +60,11 @@ public interface BaseRepository<T, ID> extends JpaRepository<T, ID>, JpaSpecific
     Page<T> findAllBySQL(String sql, Pageable pageable, Map<String, Object> map);
 
 
-    <R> Optional<R> getOneBySQL(String sql, Class<R> requireType, Object... objects);
+    <R> Optional<R> findOneBySQL(String sql, Class<R> requireType, Object... objects);
 
-    <R> Optional<R> getOneBySQL(String sql, Class<R> requireType, Collection collection);
+    <R> Optional<R> findOneBySQL(String sql, Class<R> requireType, Collection collection);
 
-    <R> Optional<R> getOneBySQL(String sql, Class<R> requireType, Map<String, Object> map);
+    <R> Optional<R> findOneBySQL(String sql, Class<R> requireType, Map<String, Object> map);
 
     <R> List<R> findAllBySQL(String sql, Class<R> requireType, Object... objects);
 
@@ -78,11 +78,11 @@ public interface BaseRepository<T, ID> extends JpaRepository<T, ID>, JpaSpecific
 
     <R> Page<R> findAllBySQL(String sql, Pageable pageable, Class<R> requireType, Map<String, Object> map);
 
-    <R> Optional<R> getOneByJPQL(String jpql, Class<R> requireType, Object... objects);
+    <R> Optional<R> findOneByJPQL(String jpql, Class<R> requireType, Object... objects);
 
-    <R> Optional<R> getOneByJPQL(String jpql, Class<R> requireType, Collection collection);
+    <R> Optional<R> findOneByJPQL(String jpql, Class<R> requireType, Collection collection);
 
-    <R> Optional<R> getOneByJPQL(String jpql, Class<R> requireType, Map<String, Object> map);
+    <R> Optional<R> findOneByJPQL(String jpql, Class<R> requireType, Map<String, Object> map);
 
     <R> List<R> findAllByJPQL(String jpql, Class<R> requireType, Object... objects);
 
@@ -96,11 +96,11 @@ public interface BaseRepository<T, ID> extends JpaRepository<T, ID>, JpaSpecific
 
     <R> Page<R> findAllByJPQL(String jpql, Pageable pageable, Class<R> requireType, Map<String, Object> map);
 
-    Optional<Map> getOneBySQLInMap(String sql, Object... objects);
+    Optional<Map> findOneBySQLInMap(String sql, Object... objects);
 
-    Optional<Map> getOneBySQLInMap(String sql, Collection collection);
+    Optional<Map> findOneBySQLInMap(String sql, Collection collection);
 
-    Optional<Map> getOneBySQLInMap(String sql, Map<String, Object> map);
+    Optional<Map> findOneBySQLInMap(String sql, Map<String, Object> map);
 
     List<Map> findAllBySQLInMap(String sql, Object... objects);
 
@@ -114,11 +114,11 @@ public interface BaseRepository<T, ID> extends JpaRepository<T, ID>, JpaSpecific
 
     Page<Map> findAllBySQLInMap(String sql, Pageable pageable, Map<String, Object> map);
 
-    Optional<Map> getOneByJPQLInMap(String jpql, Object... objects);
+    Optional<Map> findOneByJPQLInMap(String jpql, Object... objects);
 
-    Optional<Map> getOneByJPQLInMap(String jpql, Collection collection);
+    Optional<Map> findOneByJPQLInMap(String jpql, Collection collection);
 
-    Optional<Map> getOneByJPQLInMap(String jpql, Map<String, Object> map);
+    Optional<Map> findOneByJPQLInMap(String jpql, Map<String, Object> map);
 
     List<Map> findAllByJPQLInMap(String jpql, Object... objects);
 

@@ -99,7 +99,7 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
     }
 
     @Override
-    public Optional<T> getOneBySQL(String sql, Object... objects) {
+    public Optional<T> findOneBySQL(String sql, Object... objects) {
         javax.persistence.Query nativeQuery = entityManager.createNativeQuery(sql, entityInformation.getJavaType());
         IntStream.range(0, objects.length).forEachOrdered(i -> nativeQuery.setParameter(i + 1, objects[i]));
         try {
@@ -110,12 +110,12 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
     }
 
     @Override
-    public Optional<T> getOneBySQL(String sql, Collection collection) {
-        return getOneBySQL(sql, collection.toArray());
+    public Optional<T> findOneBySQL(String sql, Collection collection) {
+        return findOneBySQL(sql, collection.toArray());
     }
 
     @Override
-    public Optional<T> getOneBySQL(String sql, Map<String, Object> map) {
+    public Optional<T> findOneBySQL(String sql, Map<String, Object> map) {
         javax.persistence.Query nativeQuery = entityManager.createNativeQuery(sql, entityInformation.getJavaType());
         map.forEach(nativeQuery::setParameter);
         try {
@@ -126,7 +126,7 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
     }
 
     @Override
-    public Optional<T> getOneByJPQL(String jpql, Object... objects) {
+    public Optional<T> findOneByJPQL(String jpql, Object... objects) {
         TypedQuery<T> query = entityManager.createQuery(jpql, entityInformation.getJavaType());
         IntStream.range(0, objects.length).forEachOrdered(i -> query.setParameter(i + 1, objects[i]));
         try {
@@ -137,7 +137,7 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
     }
 
     @Override
-    public Optional<T> getOneByJPQL(String jpql, Map<String, Object> map) {
+    public Optional<T> findOneByJPQL(String jpql, Map<String, Object> map) {
         TypedQuery<T> query = entityManager.createQuery(jpql, entityInformation.getJavaType());
         map.forEach(query::setParameter);
         try {
@@ -148,8 +148,8 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
     }
 
     @Override
-    public Optional<T> getOneByQuery(Query query) {
-        return getOneBySQL(query.getSQL(), query.getBindValues());
+    public Optional<T> findOneByQuery(Query query) {
+        return findOneBySQL(query.getSQL(), query.getBindValues());
     }
 
     @Override
@@ -271,7 +271,7 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
     }
 
     @Override
-    public Map getOneBySQLInMap(String sql, Object... objects) {
+    public Map findOneBySQLInMap(String sql, Object... objects) {
         javax.persistence.Query query = entityManager.createNativeQuery(sql).setHint(QueryHints.RESULT_TYPE, ResultType.Map);
         IntStream.range(0, objects.length).forEachOrdered(i -> query.setParameter(i + 1, objects[i]));
         try {
@@ -282,12 +282,12 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
     }
 
     @Override
-    public Map getOneBySQLInMap(String sql, Collection collection) {
-        return getOneBySQLInMap(sql, collection.toArray());
+    public Map findOneBySQLInMap(String sql, Collection collection) {
+        return findOneBySQLInMap(sql, collection.toArray());
     }
 
     @Override
-    public Map getOneBySQLInMap(String sql, Map<String, Object> map) {
+    public Map findOneBySQLInMap(String sql, Map<String, Object> map) {
         javax.persistence.Query query = entityManager.createNativeQuery(sql).setHint(QueryHints.RESULT_TYPE, ResultType.Map);
         map.forEach(query::setParameter);
         try {
@@ -298,7 +298,7 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
     }
 
     @Override
-    public Map getOneByJPQLInMap(String jpql, Object... objects) {
+    public Map findOneByJPQLInMap(String jpql, Object... objects) {
         TypedQuery<Map> query = entityManager.createQuery(jpql, Map.class);
         IntStream.range(0, objects.length).forEachOrdered(i -> query.setParameter(i + 1, objects[i]));
         try {
@@ -309,12 +309,12 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
     }
 
     @Override
-    public Map getOneByJPQLInMap(String jpql, Collection collection) {
-        return getOneByJPQLInMap(jpql, collection.toArray());
+    public Map findOneByJPQLInMap(String jpql, Collection collection) {
+        return findOneByJPQLInMap(jpql, collection.toArray());
     }
 
     @Override
-    public Map getOneByJPQLInMap(String jpql, Map<String, Object> map) {
+    public Map findOneByJPQLInMap(String jpql, Map<String, Object> map) {
         TypedQuery<Map> query = entityManager.createQuery(jpql, Map.class);
         map.forEach(query::setParameter);
         try {
@@ -325,8 +325,8 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
     }
 
     @Override
-    public Map getByQueryInMap(Query query) {
-        return getOneBySQLInMap(query.getSQL(), query.getBindValues());
+    public Map findByQueryInMap(Query query) {
+        return findOneBySQLInMap(query.getSQL(), query.getBindValues());
     }
 
     @Override
@@ -448,7 +448,7 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
     }
 
     @Override
-    public <R> Optional<R> getOneBySQL(String sql, Class<R> requireType, Object... objects) {
+    public <R> Optional<R> findOneBySQL(String sql, Class<R> requireType, Object... objects) {
         javax.persistence.Query nativeQuery = entityManager.createNativeQuery(sql, requireType);
         for (int i = 0; i < objects.length; i++) {
             nativeQuery.setParameter(i + 1, objects[i]);
@@ -461,12 +461,12 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
     }
 
     @Override
-    public <R> Optional<R> getOneBySQL(String sql, Class<R> requireType, Collection collection) {
-        return getOneBySQL(sql, requireType, collection.toArray());
+    public <R> Optional<R> findOneBySQL(String sql, Class<R> requireType, Collection collection) {
+        return findOneBySQL(sql, requireType, collection.toArray());
     }
 
     @Override
-    public <R> Optional<R> getOneBySQL(String sql, Class<R> requireType, Map<String, Object> map) {
+    public <R> Optional<R> findOneBySQL(String sql, Class<R> requireType, Map<String, Object> map) {
         javax.persistence.Query nativeQuery = entityManager.createNativeQuery(sql, requireType);
         map.forEach(nativeQuery::setParameter);
         try {
@@ -477,7 +477,7 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
     }
 
     @Override
-    public <R> Optional<R> getOneByJPQL(String jpql, Class<R> requireType, Object... objects) {
+    public <R> Optional<R> findOneByJPQL(String jpql, Class<R> requireType, Object... objects) {
         TypedQuery<R> query = entityManager.createQuery(jpql, requireType);
         for (int i = 0; i < objects.length; i++) {
             query.setParameter(i + 1, objects[i]);
@@ -490,12 +490,12 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
     }
 
     @Override
-    public <R> Optional<R> getOneByJPQL(String jpql, Class<R> requiureType, Collection collection) {
-        return getOneByJPQL(jpql, requiureType, collection.toArray());
+    public <R> Optional<R> findOneByJPQL(String jpql, Class<R> requiureType, Collection collection) {
+        return findOneByJPQL(jpql, requiureType, collection.toArray());
     }
 
     @Override
-    public <R> Optional<R> getOneByJPQL(String jpql, Class<R> requireType, Map<String, Object> map) {
+    public <R> Optional<R> findOneByJPQL(String jpql, Class<R> requireType, Map<String, Object> map) {
         TypedQuery<R> query = entityManager.createQuery(jpql, requireType);
         map.forEach(query::setParameter);
         try {
@@ -506,8 +506,8 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
     }
 
     @Override
-    public <R> Optional<R> getOneByQuery(Query query, Class<R> requiureType) {
-        return getOneBySQL(query.getSQL(), requiureType, query.getBindValues());
+    public <R> Optional<R> findOneByQuery(Query query, Class<R> requiureType) {
+        return findOneBySQL(query.getSQL(), requiureType, query.getBindValues());
     }
 
     @Override

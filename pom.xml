@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.1.2.RELEASE</version>
+        <version>2.1.1.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.yuan</groupId>
@@ -24,9 +24,10 @@
     </modules>
     <properties>
         <java.version>1.8</java.version>
-        <ehcache>2.6.11</ehcache>
+        <ehcache>2.10.6</ehcache>
         <layui>2.4.5</layui>
-        <easypoi>3.3.0</easypoi>
+        <easypoi>4.0.0</easypoi>
+        <security>5.1.2.RELEASE</security>
     </properties>
 
     <dependencies>
@@ -88,8 +89,8 @@
         </dependency>
         <dependency>
             <groupId>net.sf.ehcache</groupId>
-            <artifactId>ehcache-core</artifactId>
-            <version>2.6.11</version>
+            <artifactId>ehcache</artifactId>
+            <version>${ehcache}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.session</groupId>
@@ -100,13 +101,12 @@
             <artifactId>spring-boot-devtools</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
+            <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-test</artifactId>
+            <version>${security}</version>
+            <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-security-test</artifactId>
-        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>

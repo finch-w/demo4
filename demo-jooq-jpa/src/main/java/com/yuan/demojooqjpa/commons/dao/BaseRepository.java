@@ -28,17 +28,17 @@ public interface BaseRepository<T, ID extends Serializable> extends JpaRepositor
 
     void delete(Query query);
 
-    Optional<T> getOneBySQL(String sql, Object... objects);
+    Optional<T> findOneBySQL(String sql, Object... objects);
 
-    Optional<T> getOneBySQL(String sql, Collection collection);
+    Optional<T> findOneBySQL(String sql, Collection collection);
 
-    Optional<T> getOneBySQL(String sql, Map<String, Object> map);
+    Optional<T> findOneBySQL(String sql, Map<String, Object> map);
 
-    Optional<T> getOneByJPQL(String jpql, Object... objects);
+    Optional<T> findOneByJPQL(String jpql, Object... objects);
 
-    Optional<T> getOneByJPQL(String jpql, Map<String, Object> map);
+    Optional<T> findOneByJPQL(String jpql, Map<String, Object> map);
 
-    Optional<T> getOneByQuery(Query query);
+    Optional<T> findOneByQuery(Query query);
 
     List<T> findAllBySQL(String sql, Object... objects);
 
@@ -68,19 +68,19 @@ public interface BaseRepository<T, ID extends Serializable> extends JpaRepositor
 
     Page<T> findAllByQuery(Query query, Pageable pageable);
 
-    Map getOneBySQLInMap(String sql, Object... objects);
+    Map findOneBySQLInMap(String sql, Object... objects);
 
-    Map getOneBySQLInMap(String sql, Collection collection);
+    Map findOneBySQLInMap(String sql, Collection collection);
 
-    Map getOneBySQLInMap(String sql, Map<String, Object> map);
+    Map findOneBySQLInMap(String sql, Map<String, Object> map);
 
-    Map getOneByJPQLInMap(String jpql, Object... objects);
+    Map findOneByJPQLInMap(String jpql, Object... objects);
 
-    Map getOneByJPQLInMap(String jpql, Collection collection);
+    Map findOneByJPQLInMap(String jpql, Collection collection);
 
-    Map getOneByJPQLInMap(String jpql, Map<String, Object> map);
+    Map findOneByJPQLInMap(String jpql, Map<String, Object> map);
 
-    Map getByQueryInMap(Query query);
+    Map findByQueryInMap(Query query);
 
     List<Map> findAllBySQLInMap(String sql, Object... objects);
 
@@ -110,19 +110,19 @@ public interface BaseRepository<T, ID extends Serializable> extends JpaRepositor
 
     Page<Map> findAllByQueryInMap(Query query, Pageable pageable);
 
-    <R> Optional<R> getOneBySQL(String sql, Class<R> requiureType, Object... objects);
+    <R> Optional<R> findOneBySQL(String sql, Class<R> requiureType, Object... objects);
 
-    <R> Optional<R> getOneBySQL(String sql, Class<R> requiureType, Collection collection);
+    <R> Optional<R> findOneBySQL(String sql, Class<R> requiureType, Collection collection);
 
-    <R> Optional<R> getOneBySQL(String sql, Class<R> requiureType, Map<String, Object> map);
+    <R> Optional<R> findOneBySQL(String sql, Class<R> requiureType, Map<String, Object> map);
 
-    <R> Optional<R> getOneByJPQL(String jpql, Class<R> requiureType, Object... objects);
+    <R> Optional<R> findOneByJPQL(String jpql, Class<R> requiureType, Object... objects);
 
-    <R> Optional<R> getOneByJPQL(String jpql, Class<R> requiureType, Collection collection);
+    <R> Optional<R> findOneByJPQL(String jpql, Class<R> requiureType, Collection collection);
 
-    <R> Optional<R> getOneByJPQL(String jpql, Class<R> requiureType, Map<String, Object> map);
+    <R> Optional<R> findOneByJPQL(String jpql, Class<R> requiureType, Map<String, Object> map);
 
-    <R> Optional<R> getOneByQuery(Query query, Class<R> requiureType);
+    <R> Optional<R> findOneByQuery(Query query, Class<R> requiureType);
 
     <R> List<R> findAllBySQL(String sql, Class<R> requireType, Object... objects);
 
