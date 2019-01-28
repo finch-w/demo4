@@ -1,11 +1,15 @@
 package com.yuan.demojooqjpa.commons.dao;
 
+import org.jooq.DeleteQuery;
+import org.jooq.InsertQuery;
 import org.jooq.Query;
+import org.jooq.UpdateQuery;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.NoRepositoryBean;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -17,10 +21,19 @@ import java.util.Optional;
 public interface BaseRepository<T, ID extends Serializable> extends JpaRepository<T, ID>, JpaSpecificationExecutor<T> {
     void insert(T t);
 
+    @Transactional
+    void insert(InsertQuery query);
+
     void update(T t);
 
-    void deleteAllById(ID... ids);
+    @Transactional
+    void  update(UpdateQuery query);
 
+    void delete(ID... ids);
+
+
+    @Transactional
+    void delete(DeleteQuery query);
 
     Optional<T> getOneBySQL(String sql, Object... objects);
 

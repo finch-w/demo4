@@ -27,7 +27,7 @@ public abstract class BaseServiceImpl<T, ID extends Serializable, DAO extends Ba
 
     @Override
     public void delete(ID... ids) {
-        getBaseRepository().deleteAllById(ids);
+        getBaseRepository().delete(ids);
     }
 
     @Override
