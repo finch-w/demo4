@@ -559,37 +559,72 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
 
     @Override
     public <R> Page<R> findAllBySQL(String sql, Pageable pageable, Class<R> requireType, Object... objects) {
-
-        return null;
+        javax.persistence.Query nativeQuery = entityManager.createNativeQuery(sql, requireType);
+        javax.persistence.Query countQuery = entityManager.createNativeQuery(getCountSql(sql), Long.class);
+        for (int i = 0; i < objects.length; i++) {
+            countQuery.setParameter(i + 1, objects[i]);
+            nativeQuery.setParameter(i + 1, objects[i]);
+        }
+        nativeQuery.setFirstResult(pageable.getPageSize() * pageable.getPageNumber());
+        nativeQuery.setMaxResults(pageable.getPageSize());
+        List<R> resultList = (List<R>) nativeQuery.getResultList();
+        Long singleResult = (Long) countQuery.getSingleResult();
+        return new PageImpl<>(resultList, pageable, singleResult);
     }
 
     @Override
     public <R> Page<R> findAllBySQL(String sql, Pageable pageable, Class<R> requireType, Collection collection) {
-        return null;
+        return findAllBySQL(sql, pageable, requireType, collection.toArray());
     }
 
     @Override
     public <R> Page<R> findAllBySQL(String sql, Pageable pageable, Class<R> requireType, Map<String, Object> map) {
-        return null;
+        javax.persistence.Query nativeQuery = entityManager.createNativeQuery(sql, requireType);
+        javax.persistence.Query countQuery = entityManager.createNativeQuery(getCountSql(sql), Long.class);
+        map.forEach(nativeQuery::setParameter);
+        map.forEach(countQuery::setParameter);
+        nativeQuery.setFirstResult(pageable.getPageSize() * pageable.getPageNumber());
+        nativeQuery.setMaxResults(pageable.getPageSize());
+        List<R> resultList = (List<R>) nativeQuery.getResultList();
+        Long singleResult = (Long) countQuery.getSingleResult();
+        return new PageImpl<>(resultList, pageable, singleResult);
     }
 
     @Override
     public <R> Page<R> findAllByJPQL(String jpql, Pageable pageable, Class<R> requireType, Object... objects) {
-        return null;
+        TypedQuery<R> query = entityManager.createQuery(jpql, requireType);
+        TypedQuery<Long> countQuery = entityManager.createQuery(getCountSql(jpql), Long.class);
+        for (int i = 0; i < objects.length; i++) {
+            query.setParameter(i + 1, objects[i]);
+            countQuery.setParameter(i + 1, objects[i]);
+        }
+        query.setFirstResult(pageable.getPageSize() * pageable.getPageNumber());
+        query.setMaxResults(pageable.getPageSize());
+        List<R> resultList = query.getResultList();
+        Long singleResult = countQuery.getSingleResult();
+        return new PageImpl<>(resultList, pageable, singleResult);
     }
 
     @Override
     public <R> Page<R> findAllByJPQL(String jpql, Pageable pageable, Class<R> requireType, Collection collection) {
-        return null;
+        return findAllByJPQL(jpql, pageable, requireType, collection.toArray());
     }
 
     @Override
     public <R> Page<R> findAllByJPQL(String jpql, Pageable pageable, Class<R> requireType, Map<String, Object> map) {
-        return null;
+        TypedQuery<R> query = entityManager.createQuery(jpql, requireType);
+        TypedQuery<Long> countQuery = entityManager.createQuery(getCountSql(jpql), Long.class);
+        map.forEach(query::setParameter);
+        map.forEach(countQuery::setParameter);
+        query.setFirstResult(pageable.getPageSize() * pageable.getPageNumber());
+        query.setMaxResults(pageable.getPageSize());
+        List<R> resultList = query.getResultList();
+        Long singleResult = countQuery.getSingleResult();
+        return new PageImpl<>(resultList, pageable, singleResult);
     }
 
     @Override
     public <R> Page<R> findAllByQuery(Query query, Pageable pageable, Class<R> requireType) {
-        return null;
+        return findAllBySQL(query.getSQL(), pageable, requireType, query.getBindValues());
     }
 }
