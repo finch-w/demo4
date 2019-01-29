@@ -21,6 +21,8 @@
         <module>demo-mybatis2</module>
         <module>demo-jooq-jpa</module>
         <module>demo-jooq-jpa2</module>
+        <module>demo-querydsl-jpa</module>
+        <module>demo-querydsl-jpa2</module>
     </modules>
     <properties>
         <java.version>1.8</java.version>

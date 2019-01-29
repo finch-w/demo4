@@ -21,6 +21,8 @@
         <option value="$PROJECT_DIR$/demo-jooq-jpa/pom.xml" />
         <option value="$PROJECT_DIR$/demo-test/pom.xml" />
         <option value="$PROJECT_DIR$/demo-jooq-jpa2/pom.xml" />
+        <option value="$PROJECT_DIR$/demo-querydsl-jpa/pom.xml" />
+        <option value="$PROJECT_DIR$/demo-querydsl-jpa2/pom.xml" />
       </list>
     </option>
   </component>

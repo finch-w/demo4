@@ -12,6 +12,8 @@
         <module name="demo-jpa2" />
         <module name="demo-mybatis" />
         <module name="demo-mybatis2" />
+        <module name="demo-querydsl-jpa" />
+        <module name="demo-querydsl-jpa2" />
         <module name="demo-test" />
       </profile>
     </annotationProcessing>
@@ -24,6 +26,8 @@
       <module name="demo-jpa2" options="-parameters" />
       <module name="demo-mybatis" options="-parameters" />
       <module name="demo-mybatis2" options="-parameters" />
+      <module name="demo-querydsl-jpa" options="-parameters" />
+      <module name="demo-querydsl-jpa2" options="-parameters" />
       <module name="demo-test" options="-parameters" />
       <module name="demo4" options="-parameters" />
     </option>
