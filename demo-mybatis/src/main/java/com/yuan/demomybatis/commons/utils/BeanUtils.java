@@ -1,4 +1,4 @@
-package com.yuan.demomybatis2.commons.utils;
+package com.yuan.demomybatis.commons.utils;
 
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.util.StringUtils;
@@ -10,7 +10,7 @@ import java.util.Set;
 
 
 public class BeanUtils extends org.springframework.beans.BeanUtils {
-    @SuppressWarnings({"Duplicates", "ToArrayCallWithZeroLengthArrayArgument"})
+    @SuppressWarnings("Duplicates")
     public static <T> void copyPojo(T source, T target) {
         BeanWrapperImpl beanWrapper = new BeanWrapperImpl(source);
         Set<String> prorpeties = new HashSet<>();

@@ -5,6 +5,7 @@ import com.yuan.demojooqjpa.commons.service.BaseService;
 import org.springframework.data.domain.Example;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Optional;
 
 public abstract class BaseServiceImpl<T, ID extends Serializable, DAO extends BaseRepository<T, ID>> implements BaseService<T, ID> {
@@ -25,6 +26,7 @@ public abstract class BaseServiceImpl<T, ID extends Serializable, DAO extends Ba
         getBaseRepository().update(t);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void delete(ID... ids) {
         getBaseRepository().delete(ids);
@@ -38,6 +40,11 @@ public abstract class BaseServiceImpl<T, ID extends Serializable, DAO extends Ba
     @Override
     public Optional<T> getByExample(T t) {
         return getBaseRepository().findOne(Example.of(t));
+    }
+
+    @Override
+    public List<T> listByExample(T t) {
+        return getBaseRepository().findAll(Example.of(t));
     }
 
     @Override

@@ -1,8 +1,9 @@
 package com.yuan.demoquerydsljpa.commons.service;
 
-import com.yuan.demojpa.commons.pojo.BasePojo;
+import com.yuan.demoquerydsljpa.commons.pojo.BasePojo;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Optional;
 
 public interface BaseService<T extends BasePojo, ID extends Serializable> {
@@ -17,6 +18,8 @@ public interface BaseService<T extends BasePojo, ID extends Serializable> {
     Optional<T> getById(ID id);
 
     Optional<T> getByExample(T t);
+
+    List<T> listByExample(T t);
 
     boolean exist(T t);
 

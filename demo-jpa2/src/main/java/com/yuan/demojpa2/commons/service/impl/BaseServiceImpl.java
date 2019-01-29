@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 public abstract class BaseServiceImpl<T extends BasePojo, ID extends Serializable, DAO extends BaseRepository<T, ID>> implements BaseService<T, ID> {
@@ -36,6 +37,7 @@ public abstract class BaseServiceImpl<T extends BasePojo, ID extends Serializabl
         getBaseRepository().update(t);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     @Transactional
     public void delete(ID... ids) {
@@ -50,6 +52,11 @@ public abstract class BaseServiceImpl<T extends BasePojo, ID extends Serializabl
     @Override
     public Optional<T> getByExample(T t) {
         return getBaseRepository().findOne(Example.of(t));
+    }
+
+    @Override
+    public List<T> listByExample(T t) {
+        return getBaseRepository().findAll(Example.of(t));
     }
 
     @Override

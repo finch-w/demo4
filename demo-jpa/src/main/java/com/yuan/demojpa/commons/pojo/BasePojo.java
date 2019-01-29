@@ -16,6 +16,7 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+
 public abstract class BasePojo implements Serializable {
     @Id
     @Column(name = "id")

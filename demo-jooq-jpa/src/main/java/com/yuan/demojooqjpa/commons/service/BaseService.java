@@ -1,6 +1,7 @@
 package com.yuan.demojooqjpa.commons.service;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Optional;
 
 public interface BaseService<T, ID extends Serializable> {
@@ -15,6 +16,8 @@ public interface BaseService<T, ID extends Serializable> {
     Optional<T> getById(ID id);
 
     Optional<T> getByExample(T t);
+
+    List<T> listByExample(T t);
 
     boolean exist(T t);
 
