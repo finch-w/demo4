@@ -17,6 +17,7 @@
         <java.version>1.8</java.version>
         <mapper>2.1.5</mapper>
         <pagehelper>1.2.10</pagehelper>
+        <mybatis>2.0.0</mybatis>
     </properties>
 
     <dependencies>
@@ -29,6 +30,10 @@
             <groupId>com.github.pagehelper</groupId>
             <artifactId>pagehelper-spring-boot-starter</artifactId>
             <version>${pagehelper}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
         </dependency>
         <dependency>
             <groupId>mysql</groupId>
