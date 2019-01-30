@@ -15,7 +15,7 @@
 
     <properties>
         <java.version>1.8</java.version>
-        <eclipselink>2.7.3</eclipselink>
+        <eclipselink>2.7.4</eclipselink>
     </properties>
 
     <dependencies>

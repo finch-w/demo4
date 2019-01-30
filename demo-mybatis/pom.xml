@@ -15,7 +15,7 @@
 
     <properties>
         <java.version>1.8</java.version>
-        <mapper>2.1.2</mapper>
+        <mapper>2.1.5</mapper>
         <pagehelper>1.2.10</pagehelper>
     </properties>
 

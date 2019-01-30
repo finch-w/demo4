@@ -15,7 +15,7 @@
 
     <properties>
         <java.version>1.8</java.version>
-        <mybatis-plus>3.0.6</mybatis-plus>
+        <mybatis-plus>3.0.7.1</mybatis-plus>
     </properties>
 
     <dependencies>
