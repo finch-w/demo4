@@ -1,5 +1,6 @@
 package com.yuan.demoquerydsljpa.commons.dao;
 
+import com.querydsl.jpa.JPQLQueryFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,6 +16,8 @@ import java.util.Optional;
 
 @NoRepositoryBean
 public interface BaseRepository<T, ID extends Serializable> extends JpaRepository<T, ID>, QuerydslPredicateExecutor<T>, JpaSpecificationExecutor<T> {
+
+    JPQLQueryFactory getQueryFactory();
 
     void insert(T t);
 

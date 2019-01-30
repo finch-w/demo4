@@ -1,5 +1,6 @@
 package com.yuan.demojooqjpa2.commons.dao;
 
+import org.jooq.DSLContext;
 import org.jooq.Query;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,6 +15,8 @@ import java.util.Optional;
 
 @NoRepositoryBean
 public interface BaseRepository<T, ID> extends JpaRepository<T, ID>, JpaSpecificationExecutor<T> {
+    DSLContext getDslContext();
+
     void insert(T t);
 
     void insert(Query query);

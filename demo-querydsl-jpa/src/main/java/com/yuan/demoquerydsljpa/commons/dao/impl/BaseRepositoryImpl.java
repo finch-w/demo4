@@ -42,6 +42,10 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends QuerydslJpaR
         this.queryFactory = new JPAQueryFactory(entityManager);
     }
 
+    @Override
+    public JPQLQueryFactory getQueryFactory() {
+        return queryFactory;
+    }
 
     private String generatorCountSQL(String sql) {
         StringBuilder stringBuilder = new StringBuilder();

@@ -4,7 +4,9 @@ import com.yuan.demojooqjpa.commons.dao.BaseRepository;
 import com.yuan.demojooqjpa.commons.utils.BeanUtils;
 import org.eclipse.persistence.config.QueryHints;
 import org.eclipse.persistence.config.ResultType;
+import org.jooq.DSLContext;
 import org.jooq.Query;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -27,11 +29,17 @@ import java.util.stream.IntStream;
 public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRepository<T, ID> implements BaseRepository<T, ID> {
     private EntityManager entityManager;
     private JpaEntityInformation<T, ?> entityInformation;
-
+    @Autowired
+    private DSLContext dslContext;
     public BaseRepositoryImpl(JpaEntityInformation<T, ?> entityInformation, EntityManager entityManager) {
         super(entityInformation, entityManager);
         this.entityInformation = entityInformation;
         this.entityManager = entityManager;
+    }
+
+    @Override
+    public DSLContext getDslContext() {
+        return dslContext;
     }
 
     private String getCountSql(String sql) {
@@ -377,10 +385,10 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
         String countSql = getCountSql(sql);
         javax.persistence.Query countQuery = entityManager.createNativeQuery(sql);
         javax.persistence.Query query = entityManager.createNativeQuery(sql).setHint(QueryHints.RESULT_TYPE, ResultType.Map);
-        for (int i = 0; i < objects.length; i++) {
+        IntStream.range(0, objects.length).forEachOrdered(i -> {
             countQuery.setParameter(i + 1, objects[i]);
             query.setParameter(i + 1, objects[i]);
-        }
+        });
         Long count = (Long) countQuery.getSingleResult();
         query.setFirstResult(pageable.getPageSize() * pageable.getPageNumber());
         query.setMaxResults(pageable.getPageSize());

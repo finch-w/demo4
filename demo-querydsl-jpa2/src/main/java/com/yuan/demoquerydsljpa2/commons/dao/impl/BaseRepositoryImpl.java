@@ -1,5 +1,7 @@
 package com.yuan.demoquerydsljpa2.commons.dao.impl;
 
+import com.querydsl.jpa.JPQLQueryFactory;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.yuan.demoquerydsljpa2.commons.dao.BaseRepository;
 import com.yuan.demoquerydsljpa2.commons.utils.BeanUtils;
 import org.hibernate.Session;
@@ -30,12 +32,17 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends QuerydslJpaR
     private EntityManager entityManager;
     private JpaEntityInformation<T, ?> entityInformation;
     private EntityPathResolver resolver;
-
+    private JPAQueryFactory queryFactory;
     public BaseRepositoryImpl(JpaEntityInformation<T, ID> entityInformation, EntityManager entityManager, EntityPathResolver resolver) {
         super(entityInformation, entityManager, resolver);
         this.entityInformation = entityInformation;
         this.entityManager = entityManager;
         this.resolver = resolver;
+    }
+
+    @Override
+    public JPQLQueryFactory getQueryFactory() {
+        return queryFactory;
     }
 
     @SuppressWarnings({"Duplicates", "StringBufferReplaceableByString"})

@@ -1,9 +1,9 @@
-create database if not exists demo1
-use demo1;
+create database if not exists demo4;
+use demo4;
 create table sys_user
 (
   id         varchar(255) primary key,
-  createDate datetime default now(),
+  createDate datetime,
   updateDate datetime,
   createUser varchar(255),
   updateUser varchar(255),
@@ -14,17 +14,17 @@ create table sys_user
 create table sys_role
 (
   id         varchar(255) primary key,
-  createDate datetime default now(),
+  createDate datetime,
   updateDate datetime,
   createUser varchar(255),
   updateUser varchar(255),
   name       varchar(255)
 
-) comment '系统角色'
+) comment '系统角色';
 create table sys_authoriry
 (
   id         varchar(255) primary key,
-  createDate datetime default now(),
+  createDate datetime,
   updateDate datetime,
   createUser varchar(255),
   updateUser varchar(255),
@@ -33,7 +33,7 @@ create table sys_authoriry
 create table sys_resource
 (
   id         varchar(255) primary key,
-  createDate datetime default now(),
+  createDate datetime,
   updateDate datetime,
   createUser varchar(255),
   updateUser varchar(255),
@@ -46,7 +46,7 @@ create table sys_resource
 create table sys_user_role
 (
   id         varchar(255) primary key,
-  createDate datetime default now(),
+  createDate datetime,
   updateDate datetime,
   createUser varchar(255),
   updateUser varchar(255),
@@ -56,7 +56,7 @@ create table sys_user_role
 create table sys_role_authorize
 (
   id          varchar(255) primary key,
-  createDate  datetime default now(),
+  createDate  datetime,
   updateDate  datetime,
   createUser  varchar(255),
   updateUser  varchar(255),
@@ -66,7 +66,7 @@ create table sys_role_authorize
 create table sys_authorize_resource
 (
   id          varchar(255) primary key,
-  createDate  datetime default now(),
+  createDate  datetime,
   updateDate  datetime,
   createUser  varchar(255),
   updateUser  varchar(255),
@@ -76,9 +76,9 @@ create table sys_authorize_resource
 create table sys_log
 (
   id         varchar(255) primary key,
-  createDate datetime default now(),
+  createDate datetime,
   updateDate datetime,
   createUser varchar(255),
   updateUser varchar(255),
   content    varchar(255)
-) comment '系统日志'
+) comment '系统日志';

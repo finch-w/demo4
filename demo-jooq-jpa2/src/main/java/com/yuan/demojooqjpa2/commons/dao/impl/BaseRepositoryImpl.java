@@ -7,6 +7,8 @@ import org.hibernate.query.NativeQuery;
 import org.hibernate.query.internal.NativeQueryImpl;
 import org.hibernate.query.internal.QueryImpl;
 import org.hibernate.transform.Transformers;
+import org.jooq.DSLContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -26,11 +28,18 @@ import java.util.*;
 public class BaseRepositoryImpl<T, ID> extends SimpleJpaRepository<T, ID> implements BaseRepository<T, ID> {
     private EntityManager entityManager;
     private JpaEntityInformation<T, ?> entityInformation;
+    @Autowired
+    private DSLContext dslContext;
 
     public BaseRepositoryImpl(JpaEntityInformation<T, ?> entityInformation, EntityManager entityManager) {
         super(entityInformation, entityManager);
         this.entityInformation = entityInformation;
         this.entityManager = entityManager;
+    }
+
+    @Override
+    public DSLContext getDslContext() {
+        return dslContext;
     }
 
     @SuppressWarnings({"Duplicates", "StringBufferReplaceableByString"})
