@@ -1,5 +1,9 @@
 package com.yuan.demojooqjpa.commons.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+
 import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
@@ -17,7 +21,11 @@ public interface BaseService<T, ID extends Serializable> {
 
     Optional<T> getByExample(T t);
 
-    List<T> listByExample(T t);
+    List<T> findByExample(T t);
+
+    List<T> findByExample(T t, Sort sort);
+
+    Page<T> findByExample(T t, Pageable pageable);
 
     boolean exist(T t);
 

@@ -1,4 +1,4 @@
-package com.yuan.demojooqjpa.config;
+package com.yuan.demojpa.commons.config;
 
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration;
@@ -21,7 +21,7 @@ public class EclipseLinkConfig extends JpaBaseConfiguration {
 
     protected EclipseLinkConfig(DataSource dataSource, JpaProperties properties, ObjectProvider<JtaTransactionManager> jtaTransactionManager, ObjectProvider<TransactionManagerCustomizers> transactionManagerCustomizers) {
         super(dataSource, properties, jtaTransactionManager, transactionManagerCustomizers);
-        this.jpaProperties = properties;
+        this.jpaProperties=properties;
     }
 
     @Override

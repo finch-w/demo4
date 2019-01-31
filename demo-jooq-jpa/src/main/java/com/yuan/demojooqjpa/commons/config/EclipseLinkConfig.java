@@ -1,4 +1,4 @@
-package com.yuan.demoquerydsljpa.config;
+package com.yuan.demojooqjpa.commons.config;
 
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration;

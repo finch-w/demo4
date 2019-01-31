@@ -3,6 +3,9 @@ package com.yuan.demojooqjpa.commons.service.impl;
 import com.yuan.demojooqjpa.commons.dao.BaseRepository;
 import com.yuan.demojooqjpa.commons.service.BaseService;
 import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.io.Serializable;
 import java.util.List;
@@ -43,8 +46,18 @@ public abstract class BaseServiceImpl<T, ID extends Serializable, DAO extends Ba
     }
 
     @Override
-    public List<T> listByExample(T t) {
+    public List<T> findByExample(T t) {
         return getBaseRepository().findAll(Example.of(t));
+    }
+
+    @Override
+    public List<T> findByExample(T t, Sort sort) {
+        return getBaseRepository().findAll(Example.of(t), sort);
+    }
+
+    @Override
+    public Page<T> findByExample(T t, Pageable pageable) {
+        return getBaseRepository().findAll(Example.of(t), pageable);
     }
 
     @Override

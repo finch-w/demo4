@@ -1,5 +1,6 @@
-create database if not exists demo4;
+create database if not exists demo4 charset utf8;
 use demo4;
+start transaction;
 create table sys_user
 (
   id         varchar(255) primary key,
@@ -82,3 +83,4 @@ create table sys_log
   updateUser varchar(255),
   content    varchar(255)
 ) comment '系统日志';
+commit;

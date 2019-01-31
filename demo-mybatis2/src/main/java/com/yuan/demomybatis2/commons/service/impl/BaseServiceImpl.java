@@ -25,7 +25,7 @@ public abstract class BaseServiceImpl<T extends BasePojo, ID extends Serializabl
     @Transactional
     public int update(T t) {
         t.setUpdateDate(new Date());
-        T tDb = getBaseMapper().selectById((Serializable) BeanUtils.convert(t, "id"));
+        T tDb = getBaseMapper().selectById(t.getId());
         BeanUtils.copyPojo(t, tDb);
         return getBaseMapper().updateById(tDb);
     }
@@ -45,6 +45,7 @@ public abstract class BaseServiceImpl<T extends BasePojo, ID extends Serializabl
         }
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     @Transactional
     public int delete(ID... ids) {

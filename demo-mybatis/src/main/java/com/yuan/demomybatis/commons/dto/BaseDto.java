@@ -1,18 +1,15 @@
-package com.yuan.demomybatis2.commons.dto;
+package com.yuan.demomybatis.commons.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
 import java.util.Date;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public abstract class BaseDto implements Serializable {
-    private Long page = 1L;
-    private Long size = 100L;
+public abstract class BaseDto {
     private String id;
     private String createUser;
     private String updateUser;
@@ -22,4 +19,5 @@ public abstract class BaseDto implements Serializable {
     private Date createDateEnd;
     private Date updateDateStart;
     private Date updateDateEnd;
+
 }
