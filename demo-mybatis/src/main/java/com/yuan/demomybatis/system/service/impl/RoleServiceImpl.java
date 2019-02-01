@@ -27,6 +27,6 @@ public class RoleServiceImpl extends BaseServiceImpl<SysRole, String, RoleMapper
     @Override
     public PageInfo<SysRole> selectPage(SysRoleDto dto) {
         PageHelper.startPage(dto.getPage(), dto.getSize());
-        return new PageInfo<>(getMapper().selectListByCondition(dto));
+        return new PageInfo<>(getMapper().selectList(dto));
     }
 }

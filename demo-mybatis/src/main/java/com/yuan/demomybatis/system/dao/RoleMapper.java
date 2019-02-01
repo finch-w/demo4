@@ -9,5 +9,5 @@ import java.util.List;
 
 @Mapper
 public interface RoleMapper extends BaseMapper<SysRole> {
-    List<SysRole> selectListByCondition(SysRoleDto dto);
+    List<SysRole> selectList(SysRoleDto dto);
 }

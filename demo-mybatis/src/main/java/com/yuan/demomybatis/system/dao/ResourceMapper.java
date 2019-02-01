@@ -9,5 +9,5 @@ import java.util.List;
 
 @Mapper
 public interface ResourceMapper extends BaseMapper<SysResource> {
-    List<SysResource> selectListByCondition(SysResourceDto dto);
+    List<SysResource> selectList(SysResourceDto dto);
 }

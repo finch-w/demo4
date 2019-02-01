@@ -9,5 +9,5 @@ import java.util.List;
 
 @Mapper
 public interface UserMapper extends BaseMapper<SysUser> {
-    List<SysUser> findAllByCondtion(SysUserDto dto);
+    List<SysUser> selectList(SysUserDto dto);
 }

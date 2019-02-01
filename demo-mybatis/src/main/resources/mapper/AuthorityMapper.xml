@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.yuan.demomybatis.system.dao.AuthorityMapper">
-    <select id="selectListByCondition" resultType="com.yuan.demomybatis.system.pojo.SysAuthority">
+    <select id="selectList" resultType="com.yuan.demomybatis.system.pojo.SysAuthority">
         select id, createDate, updateDate, createUser, updateUser
         from sys_authoriry sa
         where 1 = 1

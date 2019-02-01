@@ -7,7 +7,11 @@ import com.yuan.demomybatis2.system.pojo.SysUser;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 @Mapper
 public interface UserMapper extends BaseMapper<SysUser> {
     IPage<SysUser> selectPage(IPage page, @Param("dto") SysUserDto dto);
+
+    List<SysUser> selectList(SysUserDto dto);
 }

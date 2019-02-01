@@ -25,12 +25,12 @@ public class UserServiceImpl extends BaseServiceImpl<SysUser, String, UserMapper
 
     @Override
     public List<SysUser> findAllByDto(SysUserDto dto) {
-        return getMapper().findAllByCondtion(dto);
+        return getMapper().selectList(dto);
     }
 
     @Override
     public PageInfo<SysUser> findAllByDtoPage(SysUserDto dto) {
         PageHelper.startPage(dto.getPage(), dto.getSize());
-        return new PageInfo<>(getMapper().findAllByCondtion(dto));
+        return new PageInfo<>(getMapper().selectList(dto));
     }
 }

@@ -27,6 +27,6 @@ public class ResourceServiceImpl extends BaseServiceImpl<SysResource, String, Re
     @Override
     public PageInfo<SysResource> selectPage(SysResourceDto dto) {
         PageHelper.startPage(dto.getPage(), dto.getSize());
-        return new PageInfo<>(getMapper().selectListByCondition(dto));
+        return new PageInfo<>(getMapper().selectList(dto));
     }
 }

@@ -9,5 +9,5 @@ import java.util.List;
 
 @Mapper
 public interface AuthorityMapper extends BaseMapper<SysAuthority> {
-    List<SysAuthority> selectListByCondition(SysAuthorityDto dto);
+    List<SysAuthority> selectList(SysAuthorityDto dto);
 }

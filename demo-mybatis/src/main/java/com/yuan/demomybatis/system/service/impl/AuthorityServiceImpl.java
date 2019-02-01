@@ -27,6 +27,6 @@ public class AuthorityServiceImpl extends BaseServiceImpl<SysAuthority, String, 
     @Override
     public PageInfo<SysAuthority> selectPage(SysAuthorityDto dto) {
         PageHelper.startPage(dto.getPage(), dto.getSize());
-        return new PageInfo<>(authorityMapper.selectListByCondition(dto));
+        return new PageInfo<>(authorityMapper.selectList(dto));
     }
 }

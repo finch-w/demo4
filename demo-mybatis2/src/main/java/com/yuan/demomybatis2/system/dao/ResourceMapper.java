@@ -8,7 +8,11 @@ import com.yuan.demomybatis2.system.pojo.SysResource;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 @Mapper
 public interface ResourceMapper extends BaseMapper<SysResource> {
     IPage<SysResource> selectPage(Page page, @Param("dto") SysResourceDto dto);
+
+    List<SysResource> selectList(SysResourceDto dto);
 }

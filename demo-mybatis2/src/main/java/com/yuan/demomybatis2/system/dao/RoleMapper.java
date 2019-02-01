@@ -8,7 +8,11 @@ import com.yuan.demomybatis2.system.pojo.SysRole;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 @Mapper
 public interface RoleMapper extends BaseMapper<SysRole> {
     IPage<SysRole> selectPage(Page page, @Param("dto") SysRoleDto dto);
+
+    List<SysRole> selectList(SysRoleDto dto);
 }

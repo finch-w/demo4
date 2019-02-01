@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.yuan.demomybatis2.system.dao.ResourceMapper">
-    <select id="selectPage" resultType="com.yuan.demomybatis2.system.pojo.SysResource">
+    <sql id="dtoSQL">
         select id,
         createDate,
         updateDate,
@@ -44,5 +44,11 @@
             <![CDATA[and date (updateDate)<= date (#{updateDateEnd} )]]>
         </if>
         order by createDate desc
+    </sql>
+    <select id="selectPage" resultType="com.yuan.demomybatis2.system.pojo.SysResource">
+        <include refid="dtoSQL"/>
+    </select>
+    <select id="selectList" resultType="com.yuan.demomybatis2.system.pojo.SysResource">
+        <include refid="dtoSQL"/>
     </select>
 </mapper>

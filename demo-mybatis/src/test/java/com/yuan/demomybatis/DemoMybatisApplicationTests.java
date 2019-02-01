@@ -23,7 +23,7 @@ public class DemoMybatisApplicationTests {
     @Test
     public void test() {
         UserMapper userMapper = context.getBean(UserMapper.class);
-        System.out.println(userMapper.findAllByCondtion(SysUserDto.builder().name("aaa").build()));
+        System.out.println(userMapper.selectList(SysUserDto.builder().name("aaa").build()));
     }
 }
 

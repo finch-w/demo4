@@ -8,7 +8,11 @@ import com.yuan.demomybatis2.system.pojo.SysAuthority;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 @Mapper
 public interface AuthorityMapper extends BaseMapper<SysAuthority> {
     IPage<SysAuthority> selectPage(Page page, @Param("dto") SysAuthorityDto dto);
+
+    List<SysAuthority> selectList(SysAuthorityDto dto);
 }
