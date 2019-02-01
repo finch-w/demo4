@@ -1,5 +1,6 @@
 package com.yuan.demomybatis.commons.service;
 
+import com.github.pagehelper.PageInfo;
 import com.yuan.demomybatis.commons.pojo.BasePojo;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,6 +14,7 @@ public interface BaseService<T extends BasePojo, ID extends Serializable> {
 
     int save(T t);
 
+    @SuppressWarnings("unchecked")
     @Transactional
     int delete(ID... ids);
 
@@ -21,4 +23,6 @@ public interface BaseService<T extends BasePojo, ID extends Serializable> {
     T get(T t);
 
     List<T> list(T t);
+
+    PageInfo<T> page(int page, int size, T t);
 }

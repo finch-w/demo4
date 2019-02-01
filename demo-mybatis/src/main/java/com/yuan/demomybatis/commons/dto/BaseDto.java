@@ -10,6 +10,8 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public abstract class BaseDto {
+    private Integer page = 0;
+    private Integer size = 100;
     private String id;
     private String createUser;
     private String updateUser;

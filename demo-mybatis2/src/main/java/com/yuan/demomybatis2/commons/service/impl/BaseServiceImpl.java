@@ -1,5 +1,8 @@
 package com.yuan.demomybatis2.commons.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yuan.demomybatis2.commons.dao.BaseMapper;
 import com.yuan.demomybatis2.commons.pojo.BasePojo;
 import com.yuan.demomybatis2.commons.service.BaseService;
@@ -10,6 +13,7 @@ import org.springframework.util.StringUtils;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 public abstract class BaseServiceImpl<T extends BasePojo, ID extends Serializable, MAPPER extends BaseMapper<T>> implements BaseService<T, ID> {
     public abstract MAPPER getBaseMapper();
@@ -55,5 +59,20 @@ public abstract class BaseServiceImpl<T extends BasePojo, ID extends Serializabl
     @Override
     public T getById(ID id) {
         return getBaseMapper().selectById(id);
+    }
+
+    @Override
+    public T getOne(T t) {
+        return getBaseMapper().selectOne(new QueryWrapper<>(t));
+    }
+
+    @Override
+    public List<T> findAll(T t) {
+        return getBaseMapper().selectList(new QueryWrapper<>(t));
+    }
+
+    @Override
+    public IPage<T> findAll(Page<T> page, T t) {
+        return getBaseMapper().selectPage(page, new QueryWrapper<>(t));
     }
 }

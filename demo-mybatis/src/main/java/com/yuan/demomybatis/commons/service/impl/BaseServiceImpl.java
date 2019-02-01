@@ -1,5 +1,7 @@
 package com.yuan.demomybatis.commons.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.yuan.demomybatis.commons.dao.BaseMapper;
 import com.yuan.demomybatis.commons.pojo.BasePojo;
 import com.yuan.demomybatis.commons.service.BaseService;
@@ -59,6 +61,12 @@ public abstract class BaseServiceImpl<T extends BasePojo, ID extends Serializabl
     @Override
     public List<T> list(T t) {
         return getMapper().select(t);
+    }
+
+    @Override
+    public PageInfo<T> page(int page, int size, T t) {
+        PageHelper.startPage(page, size);
+        return new PageInfo<>(getMapper().select(t));
     }
 
 }
