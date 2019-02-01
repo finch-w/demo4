@@ -15,12 +15,13 @@ public class DemoMybatisApplicationTests {
 
     @Autowired
     private ApplicationContext context;
+
     @Test
     public void contextLoads() {
     }
 
     @Test
-    public void test(){
+    public void test() {
         UserMapper userMapper = context.getBean(UserMapper.class);
         System.out.println(userMapper.findAllByCondtion(SysUserDto.builder().name("aaa").build()));
     }

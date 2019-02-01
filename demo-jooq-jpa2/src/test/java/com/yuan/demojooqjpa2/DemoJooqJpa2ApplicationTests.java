@@ -12,6 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class DemoJooqJpa2ApplicationTests {
     @Autowired
     private ApplicationContext context;
+
     @Test
     public void contextLoads() {
     }

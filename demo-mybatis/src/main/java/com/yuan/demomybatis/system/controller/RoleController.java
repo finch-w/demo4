@@ -43,11 +43,22 @@ public class RoleController extends BaseController {
         return result("role/edit", Collections.singletonMap("role", roleService.get(id)));
     }
 
-
     @RequestMapping("save")
     @ResponseBody
     public DeferredResult save(SysRole role) {
         return result(roleService.save(role) > 0);
+    }
+
+    @RequestMapping("delete")
+    @ResponseBody
+    public DeferredResult delete(String id) {
+        return result(roleService.delete(id.split(",")) > 0);
+    }
+
+    @RequestMapping("update")
+    @ResponseBody
+    public DeferredResult update(SysRole role) {
+        return result(roleService.update(role) > 0);
     }
 
     @RequestMapping("get")

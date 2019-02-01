@@ -24,7 +24,7 @@ public class DemoMybatis2Application {
     }
 
     @Bean
-    PaginationInterceptor paginationInterceptor(){
+    PaginationInterceptor paginationInterceptor() {
         return new PaginationInterceptor();
     }
 }

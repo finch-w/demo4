@@ -33,6 +33,7 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends QuerydslJpaR
     private JpaEntityInformation<T, ?> entityInformation;
     private EntityPathResolver resolver;
     private JPAQueryFactory queryFactory;
+
     public BaseRepositoryImpl(JpaEntityInformation<T, ID> entityInformation, EntityManager entityManager, EntityPathResolver resolver) {
         super(entityInformation, entityManager, resolver);
         this.entityInformation = entityInformation;

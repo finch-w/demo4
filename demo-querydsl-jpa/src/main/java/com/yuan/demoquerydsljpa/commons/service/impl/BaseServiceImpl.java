@@ -71,6 +71,7 @@ public abstract class BaseServiceImpl<T extends BasePojo, ID extends Serializabl
     public Page<T> findByExample(T t, Pageable pageable) {
         return getBaseRepository().findAll(Example.of(t), pageable);
     }
+
     @Override
     public boolean exist(T t) {
         return getBaseRepository().count(Example.of(t)) > 0;

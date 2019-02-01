@@ -54,6 +54,18 @@ public class UserController extends BaseController {
         return result(userService.save(user) > 0);
     }
 
+    @RequestMapping("delete")
+    @ResponseBody
+    public DeferredResult delete(String id) {
+        return result(userService.delete(id.split(",")) > 0);
+    }
+
+    @RequestMapping("update")
+    @ResponseBody
+    public DeferredResult update(SysUser user) {
+        return result(userService.update(user) > 0);
+    }
+
     @RequestMapping("get")
     @ResponseBody
     public DeferredResult get(SysUser user) {
