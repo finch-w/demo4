@@ -25,7 +25,7 @@ public class UserServiceImpl extends BaseServiceImpl<SysUser, String, UserMapper
     }
 
     @Override
-    public IPage<SysUser> page(SysUserDto dto) {
-        return userMapper.findAllByCondition(new Page<>(dto.getPage(), dto.getSize()), dto);
+    public IPage<SysUser> selectPage(SysUserDto dto) {
+        return getBaseMapper().selectPage(new Page(dto.getPage(), dto.getSize()), dto);
     }
 }

@@ -6,5 +6,5 @@ import com.yuan.demomybatis2.system.dto.SysUserDto;
 import com.yuan.demomybatis2.system.pojo.SysUser;
 
 public interface UserService extends BaseService<SysUser, String> {
-    IPage<SysUser> page(SysUserDto dto);
+    IPage<SysUser> selectPage(SysUserDto dto);
 }

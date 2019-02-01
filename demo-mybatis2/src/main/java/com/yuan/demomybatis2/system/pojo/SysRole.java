@@ -7,20 +7,16 @@ import lombok.*;
 import java.util.Date;
 
 @EqualsAndHashCode(callSuper = true)
-@TableName("sys_user")
 @Data
+@TableName("sys_role")
 @NoArgsConstructor
 @AllArgsConstructor
-public class SysUser extends BasePojo {
-    private String username;
+public class SysRole extends BasePojo {
     private String name;
-    private String password;
 
     @Builder
-    public SysUser(String id, String createUser, String updateUser, Date createDate, Date updateDate, String username, String name, String password) {
+    public SysRole(String id, String createUser, String updateUser, Date createDate, Date updateDate, String name) {
         super(id, createUser, updateUser, createDate, updateDate);
-        this.username = username;
         this.name = name;
-        this.password = password;
     }
 }

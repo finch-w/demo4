@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yuan.demomybatis2.system.dao.UserMapper">
+    <select id="selectPage" resultType="com.yuan.demomybatis2.system.pojo.SysUser">
+        select id,createDate,updateDate,createUser,updateUser,username,name,password
+        from sys_user su
+        where 1 = 1
+        <if test="dto.name != null and dto.name != ''">
+            and (name like concat('%',#{dto.name} ,'%') or username like concat('%',#{dto.name} ,'%'))
+        </if>
+        <if test="dto.createDate != null">
+            and date (createDate) = date (#{dto.createDate} )
+        </if>
+        <if test="dto.createDateStart != null">
+            and date (createDate) >= date (#{dto.createDateStart} )
+        </if>
+        <if test="dto.createDateEnd != null">
+            and date (createDate) <![CDATA[<=]]> date (#{dto.createDateEnd} )
+        </if>
+        <if test="dto.updateDate != null">
+            and date (updateDate) = date (#{dto.updateDate} )
+        </if>
+        <if test="dto.updateDateStart != null">
+            and date (updateDate) >= date (#{dto.updateDateStart} )
+        </if>
+        <if test="dto.updateDateEnd != null">
+            and date (updateDate) <![CDATA[<=]]> date (#{dto.updateDateEnd} )
+        </if>
+        <if test="dto.createUser != null and dto.createUser != ''">
+            and createUser in (select id from sys_user s where name like concat('%',#{dto.name} ,'%') or username like
+            concat('%',#{dto.name} ,'%'))
+        </if>
+        <if test="dto.updateUser != null and dto.updateUser != ''">
+            and s.updateUser in (select id from sys_user u where name like concat('%',#{dto.name} ,'%') or username like
+            concat('%',#{dto.name} ,'%'))
+        </if>
+        order by createDate desc
+    </select>
+</mapper>
