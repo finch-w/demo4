@@ -1486,7 +1486,7 @@
     </column>
     <column id="381" parent="283" name="level">
       <Position>10</Position>
-      <DataType>varchar(255)|0s</DataType>
+      <DataType>int(10)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
     <key id="382" parent="283" name="PRIMARY">
