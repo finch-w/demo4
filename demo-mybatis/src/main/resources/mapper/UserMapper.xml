@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yuan.demomybatis.system.dao.UserMapper">
+    <select id="findAllByCondtion" resultType="com.yuan.demomybatis.system.pojo.SysUser">
+        select id,
+        createDate,
+        updateDate,
+        createUser,
+        updateUser,
+        username,
+        name,
+        password
+        from sys_user su
+        where 1 = 1
+        <if test="name != null and name != ''">
+            and (name like concat('%',#{name} ,'%') or username like concat('%',#{name} ,'%'))
+        </if>
+        <if test="updateDate != null">
+            and date (updateDate) = date (#{updateDate} )
+        </if>
+        <if test="createDate != null">
+            and date (createDate) = date (#{createDate} )
+        </if>
+        <if test="createDateStart != null">
+            <![CDATA[and date (createDate) >= date (#{createDateStart} )]]>
+        </if>
+        <if test="createDateEnd != null">
+            <![CDATA[and date (createDate) <= date (#{createDateEnd} )]]>
+        </if>
+        <if test="updateDate != null">
+            and date (updateDate)=date(#{updateDate} )
+        </if>
+        <if test="updateDateStart != null">
+            <![CDATA[and date (updateDate) >= date (#{updateDateStart} )]]>
+        </if>
+        <if test="updateDateEnd != null">
+            <![CDATA[and date (updateDate)<=date (#{updateDateEnd} )]]>
+        </if>
+        <if test="updateUser != null and updateUser != ''">
+            and updateUser in (select id from sys_user s where (name like concat('%',#{updateUser} ,'%') or username
+            like concat('%',#{updateUser} ,'%')))
+        </if>
+        <if test="createUser != null and createUser != ''">
+            and createUser in (select id from sys_user s where (name like concat('%',#{updateUser} ,'%') or username
+            like concat('%',#{updateUser} ,'%')))
+        </if>
+        <![CDATA[order by createDate desc]]>
+    </select>
+
+</mapper>

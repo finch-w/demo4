@@ -30,9 +30,16 @@
         <layui>2.4.5</layui>
         <easypoi>4.0.0</easypoi>
         <security>5.1.2.RELEASE</security>
+        <guava>27.0.1-jre</guava>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guava}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>layui</artifactId>
