@@ -9,7 +9,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Map;
 
-@Slf4j
 @ControllerAdvice
 //@RestControllerAdvice
 @Slf4j
