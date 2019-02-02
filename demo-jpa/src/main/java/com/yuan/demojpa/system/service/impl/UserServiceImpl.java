@@ -11,6 +11,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UserServiceImpl extends BaseServiceImpl<SysUser, String, UserDao> implements UserService {
     private final UserDao userDao;
@@ -25,8 +27,14 @@ public class UserServiceImpl extends BaseServiceImpl<SysUser, String, UserDao> i
         return userDao;
     }
 
-    public Page<SysUser> page(UserDto dto) {
+    @Override
+    public Page<SysUser> findPage(UserDto dto) {
         MapQuery mapQuery = dto.getDtoSQL();
         return getBaseRepository().findAllBySQL(mapQuery.getSql(), PageRequest.of(dto.getPage(), dto.getSize()), mapQuery.getMap());
+    }
+
+    public Optional<Long> check(SysUser user) {
+        MapQuery query = UserDto.getCheckQuery(user);
+        return getBaseRepository().findOneBySQL(query.getSql(), Long.class, query.getMap());
     }
 }

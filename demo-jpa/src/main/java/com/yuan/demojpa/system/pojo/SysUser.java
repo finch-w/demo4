@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 import java.util.Date;
 
 @EqualsAndHashCode(callSuper = true)
@@ -14,8 +15,11 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SysUser extends BasePojo {
+    @NotEmpty(message = "账户不能为空")
     private String username;
+    @NotEmpty(message = "用户名不能为空")
     private String name;
+    @NotEmpty(message = "密码不能为空")
     private String password;
 
     @Builder

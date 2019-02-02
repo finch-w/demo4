@@ -28,6 +28,17 @@ public class UserDto extends BaseDto<SysUser> {
         this.name = name;
     }
 
+    public static MapQuery getCheckQuery(SysUser user) {
+        StringBuilder sql = new StringBuilder();
+        Map<String, Object> map = new HashMap<>();
+        sql.append("select count(*) from sys_user where 1=1");
+        if (!StringUtils.isEmpty(user.getUsername())) {
+            sql.append(" or username = :username");
+            map.put("username", user.getUsername());
+        }
+        return new MapQuery(sql.toString(), map);
+    }
+
     @SuppressWarnings({"MismatchedQueryAndUpdateOfCollection", "ToArrayCallWithZeroLengthArrayArgument"})
     @Override
     public Predicate toPredicate(Root<SysUser> root, CriteriaQuery<?> query, CriteriaBuilder crieriaBuilder) {
