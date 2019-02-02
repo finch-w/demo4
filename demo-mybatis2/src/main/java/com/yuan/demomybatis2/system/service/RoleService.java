@@ -8,4 +8,6 @@ import com.yuan.demomybatis2.system.pojo.SysRole;
 
 public interface RoleService extends BaseService<SysRole, String> {
     IPage<SysRole> selectPage(SysRoleDto dto);
+
+    Integer check(SysRole role);
 }

@@ -28,4 +28,9 @@ public class ResourceServiceImpl extends BaseServiceImpl<SysResource, String, Re
     public IPage<SysResource> selectPage(SysResourceDto dto) {
         return getBaseMapper().selectPage(new Page(dto.getPage(), dto.getSize()), dto);
     }
+
+    @Override
+    public Integer check(SysResource resource) {
+        return getBaseMapper().check(resource);
+    }
 }

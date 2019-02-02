@@ -1,28 +1,26 @@
-package com.yuan.demomybatis2.system.pojo;
+package com.yuan.demojpa.system.pojo;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.yuan.demomybatis2.commons.pojo.BasePojo;
+import com.yuan.demojpa.commons.pojo.BasePojo;
 import lombok.*;
 
-import javax.validation.constraints.NotEmpty;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.Date;
 
 @EqualsAndHashCode(callSuper = true)
-@TableName("sys_resource")
+@Entity
+@Table(name = "sys_resource")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class SysResource extends BasePojo {
-    @NotEmpty(message = "资源名称不能为空")
     private String name;
-    @NotEmpty(message = "资源路径不能为空")
     private String url;
     private String icon;
     private String parent;
     private Integer level;
 
     @Builder
-
     public SysResource(String id, String createUser, String updateUser, Date createDate, Date updateDate, String name, String url, String icon, String parent, Integer level) {
         super(id, createUser, updateUser, createDate, updateDate);
         this.name = name;

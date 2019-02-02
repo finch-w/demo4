@@ -51,4 +51,9 @@
     <select id="selectList" resultType="com.yuan.demomybatis2.system.pojo.SysResource">
         <include refid="dtoSQL"/>
     </select>
+    <select id="check" resultType="java.lang.Integer">
+        select count(*)
+        from sys_resource sr
+        where sr.name = #{name};
+    </select>
 </mapper>

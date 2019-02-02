@@ -16,6 +16,7 @@ public interface BaseService<T extends BasePojo, ID extends Serializable> {
 
     void update(T t);
 
+    @SuppressWarnings({"unchecked"})
     void delete(ID... ids);
 
     Optional<T> getById(ID id);

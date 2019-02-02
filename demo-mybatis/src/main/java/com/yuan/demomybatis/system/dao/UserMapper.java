@@ -10,4 +10,6 @@ import java.util.List;
 @Mapper
 public interface UserMapper extends BaseMapper<SysUser> {
     List<SysUser> selectList(SysUserDto dto);
+
+    Integer check(SysUser user);
 }

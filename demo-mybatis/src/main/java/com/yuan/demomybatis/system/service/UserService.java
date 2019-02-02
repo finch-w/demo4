@@ -12,4 +12,6 @@ public interface UserService extends BaseService<SysUser, String> {
     List<SysUser> findAllByDto(SysUserDto dto);
 
     PageInfo<SysUser> findAllByDtoPage(SysUserDto dto);
+
+    Integer check(SysUser user);
 }

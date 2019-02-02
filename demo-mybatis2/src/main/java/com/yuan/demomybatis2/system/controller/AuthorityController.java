@@ -1,9 +1,9 @@
-package com.yuan.demomybatis.system.controller;
+package com.yuan.demomybatis2.system.controller;
 
-import com.yuan.demomybatis.commons.controller.BaseController;
-import com.yuan.demomybatis.system.dto.SysAuthorityDto;
-import com.yuan.demomybatis.system.pojo.SysAuthority;
-import com.yuan.demomybatis.system.service.AuthorityService;
+import com.yuan.demomybatis2.commons.controller.BaseController;
+import com.yuan.demomybatis2.system.dto.SysAuthorityDto;
+import com.yuan.demomybatis2.system.pojo.SysAuthority;
+import com.yuan.demomybatis2.system.service.AuthorityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -36,4 +36,9 @@
         </if>
         order by createDate desc
     </select>
+    <select id="check" resultType="java.lang.Integer">
+        select count(*)
+        from sys_authoriry sa
+        where sa.name = #{name}
+    </select>
 </mapper>

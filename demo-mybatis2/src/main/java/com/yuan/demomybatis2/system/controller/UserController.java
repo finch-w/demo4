@@ -1,18 +1,16 @@
-package com.yuan.demomybatis.system.controller;
+package com.yuan.demomybatis2.system.controller;
 
-import com.yuan.demomybatis.commons.controller.BaseController;
-import com.yuan.demomybatis.system.dto.SysUserDto;
-import com.yuan.demomybatis.system.pojo.SysUser;
-import com.yuan.demomybatis.system.service.UserService;
+import com.yuan.demomybatis2.commons.controller.BaseController;
+import com.yuan.demomybatis2.system.dto.SysUserDto;
+import com.yuan.demomybatis2.system.pojo.SysUser;
+import com.yuan.demomybatis2.system.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.async.DeferredResult;
 
-import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,7 +33,7 @@ public class UserController extends BaseController {
 
     @RequestMapping("data")
     public DeferredResult data(SysUserDto dto) {
-        return result(userService.findAllByDtoPage(dto));
+        return result(userService.selectPage(dto));
     }
 
     @RequestMapping("add")
@@ -50,34 +48,10 @@ public class UserController extends BaseController {
         return result("user/edit", map);
     }
 
-    @SuppressWarnings("ConstantConditions")
-    @RequestMapping("insert")
+    @RequestMapping("save")
     @ResponseBody
-    public DeferredResult insert(@RequestBody @Valid SysUser user, BindingResult result) {
-        if (result.hasErrors()) {
-            return result(result.getFieldError().getDefaultMessage());
-        } else if (userService.check(user) > 0) {
-            return result("此用户已存在");
-        } else {
-            return result(userService.insert(user) > 0);
-        }
-    }
-
-    @SuppressWarnings("ConstantConditions")
-    @RequestMapping("update")
-    @ResponseBody
-    public DeferredResult update(@RequestBody @Valid SysUser user, BindingResult result) {
-        if (result.hasErrors()) {
-            return result(result.getFieldError().getDefaultMessage());
-        } else {
-            return result(userService.update(user) > 0);
-        }
-    }
-
-    @RequestMapping("count")
-    @ResponseBody
-    public DeferredResult count(SysUser user) {
-        return result(userService.count(user));
+    public DeferredResult save(@RequestBody SysUser user) {
+        return result(userService.save(user) > 0);
     }
 
     @RequestMapping("delete")
@@ -86,6 +60,11 @@ public class UserController extends BaseController {
         return result(userService.delete(id.split(",")) > 0);
     }
 
+    @RequestMapping("update")
+    @ResponseBody
+    public DeferredResult update(SysUser user) {
+        return result(userService.update(user) > 0);
+    }
 
     @RequestMapping("get")
     @ResponseBody

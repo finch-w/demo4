@@ -57,22 +57,22 @@ public abstract class BaseServiceImpl<T extends BasePojo, ID extends Serializabl
     }
 
     @Override
-    public T getById(ID id) {
+    public T get(ID id) {
         return getBaseMapper().selectById(id);
     }
 
     @Override
-    public T getOne(T t) {
+    public T get(T t) {
         return getBaseMapper().selectOne(new QueryWrapper<>(t));
     }
 
     @Override
-    public List<T> findAll(T t) {
+    public List<T> selectList(T t) {
         return getBaseMapper().selectList(new QueryWrapper<>(t));
     }
 
     @Override
-    public IPage<T> findAll(Page<T> page, T t) {
+    public IPage<T> selectPage(Page<T> page, T t) {
         return getBaseMapper().selectPage(page, new QueryWrapper<>(t));
     }
 }

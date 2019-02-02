@@ -10,4 +10,6 @@ import java.util.List;
 @Mapper
 public interface RoleMapper extends BaseMapper<SysRole> {
     List<SysRole> selectList(SysRoleDto dto);
+
+    Integer check(SysRole role);
 }

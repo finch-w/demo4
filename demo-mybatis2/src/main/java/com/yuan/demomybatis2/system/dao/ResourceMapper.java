@@ -15,4 +15,6 @@ public interface ResourceMapper extends BaseMapper<SysResource> {
     IPage<SysResource> selectPage(Page page, @Param("dto") SysResourceDto dto);
 
     List<SysResource> selectList(SysResourceDto dto);
+
+    Integer check(SysResource resource);
 }

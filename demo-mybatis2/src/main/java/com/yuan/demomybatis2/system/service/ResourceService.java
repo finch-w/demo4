@@ -7,4 +7,6 @@ import com.yuan.demomybatis2.system.pojo.SysResource;
 
 public interface ResourceService extends BaseService<SysResource, String> {
     IPage<SysResource> selectPage(SysResourceDto dto);
+
+    Integer check(SysResource resource);
 }

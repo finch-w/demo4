@@ -15,4 +15,6 @@ public interface RoleMapper extends BaseMapper<SysRole> {
     IPage<SysRole> selectPage(Page page, @Param("dto") SysRoleDto dto);
 
     List<SysRole> selectList(SysRoleDto dto);
+
+    Integer check(SysRole role);
 }

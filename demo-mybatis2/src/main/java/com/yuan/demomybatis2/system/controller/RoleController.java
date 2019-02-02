@@ -1,15 +1,18 @@
-package com.yuan.demomybatis.system.controller;
+package com.yuan.demomybatis2.system.controller;
 
-import com.yuan.demomybatis.commons.controller.BaseController;
-import com.yuan.demomybatis.system.dto.SysRoleDto;
-import com.yuan.demomybatis.system.pojo.SysRole;
-import com.yuan.demomybatis.system.service.RoleService;
+import com.yuan.demomybatis2.commons.controller.BaseController;
+import com.yuan.demomybatis2.system.dto.SysRoleDto;
+import com.yuan.demomybatis2.system.pojo.SysRole;
+import com.yuan.demomybatis2.system.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.async.DeferredResult;
 
+import javax.validation.Valid;
 import java.util.Collections;
 
 @Controller
@@ -43,10 +46,17 @@ public class RoleController extends BaseController {
         return result("role/edit", Collections.singletonMap("role", roleService.get(id)));
     }
 
-    @RequestMapping("save")
+    @SuppressWarnings("ConstantConditions")
+    @RequestMapping("insert")
     @ResponseBody
-    public DeferredResult save(SysRole role) {
-        return result(roleService.save(role) > 0);
+    public DeferredResult insert(@RequestBody @Valid SysRole role, BindingResult result) {
+        if (result.hasErrors()) {
+            return result(result.getFieldError().getDefaultMessage());
+        } else if (roleService.check(role) > 0) {
+            return result("此角色已存在");
+        } else {
+            return result(roleService.save(role) > 0);
+        }
     }
 
     @RequestMapping("delete")
@@ -55,10 +65,15 @@ public class RoleController extends BaseController {
         return result(roleService.delete(id.split(",")) > 0);
     }
 
+    @SuppressWarnings("ConstantConditions")
     @RequestMapping("update")
     @ResponseBody
-    public DeferredResult update(SysRole role) {
-        return result(roleService.update(role) > 0);
+    public DeferredResult update(@RequestBody @Valid SysRole role, BindingResult result) {
+        if (result.hasErrors()) {
+            return result(result.getFieldError().getDefaultMessage());
+        } else {
+            return result(roleService.update(role) > 0);
+        }
     }
 
     @RequestMapping("get")

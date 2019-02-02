@@ -28,4 +28,9 @@ public class AuthorityServiceImpl extends BaseServiceImpl<SysAuthority, String, 
     public IPage<SysAuthority> selectPage(SysAuthorityDto dto) {
         return getBaseMapper().selectPage(new Page(dto.getPage(), dto.getSize()), dto);
     }
+
+    @Override
+    public Integer check(SysAuthority authority) {
+        return getBaseMapper().check(authority);
+    }
 }

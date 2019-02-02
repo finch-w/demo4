@@ -10,4 +10,6 @@ import java.util.List;
 @Mapper
 public interface AuthorityMapper extends BaseMapper<SysAuthority> {
     List<SysAuthority> selectList(SysAuthorityDto dto);
+
+    Integer check(SysAuthority authority);
 }

@@ -15,4 +15,6 @@ public interface AuthorityMapper extends BaseMapper<SysAuthority> {
     IPage<SysAuthority> selectPage(Page page, @Param("dto") SysAuthorityDto dto);
 
     List<SysAuthority> selectList(SysAuthorityDto dto);
+
+    Integer check(SysAuthority authority);
 }

@@ -28,4 +28,9 @@ public class RoleServiceImpl extends BaseServiceImpl<SysRole, String, RoleMapper
     public IPage<SysRole> selectPage(SysRoleDto dto) {
         return getBaseMapper().selectPage(new Page(dto.getPage(), dto.getSize()), dto);
     }
+
+    @Override
+    public Integer check(SysRole role) {
+        return getBaseMapper().check(role);
+    }
 }

@@ -7,4 +7,6 @@ import com.yuan.demomybatis2.system.pojo.SysAuthority;
 
 public interface AuthorityService extends BaseService<SysAuthority, String> {
     IPage<SysAuthority> selectPage(SysAuthorityDto dto);
+
+    Integer check(SysAuthority authority);
 }

@@ -18,11 +18,13 @@ public interface BaseService<T extends BasePojo, ID extends Serializable> {
     @Transactional
     int delete(ID... ids);
 
+    Integer count(T t);
+
     T get(ID id);
 
     T get(T t);
 
-    List<T> list(T t);
+    List<T> selectList(T t);
 
-    PageInfo<T> page(int page, int size, T t);
+    PageInfo<T> selectPage(int page, int size, T t);
 }

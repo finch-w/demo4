@@ -49,6 +49,11 @@ public abstract class BaseServiceImpl<T extends BasePojo, ID extends Serializabl
     }
 
     @Override
+    public Integer count(T t) {
+        return getMapper().selectCount(t);
+    }
+
+    @Override
     public T get(ID id) {
         return getMapper().selectByPrimaryKey(id);
     }
@@ -59,12 +64,12 @@ public abstract class BaseServiceImpl<T extends BasePojo, ID extends Serializabl
     }
 
     @Override
-    public List<T> list(T t) {
+    public List<T> selectList(T t) {
         return getMapper().select(t);
     }
 
     @Override
-    public PageInfo<T> page(int page, int size, T t) {
+    public PageInfo<T> selectPage(int page, int size, T t) {
         PageHelper.startPage(page, size);
         return new PageInfo<>(getMapper().select(t));
     }

@@ -1,19 +1,19 @@
-package com.yuan.demomybatis2.system.pojo;
+package com.yuan.demojpa.system.pojo;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.yuan.demomybatis2.commons.pojo.BasePojo;
+import com.yuan.demojpa.commons.pojo.BasePojo;
 import lombok.*;
 
-import javax.validation.constraints.NotEmpty;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.Date;
 
 @EqualsAndHashCode(callSuper = true)
+@Entity
+@Table(name = "sys_role")
 @Data
-@TableName("sys_role")
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 public class SysRole extends BasePojo {
-    @NotEmpty(message = "角色名称不能为空")
     private String name;
 
     @Builder

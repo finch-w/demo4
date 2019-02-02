@@ -14,8 +14,12 @@ import java.util.List;
 
 @Service
 public class UserServiceImpl extends BaseServiceImpl<SysUser, String, UserMapper> implements UserService {
+    private final UserMapper userMapper;
+
     @Autowired
-    private UserMapper userMapper;
+    public UserServiceImpl(UserMapper userMapper) {
+        this.userMapper = userMapper;
+    }
 
     @Override
     public UserMapper getMapper() {
@@ -32,5 +36,10 @@ public class UserServiceImpl extends BaseServiceImpl<SysUser, String, UserMapper
     public PageInfo<SysUser> findAllByDtoPage(SysUserDto dto) {
         PageHelper.startPage(dto.getPage(), dto.getSize());
         return new PageInfo<>(getMapper().selectList(dto));
+    }
+
+    @Override
+    public Integer check(SysUser user) {
+        return getMapper().check(user);
     }
 }

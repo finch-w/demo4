@@ -17,11 +17,11 @@ public interface BaseService<T extends BasePojo, ID extends Serializable> {
     @SuppressWarnings("unused")
     int delete(ID... ids);
 
-    T getById(ID id);
+    T get(ID id);
 
-    T getOne(T t);
+    T get(T t);
 
-    List<T> findAll(T t);
+    List<T> selectList(T t);
 
-    IPage<T> findAll(Page<T> page, T t);
+    IPage<T> selectPage(Page<T> page, T t);
 }

@@ -1,15 +1,18 @@
-package com.yuan.demomybatis.system.controller;
+package com.yuan.demomybatis2.system.controller;
 
-import com.yuan.demomybatis.commons.controller.BaseController;
-import com.yuan.demomybatis.system.dto.SysResourceDto;
-import com.yuan.demomybatis.system.pojo.SysResource;
-import com.yuan.demomybatis.system.service.ResourceService;
+import com.yuan.demomybatis2.commons.controller.BaseController;
+import com.yuan.demomybatis2.system.dto.SysResourceDto;
+import com.yuan.demomybatis2.system.pojo.SysResource;
+import com.yuan.demomybatis2.system.service.ResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.async.DeferredResult;
 
+import javax.validation.Valid;
 import java.util.Collections;
 
 @Controller
@@ -43,10 +46,17 @@ public class ResourceController extends BaseController {
         return result("resource/edit", Collections.singletonMap("resource", resourceService.get(id)));
     }
 
-    @RequestMapping("save")
+    @SuppressWarnings("ConstantConditions")
+    @RequestMapping("insert")
     @ResponseBody
-    public DeferredResult save(SysResource resource) {
-        return result(resourceService.save(resource));
+    public DeferredResult insert(@RequestBody @Valid SysResource resource, BindingResult result) {
+        if (result.hasErrors()) {
+            return result(result.getFieldError().getDefaultMessage());
+        } else if (resourceService.check(resource) > 0) {
+            return result("资源已存在");
+        } else {
+            return result(resourceService.save(resource));
+        }
     }
 
     @RequestMapping("delete")

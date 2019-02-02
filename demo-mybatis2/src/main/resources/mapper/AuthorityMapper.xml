@@ -42,4 +42,9 @@
     <select id="selectList" resultType="com.yuan.demomybatis2.system.pojo.SysAuthority">
         <include refid="dtoSQL"/>
     </select>
+    <select id="check" resultType="java.lang.Integer">
+        select count(*)
+        from sys_authoriry sa
+        where sa.name = #{name};
+    </select>
 </mapper>
