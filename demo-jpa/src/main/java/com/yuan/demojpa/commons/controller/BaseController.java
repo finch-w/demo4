@@ -40,8 +40,8 @@ public class BaseController {
 
     @ExceptionHandler(Exception.class)
     @ResponseBody
-    public AjaxResult handler(Exception e) {
-        return new AjaxResult(Status.ERRROR, e.getMessage());
+    public DeferredResult handler(Exception e) {
+        return result(new AjaxResult(Status.ERRROR, e.getMessage()));
 
     }
 

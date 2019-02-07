@@ -1115,9 +1115,7 @@
       <Charset>utf8mb4</Charset>
       <DefaultForCharset>0</DefaultForCharset>
     </collation>
-    <table id="280" parent="2" name="sys_authoriry">
-      <Comment>系统权限</Comment>
-    </table>
+    <table id="280" parent="2" name="sys_authority"/>
     <table id="281" parent="2" name="sys_authorize_resource">
       <Comment>系统权限资源关联表</Comment>
     </table>
@@ -1130,7 +1128,7 @@
     <table id="284" parent="2" name="sys_role">
       <Comment>系统角色</Comment>
     </table>
-    <table id="285" parent="2" name="sys_role_authorize">
+    <table id="285" parent="2" name="sys_role_authority">
       <Comment>系统角色权限关联表</Comment>
     </table>
     <table id="286" parent="2" name="sys_user">
@@ -1336,22 +1334,22 @@
       <DataType>datetime|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="352" parent="280" name="updateDate">
+    <column id="352" parent="280" name="createUser">
       <Position>3</Position>
-      <DataType>datetime|0s</DataType>
+      <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="353" parent="280" name="createUser">
+    <column id="353" parent="280" name="NAME">
       <Position>4</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="354" parent="280" name="updateUser">
+    <column id="354" parent="280" name="updateDate">
       <Position>5</Position>
-      <DataType>varchar(255)|0s</DataType>
+      <DataType>datetime|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="355" parent="280" name="name">
+    <column id="355" parent="280" name="updateUser">
       <Position>6</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
