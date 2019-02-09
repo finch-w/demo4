@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yuan.demomybatis2.system.dao.SysUserMapper">
+    <select id="selectPage" resultType="com.yuan.demomybatis2.system.pojo.SysUser">
+        select id,createUser,updateUser,createDate,updateDate,username,name ,case is_del when 0 then '有效' when 1 then
+        '无效' end as is_del from sys_user su where 1=1
+        <if test="dto.name != null and dto.name != ''">
+            and (username like concat('%',#{dto.name} ,'%') or name like concat('%',#{dto.name} ,'%'))
+        </if>
+        <if test="dto.createUser != null and dto.createUser != ''">
+            and createUser in (select id from sys_user s where s.username like concat('%',#{dto.createUser} ,'%') or
+            s.name like concat('%',#{dto.createUser} ,'%'))
+        </if>
+        <if test="dto.updateUser != null and dto.updateUser != ''">
+            and updateUser in (select id from sys_user u where u.username like concat('%',#{dto.updateUser} ,'%') or
+            u.name like concat('%',#{dto.updateUser} ,'%'))
+        </if>
+        <if test="dto.createDate != null">
+            and date (createDate) = date (#{dto.createDate} )
+        </if>
+        <if test="dto.createDateStart != null">
+            <![CDATA[and date(createDate) >= date(#{dto.createDateStart} )]]>
+        </if>
+        <if test="dto.createDateEnd != null">
+            <![CDATA[and date(createDate) <= date(#{dto.createDateEnd} )]]>
+        </if>
+        <if test="dto.updateDate != null">
+            and date (updateDate) = date (#{dto.updateDate} )
+        </if>
+        <if test="dto.updateDateStart != null">
+            <![CDATA[and date(updateDate) >= date(#{dto.updateDateStart} )]]>
+        </if>
+        <if test="dto.updateDateEnd != null">
+            <![CDATA[and date(updateDate) <= date(#{dto.updateDateEnd} )]]>
+        </if>
+    </select>
+    <select id="checkInsert" resultType="java.lang.Integer">
+        select count(*)
+        from sys_user su
+        where 1 = 1
+        <if test="name != null and name != ''">
+            or name = #{name}
+        </if>
+        <if test="username != null and username != ''">
+            or username = #{username}
+        </if>
+    </select>
+</mapper>

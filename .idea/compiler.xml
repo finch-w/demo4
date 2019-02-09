@@ -13,6 +13,7 @@
         <module name="demo-mybatis" />
         <module name="demo-mybatis2" />
         <module name="demo-mybatis3" />
+        <module name="demo-mybatis4" />
         <module name="demo-querydsl-jpa" />
         <module name="demo-querydsl-jpa2" />
         <module name="demo-test" />
@@ -28,6 +29,7 @@
       <module name="demo-mybatis" options="-parameters" />
       <module name="demo-mybatis2" options="-parameters" />
       <module name="demo-mybatis3" options="-parameters" />
+      <module name="demo-mybatis4" options="-parameters" />
       <module name="demo-querydsl-jpa" options="-parameters" />
       <module name="demo-querydsl-jpa2" options="-parameters" />
       <module name="demo-test" options="-parameters" />

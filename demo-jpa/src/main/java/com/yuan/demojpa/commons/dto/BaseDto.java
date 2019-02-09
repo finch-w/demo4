@@ -1,5 +1,6 @@
 package com.yuan.demojpa.commons.dto;
 
+import com.yuan.demojpa.commons.utils.DateUtils;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -58,23 +59,23 @@ public abstract class BaseDto<T> implements Serializable, Specification<T> {
             predicates.add(updateUserIn);
         }
         if (!StringUtils.isEmpty(createDate)) {
-            predicates.add(crieriaBuilder.equal(root.get("createDate"), createDate));
+            predicates.add(crieriaBuilder.equal(root.get("createDate"), DateUtils.removeTime(createDate)));
         }
         if (!StringUtils.isEmpty(createDateStart)) {
-            predicates.add(crieriaBuilder.greaterThanOrEqualTo(root.get("createDate"), createDateStart));
+            predicates.add(crieriaBuilder.greaterThanOrEqualTo(root.get("createDate"), DateUtils.removeTime(createDateStart)));
         }
         if (!StringUtils.isEmpty(createDateEnd)) {
-            predicates.add(crieriaBuilder.lessThanOrEqualTo(root.get("createDate"), createDateEnd));
+            predicates.add(crieriaBuilder.lessThanOrEqualTo(root.get("createDate"), DateUtils.setDayFinalTime(createDateEnd)));
         }
 
         if (!StringUtils.isEmpty(updateDate)) {
-            predicates.add(crieriaBuilder.equal(root.get("updateDate"), updateDate));
+            predicates.add(crieriaBuilder.equal(root.get("updateDate"), DateUtils.removeTime(updateDate)));
         }
         if (!StringUtils.isEmpty(updateDateStart)) {
-            predicates.add(crieriaBuilder.greaterThanOrEqualTo(root.get("updateDate"), updateDateStart));
+            predicates.add(crieriaBuilder.greaterThanOrEqualTo(root.get("updateDate"), DateUtils.removeTime(updateDateStart)));
         }
         if (!StringUtils.isEmpty(updateDateEnd)) {
-            predicates.add(crieriaBuilder.lessThanOrEqualTo(root.get("updateDate"), updateDateEnd));
+            predicates.add(crieriaBuilder.lessThanOrEqualTo(root.get("updateDate"), DateUtils.setDayFinalTime(updateDateEnd)));
         }
         return query.where(predicates.toArray(new Predicate[predicates.size()])).getRestriction();
     }

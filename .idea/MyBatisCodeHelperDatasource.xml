@@ -38,6 +38,7 @@
                   <option name="javaMapperPath" value="$PROJECT_DIR$/demo-mybatis2/src/main/java" />
                   <option name="javaModelPacakge" value="com.yuan.demomybatis2.pojo" />
                   <option name="javaModelPath" value="$PROJECT_DIR$/demo-mybatis2/src/main/java" />
+                  <option name="javaServicePath" value="$PROJECT_DIR$/demo-mybatis2/src/main/java" />
                   <option name="xmlPackage" value="com.yuan.demomybatis2.mapper" />
                   <option name="xmlPath" value="$PROJECT_DIR$/demo-mybatis2/src/main/resources" />
                 </UserPackageAndPathInfoByModule>

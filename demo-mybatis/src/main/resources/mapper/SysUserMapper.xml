@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yuan.demomybatis.system.dao.SysUserMapper">
+    <select id="selectList" resultType="com.yuan.demomybatis.system.pojo.SysUser">
+        select id, createUser, updateUser, createDate, updateDate, username, name
+        from sys_user su
+        where 1 = 1
+        <if test="name != null and name != ''">
+            and (username like concat('%',#{name,jdbcType=VARCHAR} ,'%') or name like
+            concat('%',#{name,jdbcType=VARCHAR} ,'%'))
+        </if>
+        <if test="createUser != null and createUser != ''">
+            and createUser in (select id from sys_user s where username like concat('%',#{createUser,jdbcType=VARCHAR}
+            ,'%')
+            or name like
+            concat('%',#{createUser,jdbcType=VARCHAR} ,'%'))
+        </if>
+    </select>
+    <select id="checkInsert" resultType="java.lang.Integer">
+        select count(*) from sys_user su where is_del=0
+        <if test="username != null and username != ''">
+            or username = #{username}
+        </if>
+        <if test="name != null and name != ''">
+            or name = #{name}
+        </if>
+    </select>
+</mapper>
