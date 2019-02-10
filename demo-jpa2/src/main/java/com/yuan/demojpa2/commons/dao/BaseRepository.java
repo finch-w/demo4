@@ -37,6 +37,8 @@ public interface BaseRepository<T, ID> extends JpaRepository<T, ID>, JpaSpecific
 
     Page<T> findAllByJPQL(String jpql, Pageable pageable, Collection collection);
 
+    Page<T> findAllByQuery(org.jooq.Query query, Pageable pageable);
+
     Page<T> findAllByJPQL(String jpql, Pageable pageable, Map<String, Object> map);
 
     Optional<T> findOneBySQL(String sql, Object... objects);
@@ -46,12 +48,16 @@ public interface BaseRepository<T, ID> extends JpaRepository<T, ID>, JpaSpecific
     Optional<T> findOneBySQL(String sql, Map<String, Object> map);
 
 
+    Optional<T> findOneByQuery(org.jooq.Query query);
+
     List<T> findAllBySQL(String sql, Object... objects);
 
     List<T> findAllBySQL(String sql, Collection collection);
 
     List<T> findAllBySQL(String sql, Map<String, Object> map);
 
+
+    List<T> findAllByQuery(org.jooq.Query query);
 
     Page<T> findAllBySQL(String sql, Pageable pageable, Object... objects);
 
@@ -66,17 +72,23 @@ public interface BaseRepository<T, ID> extends JpaRepository<T, ID>, JpaSpecific
 
     <R> Optional<R> findOneBySQL(String sql, Class<R> requireType, Map<String, Object> map);
 
+    <R> Optional<R> findOneByQuery(org.jooq.Query query, Class<R> requireType);
+
     <R> List<R> findAllBySQL(String sql, Class<R> requireType, Object... objects);
 
     <R> List<R> findAllBySQL(String sql, Class<R> requireType, Collection collection);
 
     <R> List<R> findAllBySQL(String sql, Class<R> requireType, Map<String, Object> map);
 
+    <R> List<R> findAllByQuery(org.jooq.Query query, Class<R> requireType);
+
     <R> Page<R> findAllBySQL(String sql, Pageable pageable, Class<R> requireType, Object... objects);
 
     <R> Page<R> findAllBySQL(String sql, Pageable pageable, Class<R> requireType, Collection collection);
 
     <R> Page<R> findAllBySQL(String sql, Pageable pageable, Class<R> requireType, Map<String, Object> map);
+
+    <R> Page<R> findAllByQuery(org.jooq.Query query, Pageable pageable, Class<R> requireType);
 
     <R> Optional<R> findOneByJPQL(String jpql, Class<R> requireType, Object... objects);
 
@@ -102,17 +114,23 @@ public interface BaseRepository<T, ID> extends JpaRepository<T, ID>, JpaSpecific
 
     Optional<Map> findOneBySQLInMap(String sql, Map<String, Object> map);
 
+    Optional<Map> findOneByQueryInMap(org.jooq.Query query);
+
     List<Map> findAllBySQLInMap(String sql, Object... objects);
 
     List<Map> findAllBySQLInMap(String sql, Collection collection);
 
     List<Map> findAllBySQLInMap(String sql, Map<String, Object> map);
 
+    List<Map> findAllByQueryInMap(org.jooq.Query query);
+
     Page<Map> findAllBySQLInMap(String sql, Pageable pageable, Object... objects);
 
     Page<Map> findAllBySQLInMap(String sql, Pageable pageable, Collection collection);
 
     Page<Map> findAllBySQLInMap(String sql, Pageable pageable, Map<String, Object> map);
+
+    Page<Map> findAllByQueryInMap(org.jooq.Query query, Pageable pageable);
 
     Optional<Map> findOneByJPQLInMap(String jpql, Object... objects);
 

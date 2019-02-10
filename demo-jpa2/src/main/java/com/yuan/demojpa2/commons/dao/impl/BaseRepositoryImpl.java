@@ -180,6 +180,11 @@ public class BaseRepositoryImpl<T, ID> extends SimpleJpaRepository<T, ID> implem
     }
 
     @Override
+    public Optional<T> findOneByQuery(org.jooq.Query query) {
+        return findOneBySQL(query.getSQL(), query.getBindValues());
+    }
+
+    @Override
     @SuppressWarnings({"Duplicates", "unchecked"})
     public List<T> findAllBySQL(String sql, Object... objects) {
         Query nativeQuery = entityManager.createNativeQuery(sql, entityInformation.getJavaType());
@@ -200,6 +205,11 @@ public class BaseRepositoryImpl<T, ID> extends SimpleJpaRepository<T, ID> implem
         Query nativeQuery = entityManager.createNativeQuery(sql, entityInformation.getJavaType());
         map.forEach(nativeQuery::setParameter);
         return (List<T>) nativeQuery.getResultList();
+    }
+
+    @Override
+    public List<T> findAllByQuery(org.jooq.Query query) {
+        return findAllBySQL(query.getSQL(), query.getBindValues());
     }
 
     @Override
@@ -237,6 +247,11 @@ public class BaseRepositoryImpl<T, ID> extends SimpleJpaRepository<T, ID> implem
         List<T> resultList = (List<T>) query.getResultList();
         Long singleResult = (Long) countQuery.getSingleResult();
         return new PageImpl<>(resultList, pageable, singleResult);
+    }
+
+    @Override
+    public Page<T> findAllByQuery(org.jooq.Query query, Pageable pageable) {
+        return findAllBySQL(query.getSQL(), pageable, query.getBindValues());
     }
 
     @SuppressWarnings("Duplicates")
@@ -283,6 +298,11 @@ public class BaseRepositoryImpl<T, ID> extends SimpleJpaRepository<T, ID> implem
         }
     }
 
+    @Override
+    public <R> Optional<R> findOneByQuery(org.jooq.Query query, Class<R> requireType) {
+        return findOneBySQL(query.getSQL(), requireType, query.getBindValues());
+    }
+
     @SuppressWarnings({"unchecked", "Duplicates"})
     @Override
     public <R> List<R> findAllBySQL(String sql, Class<R> requireType, Object... objects) {
@@ -304,6 +324,11 @@ public class BaseRepositoryImpl<T, ID> extends SimpleJpaRepository<T, ID> implem
         Query nativeQuery = entityManager.createNativeQuery(sql, requireType);
         map.forEach(nativeQuery::setParameter);
         return (List<R>) nativeQuery.getResultList();
+    }
+
+    @Override
+    public <R> List<R> findAllByQuery(org.jooq.Query query, Class<R> requireType) {
+        return findAllBySQL(query.getSQL(), requireType, query.getBindValues());
     }
 
     @SuppressWarnings({"unchecked", "Duplicates"})
@@ -337,6 +362,11 @@ public class BaseRepositoryImpl<T, ID> extends SimpleJpaRepository<T, ID> implem
         return new PageImpl<>((List<R>) nativeQuery.getResultList(), pageable, (Long) countQuery.getSingleResult());
     }
 
+    @Override
+    public <R> Page<R> findAllByQuery(org.jooq.Query query, Pageable pageable, Class<R> requireType) {
+        return findAllBySQL(query.getSQL(), pageable, requireType, query.getBindValues());
+    }
+
     @SuppressWarnings("Duplicates")
     @Override
     public <R> Optional<R> findOneByJPQL(String jpql, Class<R> requireType, Object... objects) {
@@ -356,6 +386,7 @@ public class BaseRepositoryImpl<T, ID> extends SimpleJpaRepository<T, ID> implem
         return findOneByJPQL(jpql, requireType, collection.toArray());
     }
 
+    @SuppressWarnings("Duplicates")
     @Override
     public <R> Optional<R> findOneByJPQL(String jpql, Class<R> requireType, Map<String, Object> map) {
         TypedQuery<R> query = entityManager.createQuery(jpql, requireType);
@@ -459,6 +490,11 @@ public class BaseRepositoryImpl<T, ID> extends SimpleJpaRepository<T, ID> implem
         }
     }
 
+    @Override
+    public Optional<Map> findOneByQueryInMap(org.jooq.Query query) {
+        return findOneBySQLInMap(query.getSQL(), query.getBindValues());
+    }
+
     @SuppressWarnings({"unchecked", "Duplicates", "deprecation"})
     @Override
     public List<Map> findAllBySQLInMap(String sql, Object... objects) {
@@ -483,6 +519,11 @@ public class BaseRepositoryImpl<T, ID> extends SimpleJpaRepository<T, ID> implem
         map.forEach(nativeQuery::setParameter);
         nativeQuery.unwrap(NativeQueryImpl.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
         return (List<Map>) nativeQuery.getResultList();
+    }
+
+    @Override
+    public List<Map> findAllByQueryInMap(org.jooq.Query query) {
+        return findAllBySQLInMap(query.getSQL(), query.getBindValues());
     }
 
     @SuppressWarnings({"unchecked", "Duplicates"})
@@ -520,6 +561,11 @@ public class BaseRepositoryImpl<T, ID> extends SimpleJpaRepository<T, ID> implem
         nativeQuery.unwrap(NativeQueryImpl.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
         List<Map> resultList = (List<Map>) nativeQuery.getResultList();
         return new PageImpl<>(resultList, pageable, count);
+    }
+
+    @Override
+    public Page<Map> findAllByQueryInMap(org.jooq.Query query, Pageable pageable) {
+        return findAllBySQLInMap(query.getSQL(), pageable, query.getBindValues());
     }
 
     @SuppressWarnings({"Duplicates"})

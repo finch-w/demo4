@@ -6,20 +6,20 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="demo-jooq-jpa" />
-        <module name="demo-jooq-jpa2" />
         <module name="demo-jpa" />
         <module name="demo-jpa2" />
         <module name="demo-mybatis" />
         <module name="demo-mybatis2" />
-        <module name="demo-querydsl-jpa" />
-        <module name="demo-querydsl-jpa2" />
         <module name="demo-test" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="demo-jooq-jpa" target="1.8" />
+      <module name="demo-jooq-jpa2" target="1.8" />
       <module name="demo-mybatis3" target="1.8" />
       <module name="demo-mybatis4" target="1.8" />
+      <module name="demo-querydsl-jpa" target="1.8" />
+      <module name="demo-querydsl-jpa2" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
