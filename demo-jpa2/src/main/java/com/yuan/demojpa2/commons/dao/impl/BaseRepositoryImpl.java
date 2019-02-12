@@ -1,5 +1,7 @@
 package com.yuan.demojpa2.commons.dao.impl;
 
+import com.querydsl.jpa.JPQLQueryFactory;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.yuan.demojpa2.commons.dao.BaseRepository;
 import com.yuan.demojpa2.commons.utils.BeanUtils;
 import org.hibernate.Session;
@@ -7,6 +9,8 @@ import org.hibernate.query.NativeQuery;
 import org.hibernate.query.internal.NativeQueryImpl;
 import org.hibernate.query.internal.QueryImpl;
 import org.hibernate.transform.Transformers;
+import org.jooq.DSLContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -20,17 +24,37 @@ import javax.persistence.EntityManager;
 import javax.persistence.NonUniqueResultException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import java.io.Serializable;
 import java.util.*;
 
 @NoRepositoryBean
-public class BaseRepositoryImpl<T, ID> extends SimpleJpaRepository<T, ID> implements BaseRepository<T, ID> {
-    private EntityManager entityManager;
-    private JpaEntityInformation<T, ?> entityInformation;
+public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRepository<T, ID> implements BaseRepository<T, ID> {
+    private final EntityManager entityManager;
+    private final JpaEntityInformation<T, ?> entityInformation;
+    private final JPQLQueryFactory queryFactory;
+    @Autowired
+    private DSLContext dslContext;
 
     public BaseRepositoryImpl(JpaEntityInformation<T, ?> entityInformation, EntityManager entityManager) {
         super(entityInformation, entityManager);
         this.entityInformation = entityInformation;
         this.entityManager = entityManager;
+        this.queryFactory = new JPAQueryFactory(entityManager);
+    }
+
+    @Override
+    public JPQLQueryFactory getQueryFactory() {
+        return queryFactory;
+    }
+
+    @Override
+    public DSLContext getDslContext() {
+        return dslContext;
+    }
+
+    @Override
+    public EntityManager getEntityManager() {
+        return this.entityManager;
     }
 
     @SuppressWarnings({"Duplicates", "StringBufferReplaceableByString"})

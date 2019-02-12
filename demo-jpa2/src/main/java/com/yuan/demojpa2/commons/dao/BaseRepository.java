@@ -1,11 +1,14 @@
 package com.yuan.demojpa2.commons.dao;
 
+import com.querydsl.jpa.JPQLQueryFactory;
+import org.jooq.DSLContext;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.NoRepositoryBean;
 
+import javax.persistence.EntityManager;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +16,12 @@ import java.util.Optional;
 
 @NoRepositoryBean
 public interface BaseRepository<T, ID> extends JpaRepository<T, ID>, JpaSpecificationExecutor<T> {
+    JPQLQueryFactory getQueryFactory();
+
+    DSLContext getDslContext();
+
+    EntityManager getEntityManager();
+
     void insert(T t);
 
     void update(T t);
