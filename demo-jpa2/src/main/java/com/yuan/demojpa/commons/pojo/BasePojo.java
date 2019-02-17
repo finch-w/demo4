@@ -3,7 +3,6 @@ package com.yuan.demojpa.commons.pojo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.FieldNameConstants;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Column;
@@ -17,7 +16,6 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@FieldNameConstants(asEnum = true)
 public abstract class BasePojo implements Serializable {
     @Id
     @Column(name = "id")

@@ -2,7 +2,6 @@ package com.yuan.demojpa.system.pojo;
 
 import com.yuan.demojpa.commons.pojo.BasePojo;
 import lombok.*;
-import lombok.experimental.FieldNameConstants;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,7 +14,6 @@ import java.util.Date;
 @AllArgsConstructor
 @Entity
 @Table(name = "sys_user")
-@FieldNameConstants(asEnum = true)
 public class SysUser extends BasePojo {
     private String username;
     private String name;

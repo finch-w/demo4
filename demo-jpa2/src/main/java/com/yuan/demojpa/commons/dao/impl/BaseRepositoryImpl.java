@@ -33,15 +33,14 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
     private final EntityManager entityManager;
     private final JpaEntityInformation<T, ?> entityInformation;
     private final JPQLQueryFactory queryFactory;
-    private final DSLContext dslContext;
-
     @Autowired
-    public BaseRepositoryImpl(JpaEntityInformation<T, ?> entityInformation, EntityManager entityManager, DSLContext dslContext) {
+    private DSLContext dslContext;
+
+    public BaseRepositoryImpl(JpaEntityInformation<T, ?> entityInformation, EntityManager entityManager) {
         super(entityInformation, entityManager);
         this.entityInformation = entityInformation;
         this.entityManager = entityManager;
         this.queryFactory = new JPAQueryFactory(entityManager);
-        this.dslContext = dslContext;
     }
 
     @Override

@@ -11,7 +11,7 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public abstract class BaseDto<T> implements Serializable {
+public abstract class BaseDto implements Serializable {
     private Integer page = 1;
     private Integer size = 100;
     private String order = "createDate";

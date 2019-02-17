@@ -4,19 +4,20 @@ start transaction;
 create table sys_user
 (
   id         varchar(255) primary key,
-  createDate datetime,
-  updateDate datetime,
+  createDate date,
+  updateDate date,
   createUser varchar(255),
   updateUser varchar(255),
   username   varchar(255),
   name       varchar(255),
-  password   varchar(255)
+  password   varchar(255),
+  is_del     int
 ) comment '系统用户';
 create table sys_role
 (
   id         varchar(255) primary key,
-  createDate datetime,
-  updateDate datetime,
+  createDate date,
+  updateDate date,
   createUser varchar(255),
   updateUser varchar(255),
   name       varchar(255)
@@ -25,8 +26,8 @@ create table sys_role
 create table sys_authoriry
 (
   id         varchar(255) primary key,
-  createDate datetime,
-  updateDate datetime,
+  createDate date,
+  updateDate date,
   createUser varchar(255),
   updateUser varchar(255),
   name       varchar(255)
@@ -34,8 +35,8 @@ create table sys_authoriry
 create table sys_resource
 (
   id         varchar(255) primary key,
-  createDate datetime,
-  updateDate datetime,
+  createDate date,
+  updateDate date,
   createUser varchar(255),
   updateUser varchar(255),
   name       varchar(255),
@@ -47,8 +48,8 @@ create table sys_resource
 create table sys_user_role
 (
   id         varchar(255) primary key,
-  createDate datetime,
-  updateDate datetime,
+  createDate date,
+  updateDate date,
   createUser varchar(255),
   updateUser varchar(255),
   userId     varchar(255),
@@ -57,8 +58,8 @@ create table sys_user_role
 create table sys_role_authorize
 (
   id          varchar(255) primary key,
-  createDate  datetime,
-  updateDate  datetime,
+  createDate  date,
+  updateDate  date,
   createUser  varchar(255),
   updateUser  varchar(255),
   authorizeId varchar(255),
@@ -67,8 +68,8 @@ create table sys_role_authorize
 create table sys_authorize_resource
 (
   id          varchar(255) primary key,
-  createDate  datetime,
-  updateDate  datetime,
+  createDate  date,
+  updateDate  date,
   createUser  varchar(255),
   updateUser  varchar(255),
   authorizeId varchar(255),
@@ -77,8 +78,8 @@ create table sys_authorize_resource
 create table sys_log
 (
   id         varchar(255) primary key,
-  createDate datetime,
-  updateDate datetime,
+  createDate date,
+  updateDate date,
   createUser varchar(255),
   updateUser varchar(255),
   content    varchar(255)
