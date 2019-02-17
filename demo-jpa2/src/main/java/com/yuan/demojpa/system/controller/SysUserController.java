@@ -1,5 +1,6 @@
 package com.yuan.demojpa.system.controller;
 
+import com.google.common.collect.ImmutableMap;
 import com.yuan.demojpa.commons.controller.BaseController;
 import com.yuan.demojpa.system.dto.SysUserDto;
 import com.yuan.demojpa.system.pojo.SysUser;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.async.DeferredResult;
 
 import javax.validation.Valid;
-import java.util.Collections;
 
 @Controller
 @RequestMapping("sys/user")
@@ -36,6 +36,18 @@ public class SysUserController extends BaseController {
         return result(sysUserService.selectPageSQL(dto));
     }
 
+    @RequestMapping("data2")
+    @ResponseBody
+    public DeferredResult data2(SysUserDto dto) {
+        return result(sysUserService.selectPageJPQL(dto));
+    }
+
+    @RequestMapping("data3")
+    @ResponseBody
+    public DeferredResult data3(SysUserDto dto) {
+        return result(sysUserService.selectPageDSL(dto));
+    }
+
     @RequestMapping("add")
     public DeferredResult add() {
         return result("sys/user/add");
@@ -43,7 +55,7 @@ public class SysUserController extends BaseController {
 
     @RequestMapping("edit")
     public DeferredResult edit(String id) {
-        return result("sys/user/edit", Collections.singletonMap("user", sysUserService.getById(id)));
+        return result("sys/user/edit", ImmutableMap.of("user", sysUserService.getById(id)));
     }
 
     @SuppressWarnings({"ConstantConditions", "Duplicates"})
@@ -53,10 +65,10 @@ public class SysUserController extends BaseController {
         if (result.hasErrors()) {
             return result(new AjaxResult(Status.ERRROR, result.getFieldError().getDefaultMessage()));
         } else if (sysUserService.checkInsert(user)) {
-            return result(new AjaxResult(Status.ERRROR, "用户已存在"));
+            return result(new AjaxResult(Status.ERRROR, EXIST_MESSAGE));
         } else {
             sysUserService.insert(user);
-            return result(new AjaxResult(Status.SUUCESS, "操作成功"));
+            return result(new AjaxResult(Status.SUUCESS, SUCCESS_MESSAGE));
         }
     }
 
@@ -68,7 +80,7 @@ public class SysUserController extends BaseController {
             return result(new AjaxResult(Status.ERRROR, result.getFieldError().getDefaultMessage()));
         } else {
             sysUserService.update(user);
-            return result(new AjaxResult(Status.SUUCESS, "操作成功"));
+            return result(new AjaxResult(Status.SUUCESS, SUCCESS_MESSAGE));
         }
     }
 
@@ -76,6 +88,6 @@ public class SysUserController extends BaseController {
     @ResponseBody
     public DeferredResult delete(String id) {
         sysUserService.delete(id.split(","));
-        return result(new AjaxResult(Status.SUUCESS, "操作成功"));
+        return result(new AjaxResult(Status.SUUCESS, SUCCESS_MESSAGE));
     }
 }

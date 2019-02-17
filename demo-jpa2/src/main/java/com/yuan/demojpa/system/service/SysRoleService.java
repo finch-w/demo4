@@ -20,4 +20,18 @@ public interface SysRoleService extends BaseService<SysRole, String> {
     List<SysRole> selectListSQL(SysRoleDto dto);
 
     Optional<SysRole> selectOneSQL(SysRoleDto dto);
+
+    Page<SysRole> selectPageJPQL(SysRoleDto dto);
+
+    List<SysRole> selectListJPQL(SysRoleDto dto);
+
+    Optional<SysRole> selectOneJPQL(SysRoleDto dto);
+
+    Page<SysRole> selectPageDSL(SysRoleDto dto);
+
+    List<SysRole> selectListDSL(SysRoleDto dto);
+
+    Optional<SysRole> selectOneDSL(SysRoleDto dto);
+
+    boolean checkInsert(SysRole role);
 }

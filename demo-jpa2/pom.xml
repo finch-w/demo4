@@ -10,7 +10,7 @@
     </parent>
     <artifactId>demo-jpa</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>demo-jpa2</name>
+    <name>demo-jpa</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>
@@ -19,6 +19,7 @@
     </properties>
 
     <dependencies>
+
         <dependency>
             <groupId>com.querydsl</groupId>
             <artifactId>querydsl-jpa</artifactId>
@@ -35,7 +36,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <scope>runtime</scope>
+            <!--<scope>runtime</scope>-->
         </dependency>
     </dependencies>
 

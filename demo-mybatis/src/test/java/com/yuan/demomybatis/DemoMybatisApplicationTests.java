@@ -1,7 +1,5 @@
 package com.yuan.demomybatis;
 
-import com.yuan.demomybatis.system.dao.UserMapper;
-import com.yuan.demomybatis.system.dto.SysUserDto;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +20,6 @@ public class DemoMybatisApplicationTests {
 
     @Test
     public void test() {
-        UserMapper userMapper = context.getBean(UserMapper.class);
-        System.out.println(userMapper.selectList(SysUserDto.builder().name("aaa").build()));
     }
 }
 

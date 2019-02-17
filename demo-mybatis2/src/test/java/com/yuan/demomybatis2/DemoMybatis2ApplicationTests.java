@@ -1,10 +1,5 @@
 package com.yuan.demomybatis2;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.yuan.demomybatis2.system.dao.UserMapper;
-import com.yuan.demomybatis2.system.dto.SysUserDto;
-import com.yuan.demomybatis2.system.pojo.SysUser;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +16,6 @@ public class DemoMybatis2ApplicationTests {
 
     @Test
     public void contextLoads() {
-        UserMapper userMapper = context.getBean(UserMapper.class);
-        IPage<SysUser> aa = userMapper.findAllByCondition(new Page<>(1, 1), SysUserDto.builder().build());
-        System.out.println(aa.getRecords());
     }
 
 

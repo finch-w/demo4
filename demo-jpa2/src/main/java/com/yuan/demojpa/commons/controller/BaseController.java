@@ -15,6 +15,8 @@ import java.util.Map;
 public class BaseController {
     private DeferredResult<Object> deferredResult = new DeferredResult<Object>();
     private ModelAndView modelAndView = new ModelAndView();
+    public final String EXIST_MESSAGE = "已存在";
+    public final String SUCCESS_MESSAGE = "操作成功";
 
     @SuppressWarnings("Duplicates")
     public DeferredResult getDeferredResult(Object object) {
@@ -36,7 +38,9 @@ public class BaseController {
     }
 
     public DeferredResult result(String view, Map<String, Object> map) {
-        return getDeferredResult(new ModelAndView(view, map));
+        modelAndView.setViewName(view);
+        modelAndView.addAllObjects(map);
+        return getDeferredResult(modelAndView);
     }
 
     @ExceptionHandler(Exception.class)

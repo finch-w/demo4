@@ -10,7 +10,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
-import java.util.Date;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -28,8 +27,8 @@ public class DemoJpaApplicationTests {
 //        Query nativeQuery = entityManager.createNativeQuery("select * from sys_user su where su.id = :id", SysUser.class);
 //        nativeQuery.setParameter("id", "1");
 //        System.out.println(nativeQuery.getSingleResult());
-        TypedQuery<SysUser> query = entityManager.createQuery("from SysUser su where date(su.createDate) = date(?1)", SysUser.class);
-        query.setParameter(1, new Date());
+        TypedQuery<SysUser> query = entityManager.createQuery("select su from SysUser su where su.username like concat('%',:name,'%')", SysUser.class);
+        query.setParameter("name", "aaa");
         System.out.println(query.getResultList());
     }
 
