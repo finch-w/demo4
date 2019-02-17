@@ -8,14 +8,14 @@
         <version>0.0.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>demo-jpa</artifactId>
+    <artifactId>demo-jpa2</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>demo-jpa</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>
         <java.version>1.8</java.version>
-        <eclipselink>2.7.4</eclipselink>
+        <eclipselink>2.7.3</eclipselink>
         <querydsl>4.2.1</querydsl>
     </properties>
 

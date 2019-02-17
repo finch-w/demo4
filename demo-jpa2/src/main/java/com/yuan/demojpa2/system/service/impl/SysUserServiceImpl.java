@@ -1,6 +1,5 @@
 package com.yuan.demojpa2.system.service.impl;
 
-import com.yuan.demojpa2.commons.dto.MapQuery;
 import com.yuan.demojpa2.commons.service.impl.BaseServiceImpl;
 import com.yuan.demojpa2.system.dao.SysUserDao;
 import com.yuan.demojpa2.system.dto.SysUserDto;

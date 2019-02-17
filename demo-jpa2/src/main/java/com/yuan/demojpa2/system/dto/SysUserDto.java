@@ -1,7 +1,6 @@
 package com.yuan.demojpa2.system.dto;
 
 import com.yuan.demojpa2.commons.dto.BaseDto;
-import com.yuan.demojpa2.commons.dto.MapQuery;
 import com.yuan.demojpa2.system.pojo.SysUser;
 import lombok.*;
 import org.springframework.util.StringUtils;

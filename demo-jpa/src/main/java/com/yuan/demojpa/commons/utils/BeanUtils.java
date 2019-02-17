@@ -9,7 +9,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 
-public class BeanUtils extends org.springframework.beans.BeanUtils {
+public abstract class BeanUtils extends org.springframework.beans.BeanUtils {
+    @SuppressWarnings("ToArrayCallWithZeroLengthArrayArgument")
     public static <T> void copyPojo(T source, T target) {
         BeanWrapperImpl beanWrapper = new BeanWrapperImpl(source);
         Set<String> prorpeties = new HashSet<>();

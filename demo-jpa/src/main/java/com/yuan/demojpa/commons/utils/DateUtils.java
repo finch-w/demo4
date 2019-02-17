@@ -3,7 +3,7 @@ package com.yuan.demojpa.commons.utils;
 import java.util.Calendar;
 import java.util.Date;
 
-public class DateUtils {
+public abstract class DateUtils {
     public static Date removeTime(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR, 0);

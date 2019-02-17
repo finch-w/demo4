@@ -12,7 +12,7 @@ import java.util.Map;
 @ControllerAdvice
 //@RestControllerAdvice
 @Slf4j
-public class BaseController {
+public abstract class BaseController {
     private DeferredResult<Object> deferredResult = new DeferredResult<Object>();
     private ModelAndView modelAndView = new ModelAndView();
 

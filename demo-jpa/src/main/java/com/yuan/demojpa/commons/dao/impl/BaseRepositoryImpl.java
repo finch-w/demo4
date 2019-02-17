@@ -2,7 +2,12 @@ package com.yuan.demojpa.commons.dao.impl;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.yuan.demojpa.commons.dao.BaseRepository;
+import com.yuan.demojpa.commons.dto.impl.ArraysQuery;
+import com.yuan.demojpa.commons.dto.impl.CollectionQuery;
+import com.yuan.demojpa.commons.dto.impl.DSLQuery;
+import com.yuan.demojpa.commons.dto.impl.MapQuery;
 import com.yuan.demojpa.commons.utils.BeanUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.persistence.config.QueryHints;
 import org.eclipse.persistence.config.ResultType;
 import org.jooq.DSLContext;
@@ -12,8 +17,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
-import org.springframework.data.jpa.repository.support.QuerydslJpaRepository;
-import org.springframework.data.querydsl.EntityPathResolver;
+import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.data.repository.core.EntityInformation;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,24 +33,24 @@ import java.util.stream.IntStream;
 @SuppressWarnings("ALL")
 @NoRepositoryBean
 @Transactional(rollbackFor = Exception.class)
-public class BaseRepositoryImpl<T, ID extends Serializable> extends QuerydslJpaRepository<T, ID> implements BaseRepository<T, ID> {
+@Slf4j
+public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRepository<T, ID> implements BaseRepository<T, ID> {
 
     private final EntityManager entityManager;
     private final EntityInformation<T, ?> entityInformation;
-    private final EntityPathResolver resolver;
 
     private final JPAQueryFactory queryFactory;
 
     @Autowired
     private DSLContext dslContext;
 
-    public BaseRepositoryImpl(JpaEntityInformation<T, ID> entityInformation, EntityManager entityManager, EntityPathResolver resolver) {
-        super(entityInformation, entityManager, resolver);
+    public BaseRepositoryImpl(JpaEntityInformation<T, ?> entityInformation, EntityManager entityManager) {
+        super(entityInformation, entityManager);
         this.entityManager = entityManager;
         this.entityInformation = entityInformation;
-        this.resolver = resolver;
         this.queryFactory = new JPAQueryFactory(entityManager);
     }
+
 
     @Override
     public JPAQueryFactory getQueryFactory() {
@@ -67,6 +71,7 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends QuerydslJpaR
         stringBuilder.append(UUID.randomUUID().toString().replaceAll("-", ""));
         return stringBuilder.toString();
     }
+
 
     @Override
     @Transactional
@@ -126,6 +131,22 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends QuerydslJpaR
     }
 
     @Override
+    public Optional<T> findOneBySQLQuery(com.yuan.demojpa.commons.dto.Query query) {
+        if (query instanceof ArraysQuery) {
+            return findOneBySQL(query.getSQL(), ((Object[]) query.getParams()));
+        } else if (query instanceof CollectionQuery) {
+            return findOneBySQL(query.getSQL(), ((CollectionQuery) query).getParams());
+        } else if (query instanceof MapQuery) {
+            return findOneBySQL(query.getSQL(), ((Map<String, Object>) query.getParams()));
+        } else if (query instanceof DSLQuery) {
+            return findOneBySQL(query.getSQL(), ((Collection) query.getParams()));
+        } else {
+            throw new RuntimeException("");
+        }
+
+    }
+
+    @Override
     public List<T> findAllBySQL(String sql, Object... objects) {
         Query nativeQuery = entityManager.createNativeQuery(sql, entityInformation.getJavaType());
         IntStream.range(0, objects.length).forEachOrdered(i -> nativeQuery.setParameter(i + 1, objects[i]));
@@ -147,6 +168,11 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends QuerydslJpaR
     @Override
     public List<T> findAllByQuery(org.jooq.Query query) {
         return findAllBySQL(query.getSQL(), query.getBindValues());
+    }
+
+    @Override
+    public List<T> findAllBySQLQuery(com.yuan.demojpa.commons.dto.Query query) {
+        return null;
     }
 
     @Override
@@ -192,6 +218,11 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends QuerydslJpaR
     }
 
     @Override
+    public Page<T> findAllBySQLQuery(com.yuan.demojpa.commons.dto.Query query, Pageable pageable) {
+        return null;
+    }
+
+    @Override
     public Optional<T> findOneByJPQL(String jpql, Object... objects) {
         TypedQuery<T> nativeQuery = entityManager.createQuery(jpql, entityInformation.getJavaType());
         IntStream.range(0, objects.length).forEachOrdered(i -> nativeQuery.setParameter(i + 1, objects[i]));
@@ -218,6 +249,11 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends QuerydslJpaR
         }
     }
 
+    @Override
+    public Optional<T> findOneByJPQLQuery(com.yuan.demojpa.commons.dto.Query query) {
+        return Optional.empty();
+    }
+
 
     @Override
     public List<T> findAllByJPQL(String jpql, Object... objects) {
@@ -236,6 +272,11 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends QuerydslJpaR
         TypedQuery<T> query = entityManager.createQuery(jpql, entityInformation.getJavaType());
         map.forEach(query::setParameter);
         return query.getResultList();
+    }
+
+    @Override
+    public List<T> findAllByJPQLQuery(com.yuan.demojpa.commons.dto.Query query) {
+        return null;
     }
 
 
@@ -274,6 +315,11 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends QuerydslJpaR
         selectQuery.setMaxResults(pageable.getPageSize());
         List resultList = selectQuery.getResultList();
         return new PageImpl<>(resultList, pageable, count);
+    }
+
+    @Override
+    public Page<T> findAllByJPQLQuery(com.yuan.demojpa.commons.dto.Query query, Pageable pageable) {
+        return null;
     }
 
     @Override
@@ -634,6 +680,21 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends QuerydslJpaR
         List<R> resultList = query.getResultList();
         Long singleResult = countQuery.getSingleResult();
         return new PageImpl<>(resultList, pageable, singleResult);
+    }
+
+    @Override
+    public <R> Optional<R> findOneBySQLQuery(com.yuan.demojpa.commons.dto.Query query, Class<R> type) {
+        return Optional.empty();
+    }
+
+    @Override
+    public <R> List<R> findAllBySQLQuery(com.yuan.demojpa.commons.dto.Query query, Class<R> type) {
+        return null;
+    }
+
+    @Override
+    public <R> Page<R> findAllBySQLQuery(com.yuan.demojpa.commons.dto.Query query, Pageable pageable, Class<R> type) {
+        return null;
     }
 
 
