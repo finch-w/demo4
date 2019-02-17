@@ -1,7 +1,7 @@
 package com.yuan.demojpa2.commons.dto;
 
-public interface Query<PARAMTYPE> {
+public interface Query<paramsType> {
     String getSQL();
 
-    PARAMTYPE getParams();
+    paramsType getParams();
 }
