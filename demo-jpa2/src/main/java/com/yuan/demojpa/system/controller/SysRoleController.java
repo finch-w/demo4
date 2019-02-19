@@ -33,18 +33,24 @@ public class SysRoleController extends BaseController {
     @RequestMapping("data")
     @ResponseBody
     public DeferredResult data(SysRoleDto dto) {
-        return result(sysRoleService.selectPageSQL(dto));
+        return result(sysRoleService.selectPage(dto));
     }
 
     @RequestMapping("data2")
     @ResponseBody
     public DeferredResult data2(SysRoleDto dto) {
-        return result(sysRoleService.selectPageJPQL(dto));
+        return result(sysRoleService.selectPageSQL(dto));
     }
 
     @RequestMapping("data3")
     @ResponseBody
     public DeferredResult data3(SysRoleDto dto) {
+        return result(sysRoleService.selectPageJPQL(dto));
+    }
+
+    @RequestMapping("data3")
+    @ResponseBody
+    public DeferredResult data4(SysRoleDto dto) {
         return result(sysRoleService.selectPageDSL(dto));
     }
 

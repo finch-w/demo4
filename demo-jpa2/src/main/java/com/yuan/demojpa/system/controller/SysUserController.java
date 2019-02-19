@@ -33,19 +33,85 @@ public class SysUserController extends BaseController {
     @RequestMapping("data")
     @ResponseBody
     public DeferredResult data(SysUserDto dto) {
-        return result(sysUserService.selectPageSQL(dto));
+        return result(sysUserService.selectPage(dto));
     }
 
     @RequestMapping("data2")
     @ResponseBody
     public DeferredResult data2(SysUserDto dto) {
+        return result(sysUserService.selectPageSQL(dto));
+    }
+
+    @RequestMapping("data2")
+    @ResponseBody
+    public DeferredResult data3(SysUserDto dto) {
         return result(sysUserService.selectPageJPQL(dto));
     }
 
-    @RequestMapping("data3")
+    @RequestMapping("data4")
     @ResponseBody
-    public DeferredResult data3(SysUserDto dto) {
+    public DeferredResult data4(SysUserDto dto) {
         return result(sysUserService.selectPageDSL(dto));
+    }
+
+    @RequestMapping("get")
+    @ResponseBody
+    public DeferredResult get(SysUser user) {
+        return result(sysUserService.getByExample(user));
+    }
+
+    @RequestMapping("getByDto2")
+    @ResponseBody
+    public DeferredResult getByDto2(SysUserDto dto) {
+        return result(sysUserService.selectOneSQL(dto));
+    }
+
+    @RequestMapping("getByDto")
+    @ResponseBody
+    public DeferredResult getByDto(SysUserDto dto) {
+        return result(sysUserService.selectOne(dto));
+    }
+
+    @RequestMapping("getByDto3")
+    @ResponseBody
+    public DeferredResult getByDto3(SysUserDto dto) {
+        return result(sysUserService.selectListJPQL(dto));
+    }
+
+    @RequestMapping("getByDto2")
+    @ResponseBody
+    public DeferredResult getByDto4(SysUserDto dto) {
+        return result(sysUserService.selectOneDSL(dto));
+    }
+
+    @RequestMapping("list")
+    @ResponseBody
+    public DeferredResult list(SysUser user) {
+        return result(sysUserService.listByExample(user));
+    }
+
+    @RequestMapping("listByDto")
+    @ResponseBody
+    public DeferredResult listByDto(SysUserDto dto) {
+        return result(sysUserService.selectList(dto));
+    }
+
+    @RequestMapping("listByDto2")
+    @ResponseBody
+    public DeferredResult listByDto2(SysUserDto dto) {
+        return result(sysUserService.selectListSQL(dto));
+    }
+
+    @RequestMapping("listByDto3")
+    @ResponseBody
+    public DeferredResult listByDto3(SysUserDto dto) {
+        return result(sysUserService.selectListJPQL(dto));
+    }
+
+    @RequestMapping("listByDto4")
+    @ResponseBody
+    public DeferredResult listByDto4(SysUserDto dto) {
+        return result(sysUserService.selectListDSL(dto));
     }
 
     @RequestMapping("add")
@@ -91,52 +157,5 @@ public class SysUserController extends BaseController {
         return result(AjaxResult.builder().status(Status.SUUCESS).message(SUCCESS_MESSAGE).build());
     }
 
-    @RequestMapping("get")
-    @ResponseBody
-    public DeferredResult get(SysUser user) {
-        return result(sysUserService.getByExample(user));
-    }
 
-    @RequestMapping("getByDto")
-    @ResponseBody
-    public DeferredResult getByDto(SysUserDto dto) {
-        return result(sysUserService.selectOneSQL(dto));
-    }
-
-    @RequestMapping("getByDto1")
-    @ResponseBody
-    public DeferredResult getByDto1(SysUserDto dto) {
-        return result(sysUserService.selectListJPQL(dto));
-    }
-
-    @RequestMapping("getByDto2")
-    @ResponseBody
-    public DeferredResult getByDto2(SysUserDto dto) {
-        return result(sysUserService.selectOneDSL(dto));
-    }
-
-    @RequestMapping("list")
-    @ResponseBody
-    public DeferredResult list(SysUser user) {
-        return result(sysUserService.listByExample(user));
-    }
-
-    @RequestMapping("listByDto")
-    @ResponseBody
-    public DeferredResult listByDto(SysUserDto dto) {
-        return result(sysUserService.selectListSQL(dto));
-    }
-
-
-    @RequestMapping("listByDto1")
-    @ResponseBody
-    public DeferredResult listByDto1(SysUserDto dto) {
-        return result(sysUserService.selectListJPQL(dto));
-    }
-
-    @RequestMapping("listByDto2")
-    @ResponseBody
-    public DeferredResult listByDto2(SysUserDto dto) {
-        return result(sysUserService.selectListDSL(dto));
-    }
 }
