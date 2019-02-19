@@ -1115,7 +1115,7 @@
       <Charset>utf8mb4</Charset>
       <DefaultForCharset>0</DefaultForCharset>
     </collation>
-    <table id="280" parent="2" name="sys_authoriry">
+    <table id="280" parent="2" name="sys_authority">
       <Comment>系统权限</Comment>
     </table>
     <table id="281" parent="2" name="sys_authorize_resource">

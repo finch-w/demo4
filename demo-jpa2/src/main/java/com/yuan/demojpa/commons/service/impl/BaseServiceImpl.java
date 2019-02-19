@@ -4,6 +4,8 @@ import com.yuan.demojpa.commons.dao.BaseRepository;
 import com.yuan.demojpa.commons.pojo.BasePojo;
 import com.yuan.demojpa.commons.service.BaseService;
 import org.springframework.data.domain.Example;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
@@ -18,6 +20,7 @@ public abstract class BaseServiceImpl<T extends BasePojo, ID extends Serializabl
     public boolean isNotEmpty(Object object) {
         return !StringUtils.isEmpty(object);
     }
+
 
     @Override
     @Transactional
@@ -78,8 +81,9 @@ public abstract class BaseServiceImpl<T extends BasePojo, ID extends Serializabl
      *
      * @return
      */
-    public Object getUser() {
-        return null;
+    public String getUser() {
+        UserDetails credentials = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return credentials.getUsername();
     }
 
 }

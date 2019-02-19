@@ -98,6 +98,11 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRole, String, SysRole
         return sysRoleDao.findOneBySQLQuery(getDtoDSLQuery(dto));
     }
 
+    @Override
+    public boolean checkInsert(SysRole role) {
+        return false;
+    }
+
     private Specification<SysRole> getDtoSpec(SysRoleDto dto) {
         return (Specification<SysRole>) (root, query, criteriaBuilder) -> null;
     }

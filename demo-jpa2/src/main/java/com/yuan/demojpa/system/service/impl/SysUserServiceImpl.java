@@ -6,8 +6,10 @@ import com.yuan.demojpa.commons.dto.Query;
 import com.yuan.demojpa.commons.dto.impl.DSLQuery;
 import com.yuan.demojpa.commons.dto.impl.MapQuery;
 import com.yuan.demojpa.commons.service.impl.BaseServiceImpl;
+import com.yuan.demojpa.commons.utils.DateUtils;
 import com.yuan.demojpa.system.dao.SysUserDao;
 import com.yuan.demojpa.system.dto.SysUserDto;
+import com.yuan.demojpa.system.pojo.SysRole;
 import com.yuan.demojpa.system.pojo.SysUser;
 import com.yuan.demojpa.system.service.SysUserService;
 import org.jooq.Condition;
@@ -19,6 +21,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.criteria.Predicate;
@@ -27,7 +33,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class SysUserServiceImpl extends BaseServiceImpl<SysUser, String, SysUserDao> implements SysUserService {
+public class SysUserServiceImpl extends BaseServiceImpl<SysUser, String, SysUserDao> implements SysUserService, UserDetailsService {
     private final SysUserDao sysUserDao;
 
     @Autowired
@@ -114,6 +120,36 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser, String, SysUser
     private Specification<SysUser> getDtoSpecification(SysUserDto dto) {
         return (Specification<SysUser>) (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
+            if (isNotEmpty(dto.getId())) {
+
+            }
+            if (isNotEmpty(dto.getName())) {
+
+            }
+            if (isNotEmpty(dto.getCreateDate())) {
+                predicates.add(criteriaBuilder.between(root.get("createDate"), DateUtils.removeTime(dto.getCreateDate()), DateUtils.setDayFinalTime(dto.getCreateDate())));
+            }
+            if (isNotEmpty(dto.getCreateDateStart())) {
+
+            }
+            if (isNotEmpty(dto.getCreateDateEnd())) {
+
+            }
+            if (isNotEmpty(dto.getUpdateDate())) {
+
+            }
+            if (isNotEmpty(dto.getUpdateDateStart())) {
+
+            }
+            if (isNotEmpty(dto.getUpdateDateEnd())) {
+
+            }
+            if (isNotEmpty(dto.getCreateUser())) {
+
+            }
+            if (isNotEmpty(dto.getUpdateUser())) {
+
+            }
 
             return query.where(predicates.toArray(new Predicate[predicates.size()])).getRestriction();
         };
@@ -219,6 +255,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser, String, SysUser
         return new MapQuery(stringBuilder.toString(), builder.build());
     }
 
+    @SuppressWarnings("Duplicates")
     private Query getDtoDSLQuery(SysUserDto dto) {
         SelectWhereStep<Record> sys_user = DSL.selectFrom(DSL.table("sys_user"));
         ImmutableList.Builder<Condition> conditions = ImmutableList.builder();
@@ -253,5 +290,19 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser, String, SysUser
             conditions.add(DSL.field("updateUser").eq(dto.getUpdateUser()));
         }
         return new DSLQuery(sys_user.where(conditions.build()).orderBy(DSL.field(dto.getOrder()).desc()));
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        SysUser sysUser = sysUserDao.findOneBySQL("select * from sys_user su where su.username = ?", username).orElse(null);
+        if (sysUser == null) {
+            throw new UsernameNotFoundException("用户不存在");
+        } else {
+            StringBuilder authorises = new StringBuilder();
+            List<SysRole> roles = sysUserDao.findAllBySQL("select * from sys_role sr where sr.id in (select roleId from sys_user_role sur where sur.userId = ?)", SysRole.class, sysUser.getId());
+            roles.iterator().forEachRemaining(role -> authorises.append(role.getName()).append(","));
+            sysUserDao.findAllBySQL("select * from sys_authority sa where sa.id in (select authorizeId from sys_role_authorize sra where sra.roleId in (?))", (Object[]) authorises.toString().split(","));
+            sysUser.setAuthorities(AuthorityUtils.commaSeparatedStringToAuthorityList(authorises.toString()));
+        }
     }
 }

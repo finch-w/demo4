@@ -90,4 +90,53 @@ public class SysUserController extends BaseController {
         sysUserService.delete(id.split(","));
         return result(new AjaxResult(Status.SUUCESS, SUCCESS_MESSAGE));
     }
+
+    @RequestMapping("get")
+    @ResponseBody
+    public DeferredResult get(SysUser user) {
+        return result(sysUserService.getByExample(user));
+    }
+
+    @RequestMapping("getByDto")
+    @ResponseBody
+    public DeferredResult getByDto(SysUserDto dto) {
+        return result(sysUserService.selectOneSQL(dto));
+    }
+
+    @RequestMapping("getByDto1")
+    @ResponseBody
+    public DeferredResult getByDto1(SysUserDto dto) {
+        return result(sysUserService.selectListJPQL(dto));
+    }
+
+    @RequestMapping("getByDto2")
+    @ResponseBody
+    public DeferredResult getByDto2(SysUserDto dto) {
+        return result(sysUserService.selectOneDSL(dto));
+    }
+
+    @RequestMapping("list")
+    @ResponseBody
+    public DeferredResult list(SysUser user) {
+        return result(sysUserService.listByExample(user));
+    }
+
+    @RequestMapping("listByDto")
+    @ResponseBody
+    public DeferredResult listByDto(SysUserDto dto) {
+        return result(sysUserService.selectListSQL(dto));
+    }
+
+
+    @RequestMapping("listByDto1")
+    @ResponseBody
+    public DeferredResult listByDto1(SysUserDto dto) {
+        return result(sysUserService.selectListJPQL(dto));
+    }
+
+    @RequestMapping("listByDto2")
+    @ResponseBody
+    public DeferredResult listByDto2(SysUserDto dto) {
+        return result(sysUserService.selectListDSL(dto));
+    }
 }

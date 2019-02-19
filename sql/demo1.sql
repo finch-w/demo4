@@ -23,7 +23,7 @@ create table sys_role
   name       varchar(255)
 
 ) comment '系统角色';
-create table sys_authoriry
+create table sys_authority
 (
   id         varchar(255) primary key,
   createDate date,
