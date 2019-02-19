@@ -8,8 +8,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -24,10 +24,10 @@ public class SysUser extends BasePojo implements UserDetails {
     @Column(name = "is_del")
     private Integer isDel;
     @Singular
-    private Collection<GrantedAuthority> authorities;
+    private List<GrantedAuthority> authorities;
 
     @Builder
-    public SysUser(String id, String createUser, String updateUser, Date createDate, Date updateDate, String username, String name, String password, Integer isDel, Collection<GrantedAuthority> authorities) {
+    public SysUser(String id, String createUser, String updateUser, Date createDate, Date updateDate, String username, String name, String password, Integer isDel, List<GrantedAuthority> authorities) {
         super(id, createUser, updateUser, createDate, updateDate);
         this.username = username;
         this.name = name;

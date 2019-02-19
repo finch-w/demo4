@@ -2,6 +2,7 @@ package com.yuan.demojpa.commons.service;
 
 
 import com.yuan.demojpa.commons.pojo.BasePojo;
+import org.springframework.data.domain.Page;
 
 import java.io.Serializable;
 import java.util.List;
@@ -21,6 +22,8 @@ public interface BaseService<T extends BasePojo, ID extends Serializable> {
     Optional<T> getByExample(T t);
 
     List<T> listByExample(T t);
+
+    Page<T> pageByExample(T t);
 
     boolean exist(T t);
 

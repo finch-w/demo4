@@ -10,7 +10,7 @@
         <option name="javaModelPath" value="$PROJECT_DIR$/demo-mybatis2/src/main/java" />
         <option name="lastDatabaseCrudChooseModuleName" value="demo-mybatis2" />
         <option name="mapperAnnotaion" value="true" />
-        <option name="mapperFilesFolder" value="D:\IdeaProjects\springboot\demo4\demo-mybatis2\src\main\resources\mapper" />
+        <option name="mapperFilesFolder" value="D:\IdeaProjects\springboot\demo4\demo-mybatis\src\main\resources\mapper" />
         <option name="mapperFilesFolderList">
           <list>
             <option value="D:\IdeaProjects\springboot\demo4\demo-mybatis2\src\main\resources\mapper" />

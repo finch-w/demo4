@@ -32,4 +32,6 @@ public interface SysAuthorityService extends BaseService<SysAuthority, String> {
     List<SysAuthority> selectListDSL(SysAuthorityDto dto);
 
     Optional<SysAuthority> selectOneDSL(SysAuthorityDto dto);
+
+    boolean checkInsert(SysAuthority authority);
 }

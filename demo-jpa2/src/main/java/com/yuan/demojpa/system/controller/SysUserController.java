@@ -63,12 +63,12 @@ public class SysUserController extends BaseController {
     @ResponseBody
     public DeferredResult insert(@RequestBody @Valid SysUser user, BindingResult result) {
         if (result.hasErrors()) {
-            return result(new AjaxResult(Status.ERRROR, result.getFieldError().getDefaultMessage()));
+            return result(AjaxResult.builder().status(Status.ERRROR).message(result.getFieldError().getDefaultMessage()).build());
         } else if (sysUserService.checkInsert(user)) {
-            return result(new AjaxResult(Status.ERRROR, EXIST_MESSAGE));
+            return result(AjaxResult.builder().status(Status.ERRROR).message(EXIST_MESSAGE).build());
         } else {
             sysUserService.insert(user);
-            return result(new AjaxResult(Status.SUUCESS, SUCCESS_MESSAGE));
+            return result(AjaxResult.builder().status(Status.SUUCESS).message(SUCCESS_MESSAGE).build());
         }
     }
 
@@ -77,10 +77,10 @@ public class SysUserController extends BaseController {
     @ResponseBody
     public DeferredResult update(@RequestBody @Valid SysUser user, BindingResult result) {
         if (result.hasErrors()) {
-            return result(new AjaxResult(Status.ERRROR, result.getFieldError().getDefaultMessage()));
+            return result(AjaxResult.builder().status(Status.ERRROR).message(EXIST_MESSAGE).build());
         } else {
             sysUserService.update(user);
-            return result(new AjaxResult(Status.SUUCESS, SUCCESS_MESSAGE));
+            return result(AjaxResult.builder().status(Status.SUUCESS).message(SUCCESS_MESSAGE).build());
         }
     }
 
@@ -88,7 +88,7 @@ public class SysUserController extends BaseController {
     @ResponseBody
     public DeferredResult delete(String id) {
         sysUserService.delete(id.split(","));
-        return result(new AjaxResult(Status.SUUCESS, SUCCESS_MESSAGE));
+        return result(AjaxResult.builder().status(Status.SUUCESS).message(SUCCESS_MESSAGE).build());
     }
 
     @RequestMapping("get")
