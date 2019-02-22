@@ -23,7 +23,7 @@ public interface BaseService<T extends BasePojo, ID extends Serializable> {
 
     List<T> listByExample(T t);
 
-    Page<T> pageByExample(T t);
+    Page<T> pageByExample(int page, int size, T t);
 
     boolean exist(T t);
 

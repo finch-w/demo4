@@ -1,6 +1,5 @@
 package com.yuan.demojpa.commons.dao;
 
-import com.querydsl.jpa.JPQLQueryFactory;
 import com.yuan.demojpa.commons.dto.Query;
 import org.jooq.DSLContext;
 import org.springframework.data.domain.Page;
@@ -17,7 +16,6 @@ import java.util.Optional;
 
 @NoRepositoryBean
 public interface BaseRepository<T, ID> extends JpaRepository<T, ID>, JpaSpecificationExecutor<T> {
-    JPQLQueryFactory getQueryFactory();
 
     DSLContext getDslContext();
 

@@ -100,7 +100,23 @@ public class SysAuthorityServiceImpl extends BaseServiceImpl<SysAuthority, Strin
         return sysAuthorityDao.findOneBySQLQuery(getDtoDSLQuery(dto));
     }
 
-    @SuppressWarnings("ToArrayCallWithZeroLengthArrayArgument")
+    @Override
+    public boolean checkInsert(SysAuthority authority) {
+        return sysAuthorityDao.count(getCheckInsertSpec(authority)) > 0;
+    }
+
+    @SuppressWarnings({"MismatchedQueryAndUpdateOfCollection", "ToArrayCallWithZeroLengthArrayArgument", "Duplicates"})
+    private Specification<SysAuthority> getCheckInsertSpec(SysAuthority authority) {
+        return (Specification<SysAuthority>) (root, query, criteriaBuilder) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            if (isNotEmpty(authority.getName())) {
+                predicates.add(criteriaBuilder.equal(root.get("name"), authority.getName()));
+            }
+            return query.where(predicates.toArray(new Predicate[predicates.size()])).getRestriction();
+        };
+    }
+
+    @SuppressWarnings({"ToArrayCallWithZeroLengthArrayArgument", "Duplicates"})
     private Specification<SysAuthority> getDtoSpec(SysAuthorityDto dto) {
         return (Specification<SysAuthority>) (root, query, criteriaBuilder) -> {
             ArrayList<Predicate> predicates = new ArrayList<>();
@@ -137,6 +153,7 @@ public class SysAuthorityServiceImpl extends BaseServiceImpl<SysAuthority, Strin
         return new MapQuery(stringBuilder.toString(), builder.build());
     }
 
+    @SuppressWarnings("Duplicates")
     private Query getDtoDSLQuery(SysAuthorityDto dto) {
         SelectWhereStep<Record> sys_authority = DSL.selectFrom(DSL.table("sys_authority"));
         ImmutableList.Builder<Condition> builder = ImmutableList.builder();

@@ -6,9 +6,9 @@ import com.yuan.demojpa.commons.dto.Query;
 import com.yuan.demojpa.commons.dto.impl.DSLQuery;
 import com.yuan.demojpa.commons.dto.impl.MapQuery;
 import com.yuan.demojpa.commons.service.impl.BaseServiceImpl;
-import com.yuan.demojpa.commons.utils.DateUtils;
 import com.yuan.demojpa.system.dao.SysUserDao;
 import com.yuan.demojpa.system.dto.SysUserDto;
+import com.yuan.demojpa.system.pojo.SysAuthority;
 import com.yuan.demojpa.system.pojo.SysRole;
 import com.yuan.demojpa.system.pojo.SysUser;
 import com.yuan.demojpa.system.service.SysUserService;
@@ -106,6 +106,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser, String, SysUser
         return sysUserDao.findOneBySQLQuery(getDtoDSLQuery(dto));
     }
 
+
     @Override
     public boolean checkInsert(SysUser user) {
         return sysUserDao.findOneBySQLQuery(getCheckInsertQuery(user), Long.class).map(aLong -> aLong > 0).orElse(false);
@@ -120,35 +121,10 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser, String, SysUser
     private Specification<SysUser> getDtoSpecification(SysUserDto dto) {
         return (Specification<SysUser>) (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
-            if (isNotEmpty(dto.getId())) {
-
-            }
             if (isNotEmpty(dto.getName())) {
-
-            }
-            if (isNotEmpty(dto.getCreateDate())) {
-                predicates.add(criteriaBuilder.between(root.get("createDate"), DateUtils.removeTime(dto.getCreateDate()), DateUtils.setDayFinalTime(dto.getCreateDate())));
-            }
-            if (isNotEmpty(dto.getCreateDateStart())) {
-
-            }
-            if (isNotEmpty(dto.getCreateDateEnd())) {
-
-            }
-            if (isNotEmpty(dto.getUpdateDate())) {
-
-            }
-            if (isNotEmpty(dto.getUpdateDateStart())) {
-
-            }
-            if (isNotEmpty(dto.getUpdateDateEnd())) {
-
-            }
-            if (isNotEmpty(dto.getCreateUser())) {
-
-            }
-            if (isNotEmpty(dto.getUpdateUser())) {
-
+                Predicate name = criteriaBuilder.like(root.get("name"), "%" + dto.getName() + "%");
+                Predicate username = criteriaBuilder.like(root.get("username"), "%" + dto.getName() + "%");
+                predicates.add(criteriaBuilder.or(name, username));
             }
 
             return query.where(predicates.toArray(new Predicate[predicates.size()])).getRestriction();
@@ -159,45 +135,9 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser, String, SysUser
         StringBuilder stringBuilder = new StringBuilder();
         ImmutableMap.Builder<String, Object> builder = ImmutableMap.builder();
         stringBuilder.append("select su from SysUser su where 1=1 ");
-        if (isNotEmpty(dto.getId())) {
-            stringBuilder.append(" and su.id in (:id) ");
-            builder.put("id", dto.getId().split(","));
-        }
         if (isNotEmpty(dto.getName())) {
             stringBuilder.append(" and (su.username like concat('%',:name,'%') or su.name like concat('%',:name,'%') ");
             builder.put("name", dto.getName());
-        }
-        if (isNotEmpty(dto.getCreateUser())) {
-            stringBuilder.append(" and su.createUser in (select su.id from SysUser su where su.username like concat('%',:createUser,'%'))");
-            builder.put("createUser", dto.getCreateUser());
-        }
-        if (isNotEmpty(dto.getUpdateUser())) {
-            stringBuilder.append(" and su.updateUser in (select su.id from SysUser su where su.username like concat('%',:createUser,'%'))");
-            builder.put("updateUser", dto.getUpdateUser());
-        }
-        if (isNotEmpty(dto.getCreateDate())) {
-            stringBuilder.append(" and date(su.createDate) = date(:createDate) ");
-            builder.put("createDate", dto.getCreateDate());
-        }
-        if (isNotEmpty(dto.getCreateDateStart())) {
-            stringBuilder.append(" and date(su.createDate) >= date(:createDateStart) ");
-            builder.put("createDateStart", dto.getCreateDateStart());
-        }
-        if (isNotEmpty(dto.getCreateDateEnd())) {
-            stringBuilder.append(" and date(su.createDate) <= date(:createDateEnd) ");
-            builder.put("createDateEnd", dto.getCreateDateEnd());
-        }
-        if (isNotEmpty(dto.getUpdateDate())) {
-            stringBuilder.append(" and date(su.updateDate) = date(:updateDate) ");
-            builder.put("updateDate", dto.getUpdateDate());
-        }
-        if (isNotEmpty(dto.getUpdateDateStart())) {
-            stringBuilder.append(" and date(su.updateDate) >= date(:updateDateStart) ");
-            builder.put("updateDateStart", dto.getUpdateDateStart());
-        }
-        if (isNotEmpty(dto.getUpdateDateEnd())) {
-            stringBuilder.append(" and date(su.updateDate) <= date(:updateDateEnd) ");
-            builder.put("updateDateEnd", dto.getCreateDateEnd());
         }
         stringBuilder.append(" order by su.").append(dto.getOrder()).append(" desc ");
         return new MapQuery(stringBuilder.toString());
@@ -211,46 +151,6 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser, String, SysUser
             stringBuilder.append(" and (username like concat('%', :name, '%') or name like concat('%', :name, '%')) ");
             builder.put("name", dto.getName());
         }
-        if (isNotEmpty(dto.getId())) {
-            stringBuilder.append(" and id in (:id) ");
-            builder.put("id", dto.getId().split(","));
-        }
-        if (isNotEmpty(dto.getCreateDate())) {
-            stringBuilder.append(" and date(createDate) = date(:createDate) ");
-            builder.put("createDate", dto.getCreateDate());
-        }
-        if (isNotEmpty(dto.getCreateDateStart())) {
-            stringBuilder.append(" and date(createDate) >= date(:createDateStart) ");
-            builder.put("createDateStart", dto.getCreateDateStart());
-        }
-        if (isNotEmpty(dto.getCreateDateEnd())) {
-            stringBuilder.append(" and date(createDate) <= date(:createDateEnd) ");
-            builder.put("createDateEnd", dto.getCreateDateEnd());
-        }
-        if (isNotEmpty(dto.getUpdateDate())) {
-            stringBuilder.append(" and date(updateDate) = date(:updateDate) ");
-            builder.put("updateDate", dto.getUpdateDate());
-        }
-        if (isNotEmpty(dto.getUpdateDateStart())) {
-            stringBuilder.append(" and date(updateDate) >= date(:updateDateStart) ");
-            builder.put("updateDateStart", dto.getUpdateDateStart());
-        }
-        if (isNotEmpty(dto.getUpdateDateEnd())) {
-            stringBuilder.append(" and date(updateDate) <= date(:updateDateEnd) ");
-            builder.put("updateDateEnd", dto.getUpdateDateEnd());
-        }
-        if (isNotEmpty(dto.getCreateUser())) {
-            stringBuilder.append(" and createUser = :createUser ");
-            builder.put("createUser", dto.getCreateUser());
-        }
-        if (isNotEmpty(dto.getUpdateUser())) {
-            stringBuilder.append(" and updateUser = :updateUser ");
-            builder.put("updateUser", dto.getUpdateUser());
-        }
-        if (isNotEmpty(dto.getStatus())) {
-            stringBuilder.append(" and is_del = :status ");
-            builder.put("status", dto.getStatus());
-        }
         stringBuilder.append(" order by ").append(dto.getOrder()).append(" desc ");
         return new MapQuery(stringBuilder.toString(), builder.build());
     }
@@ -259,35 +159,8 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser, String, SysUser
     private Query getDtoDSLQuery(SysUserDto dto) {
         SelectWhereStep<Record> sys_user = DSL.selectFrom(DSL.table("sys_user"));
         ImmutableList.Builder<Condition> conditions = ImmutableList.builder();
-        if (isNotEmpty(dto.getId())) {
-            conditions.add(DSL.field("id").in(dto.getId().split(",")));
-        }
         if (isNotEmpty(dto.getName())) {
             conditions.add(DSL.or(DSL.field("username").contains(dto.getName()), DSL.field("name").contains(dto.getName())));
-        }
-        if (isNotEmpty(dto.getCreateDate())) {
-            conditions.add(DSL.field("createDate").eq(DSL.date(dto.getCreateDate())));
-        }
-        if (isNotEmpty(dto.getCreateDateStart())) {
-            conditions.add(DSL.field("createDate").ge(DSL.date(dto.getCreateDateStart())));
-        }
-        if (isNotEmpty(dto.getCreateDateEnd())) {
-            conditions.add(DSL.field("createDate").le(DSL.date(dto.getCreateDateEnd())));
-        }
-        if (isNotEmpty(dto.getUpdateDate())) {
-            conditions.add(DSL.field("updateDate").eq(DSL.date(dto.getUpdateDate())));
-        }
-        if (isNotEmpty(dto.getUpdateDateStart())) {
-            conditions.add(DSL.field("updateDate").ge(DSL.date(dto.getUpdateDateStart())));
-        }
-        if (isNotEmpty(dto.getUpdateDateEnd())) {
-            conditions.add(DSL.field("updateDate").le(DSL.date(dto.getUpdateDateEnd())));
-        }
-        if (isNotEmpty(dto.getCreateUser())) {
-            conditions.add(DSL.field("createUser").eq(dto.getCreateUser()));
-        }
-        if (isNotEmpty(dto.getUpdateUser())) {
-            conditions.add(DSL.field("updateUser").eq(dto.getUpdateUser()));
         }
         return new DSLQuery(sys_user.where(conditions.build()).orderBy(DSL.field(dto.getOrder()).desc()));
     }
@@ -301,8 +174,10 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser, String, SysUser
             StringBuilder authorises = new StringBuilder();
             List<SysRole> roles = sysUserDao.findAllBySQL("select * from sys_role sr where sr.id in (select roleId from sys_user_role sur where sur.userId = ?)", SysRole.class, sysUser.getId());
             roles.iterator().forEachRemaining(role -> authorises.append(role.getName()).append(","));
-            sysUserDao.findAllBySQL("select * from sys_authority sa where sa.id in (select authorizeId from sys_role_authorize sra where sra.roleId in (?))", (Object[]) authorises.toString().split(","));
+            List<SysAuthority> sysAuthorities = sysUserDao.findAllBySQL("select * from sys_authority sa where sa.id in (select authorizeId from sys_role_authorize sra where sra.roleId in (?))", SysAuthority.class, (Object[]) authorises.toString().split(","));
+            sysAuthorities.iterator().forEachRemaining(authority -> authorises.append(authority.getName()).append(","));
             sysUser.setAuthorities(AuthorityUtils.commaSeparatedStringToAuthorityList(authorises.toString()));
+            return sysUser;
         }
     }
 }

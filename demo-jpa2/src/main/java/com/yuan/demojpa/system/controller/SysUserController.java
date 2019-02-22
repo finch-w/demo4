@@ -42,7 +42,7 @@ public class SysUserController extends BaseController {
         return result(sysUserService.selectPageSQL(dto));
     }
 
-    @RequestMapping("data2")
+    @RequestMapping("data3")
     @ResponseBody
     public DeferredResult data3(SysUserDto dto) {
         return result(sysUserService.selectPageJPQL(dto));
@@ -54,16 +54,11 @@ public class SysUserController extends BaseController {
         return result(sysUserService.selectPageDSL(dto));
     }
 
+
     @RequestMapping("get")
     @ResponseBody
     public DeferredResult get(SysUser user) {
         return result(sysUserService.getByExample(user));
-    }
-
-    @RequestMapping("getByDto2")
-    @ResponseBody
-    public DeferredResult getByDto2(SysUserDto dto) {
-        return result(sysUserService.selectOneSQL(dto));
     }
 
     @RequestMapping("getByDto")
@@ -72,17 +67,24 @@ public class SysUserController extends BaseController {
         return result(sysUserService.selectOne(dto));
     }
 
+    @RequestMapping("getByDto2")
+    @ResponseBody
+    public DeferredResult getByDto2(SysUserDto dto) {
+        return result(sysUserService.selectOneSQL(dto));
+    }
+
     @RequestMapping("getByDto3")
     @ResponseBody
     public DeferredResult getByDto3(SysUserDto dto) {
         return result(sysUserService.selectListJPQL(dto));
     }
 
-    @RequestMapping("getByDto2")
+    @RequestMapping("getByDto4")
     @ResponseBody
     public DeferredResult getByDto4(SysUserDto dto) {
         return result(sysUserService.selectOneDSL(dto));
     }
+
 
     @RequestMapping("list")
     @ResponseBody
@@ -138,7 +140,7 @@ public class SysUserController extends BaseController {
         }
     }
 
-    @SuppressWarnings({"ConstantConditions", "Duplicates"})
+    @SuppressWarnings({"Duplicates"})
     @RequestMapping("update")
     @ResponseBody
     public DeferredResult update(@RequestBody @Valid SysUser user, BindingResult result) {

@@ -21,6 +21,7 @@ public class BaseController {
     private ModelAndView modelAndView = new ModelAndView();
     public final String EXIST_MESSAGE = "已存在";
     public final String SUCCESS_MESSAGE = "操作成功";
+    public final String ERROR_MESSAGE = "操作失败";
 
     @SuppressWarnings("Duplicates")
     public DeferredResult getDeferredResult(Object object) {
@@ -50,7 +51,8 @@ public class BaseController {
     @ExceptionHandler(Exception.class)
     @ResponseBody
     public DeferredResult handler(Exception e) {
-        return result(AjaxResult.builder().status(Status.ERRROR).message(e.getMessage()));
+        log.debug(e.getMessage());
+        return result(AjaxResult.builder().status(Status.ERRROR).message(ERROR_MESSAGE).build());
 
     }
 
@@ -75,7 +77,7 @@ public class BaseController {
     @AllArgsConstructor
     @Builder
     @Data
-    protected class AjaxResult {
+    public static class AjaxResult {
         private Status status;
         private String message;
         private Object data;

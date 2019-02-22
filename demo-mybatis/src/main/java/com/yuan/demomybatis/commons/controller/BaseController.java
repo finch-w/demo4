@@ -1,5 +1,9 @@
 package com.yuan.demomybatis.commons.controller;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -42,7 +46,7 @@ public class BaseController {
     @ExceptionHandler(Exception.class)
     @ResponseBody
     public DeferredResult handler(Exception e) {
-        return result(new AjaxResult(Status.ERRROR, e.getMessage()));
+        return result(AjaxResult.builder().status(Status.ERRROR).message(e.getMessage()).build());
 
     }
 
@@ -63,64 +67,14 @@ public class BaseController {
         }
     }
 
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    @Data
     protected class AjaxResult {
         private Status status;
         private String message;
         private Object data;
-
-        public AjaxResult() {
-        }
-
-        public AjaxResult(Status status) {
-            this.status = status;
-        }
-
-        public AjaxResult(Status status, String message) {
-            this.status = status;
-            this.message = message;
-        }
-
-        public AjaxResult(Status status, Object data) {
-            this.status = status;
-            this.data = data;
-        }
-
-        public AjaxResult(Status status, String message, Object data) {
-            this.status = status;
-            this.message = message;
-            this.data = data;
-        }
-
-        public AjaxResult invoker() {
-            this.data = data;
-            this.status = status;
-            this.message = message;
-            return this;
-        }
-
-        public Status getStatus() {
-            return status;
-        }
-
-        public void setStatus(Status status) {
-            this.status = status;
-        }
-
-        public String getMessage() {
-            return message;
-        }
-
-        public void setMessage(String message) {
-            this.message = message;
-        }
-
-        public Object getData() {
-            return data;
-        }
-
-        public void setData(Object data) {
-            this.data = data;
-        }
     }
 
 

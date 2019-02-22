@@ -19,10 +19,10 @@ public abstract class BasePojo {
     private String id;
     @Temporal(TemporalType.DATE)
     @Column(name = "createDate", updatable = false)
-    private Date createDate = new Date();
+    private Date createDate;
     @Temporal(TemporalType.DATE)
     @Column(name = "updateDate", insertable = false)
-    private Date updateDate = new Date();
+    private Date updateDate;
     @Column(name = "createUser", updatable = false)
     private String createUser;
     @Column(name = "updateUser", insertable = false)

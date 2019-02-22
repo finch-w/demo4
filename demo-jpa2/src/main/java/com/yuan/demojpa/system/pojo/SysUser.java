@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.util.Date;
 import java.util.List;
 
@@ -24,6 +25,7 @@ public class SysUser extends BasePojo implements UserDetails {
     @Column(name = "is_del")
     private Integer isDel;
     @Singular
+    @Transient
     private List<GrantedAuthority> authorities;
 
     @Builder

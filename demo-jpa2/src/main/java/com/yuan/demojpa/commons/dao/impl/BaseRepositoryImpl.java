@@ -1,7 +1,5 @@
 package com.yuan.demojpa.commons.dao.impl;
 
-import com.querydsl.jpa.JPQLQueryFactory;
-import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.yuan.demojpa.commons.dao.BaseRepository;
 import com.yuan.demojpa.commons.utils.BeanUtils;
 import org.hibernate.Session;
@@ -27,26 +25,21 @@ import javax.persistence.TypedQuery;
 import java.io.Serializable;
 import java.util.*;
 
+@SuppressWarnings("ALL")
 @NoRepositoryBean
 @Transactional(rollbackFor = Exception.class)
 public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRepository<T, ID> implements BaseRepository<T, ID> {
     private final EntityManager entityManager;
-    private final JpaEntityInformation<T, ?> entityInformation;
-    private final JPQLQueryFactory queryFactory;
+    private final JpaEntityInformation<T, ID> entityInformation;
     @Autowired
     private DSLContext dslContext;
 
-    public BaseRepositoryImpl(JpaEntityInformation<T, ?> entityInformation, EntityManager entityManager) {
+    public BaseRepositoryImpl(JpaEntityInformation<T, ID> entityInformation, EntityManager entityManager) {
         super(entityInformation, entityManager);
         this.entityInformation = entityInformation;
         this.entityManager = entityManager;
-        this.queryFactory = new JPAQueryFactory(entityManager);
     }
 
-    @Override
-    public JPQLQueryFactory getQueryFactory() {
-        return queryFactory;
-    }
 
     @Override
     public DSLContext getDslContext() {

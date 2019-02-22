@@ -11,6 +11,7 @@ import org.springframework.util.StringUtils;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 public abstract class BaseServiceImpl<T extends BasePojo, ID extends Serializable, MAPPER extends BaseMapper<T>> implements BaseService<T, ID> {
@@ -19,6 +20,7 @@ public abstract class BaseServiceImpl<T extends BasePojo, ID extends Serializabl
     @Override
     @Transactional
     public int insert(T t) {
+        t.setCreateDate(new Date());
         return getMapper().insert(t);
     }
 
@@ -27,6 +29,7 @@ public abstract class BaseServiceImpl<T extends BasePojo, ID extends Serializabl
     public int update(T t) {
         T tDb = getMapper().selectByPrimaryKey(t.getId());
         BeanUtils.copyPojo(t, tDb);
+        tDb.setUpdateDate(new Date());
         return getMapper().updateByPrimaryKey(tDb);
     }
 
@@ -35,8 +38,10 @@ public abstract class BaseServiceImpl<T extends BasePojo, ID extends Serializabl
     public int save(T t) {
         T tDb = StringUtils.isEmpty(t.getId()) ? null : getMapper().selectByPrimaryKey(t.getId());
         if (tDb == null) {
+            t.setCreateDate(new Date());
             return insert(t);
         } else {
+            tDb.setUpdateDate(new Date());
             return update(t);
         }
     }

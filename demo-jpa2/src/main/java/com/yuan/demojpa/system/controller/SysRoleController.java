@@ -48,11 +48,12 @@ public class SysRoleController extends BaseController {
         return result(sysRoleService.selectPageJPQL(dto));
     }
 
-    @RequestMapping("data3")
+    @RequestMapping("data4")
     @ResponseBody
     public DeferredResult data4(SysRoleDto dto) {
         return result(sysRoleService.selectPageDSL(dto));
     }
+
 
     @RequestMapping("get")
     @ResponseBody
@@ -72,16 +73,16 @@ public class SysRoleController extends BaseController {
         return result(sysRoleService.selectOneSQL(dto));
     }
 
-    @RequestMapping("getByDto4")
-    @ResponseBody
-    public DeferredResult getByDto4(SysRoleDto dto) {
-        return result(sysRoleService.selectOneDSL(dto));
-    }
-
     @RequestMapping("getByDto3")
     @ResponseBody
     public DeferredResult getByDto3(SysRoleDto dto) {
         return result(sysRoleService.selectOneJPQL(dto));
+    }
+
+    @RequestMapping("getByDto4")
+    @ResponseBody
+    public DeferredResult getByDto4(SysRoleDto dto) {
+        return result(sysRoleService.selectOneDSL(dto));
     }
 
     @RequestMapping("list")
@@ -113,6 +114,7 @@ public class SysRoleController extends BaseController {
     public DeferredResult listByDto4(SysRoleDto dto) {
         return result(sysRoleService.selectListDSL(dto));
     }
+
 
     @RequestMapping("add")
     public DeferredResult add() {
